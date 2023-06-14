@@ -1,0 +1,2 @@
+CNA和VRM的外形分布出来，只能通过安装包看出来
+例VRM的安装包：<source file='/data/iso/FusionCompute_6.5.1_VRM.iso'/>
