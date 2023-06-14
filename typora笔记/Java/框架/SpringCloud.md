@@ -129,15 +129,15 @@ Eureka 分为 Eureka Server 和 Eureka Client及服务端和客户端。**Eureka
 
 
 
-## 原理：
+### 原理：
 
-###      服务治理：
+####      服务治理：
 
 ​        在传统的rpc远程调用框架中，管理每个服务与服务之间依赖关系比较复杂，管理比较复杂，所以需要使用服务治理，管理服务于服务之间依赖关系，可以实现服务调用、负载均衡、容错等，实现服务发现与注册。
 
 ​      Spring Cloud 封装了 Netflix 公司开发的 Eureka 模块来实现服务治理
 
-###     服务注册与发现：
+####     服务注册与发现：
 
 1.  Eureka采用了CS的设计架构，Eureka Server 作为服务注册功能的服务器，它是服务注册中心。而系统中的其他微服务，使用 Eureka的客户端连接到 Eureka Server并维持心跳连接。这样系统的维护人员就可以通过 Eureka Server 来监控系统中各个微服务是否正常运行。
 
@@ -153,7 +153,7 @@ Eureka 分为 Eureka Server 和 Eureka Client及服务端和客户端。**Eureka
 
 
 
-### Eureka两个大组件：
+#### Eureka两个大组件：
 
 1. Eureka Server提供服务注册服务：
    各个微服务节点通过配置启动后，会在EurekaServer中进行注册，这样EurekaServer中的服务注册表中将会存储所有可用服务节点的信息，服务节点的信息可以在界面中直观看到。
@@ -164,157 +164,9 @@ Eureka 分为 Eureka Server 和 Eureka Client及服务端和客户端。**Eureka
 
 
 
-## 服务端：
-
-#### 依赖：
-
-```xml
-<!-- 新版本（2020.2） -->
-<dependency>
-    <groupId>org.springframework.cloud</groupId>
-    <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
-</dependency>
-
-<!-- 老版本,不推荐（2018） -->
-<dependency>
-    <groupId>org.springframework.cloud</groupId>
-    <artifactId>spring-cloud-starter-eureka</artifactId>
-</dependency>
-```
-
-#### 主启动：
-
-```java
-package com.qsl.springcloud;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-
-@SpringBootApplication
-@EnableEurekaClient // 开启Eureka客户端
-public class eurekaMain7002 {
-    public static void main(String[] args) {
-        SpringApplication.run(eurekaMain7002.class,args);
-    }
-}
-```
-
-
-
-#### yml:
-
-```yaml
-server:
-  port: 7001
-
-eureka:
-  instance:
-    hostname: localhost # eureka服务端名称 （ ip ）
-  client:
-    register-with-eureka: false # 是否在注册中心注册显示  true:显示  ，false：不显示
-    fetch-registry: false # false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
-    service-url: # 设置与Eureka Server交互的地址查询服务和注册服务都需要依赖这个地址
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
-```
-
-浏览器打开：http://localhost:7001/,出现以下页面代表成功。
-
-![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/%E6%A1%86%E6%9E%B6/SpringCloud/Eureka%E6%9C%8D%E5%8A%A1%E7%AB%AF.bmp)
-
-
-
-## 客户端:
-
-#### 依赖：
-
-```xml
-<!-- 新版本（2020.2） -->
-<dependency>
-    <groupId>org.springframework.cloud</groupId>
-    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-</dependency>
-
-<!-- 老版本,不推荐（2018） -->
-<dependency>
-    <groupId>org.springframework.cloud</groupId>
-    <artifactId>spring-cloud-starter-eureka</artifactId>
-</dependency>
-```
-
-#### 主启动：
-
-```java
-package com.atguigu.springcloud;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-
-@SpringBootApplication
-@EnableEurekaClient //开启Eureka客户端
-public class PaymentMain8001
-{
-    public static void main(String[] args)
-    {
-        SpringApplication.run(PaymentMain8001.class,args);
-    }
-}
-```
-
-
-
-#### yml:
-
-```yaml
-server:
-  port: 80
-  
-spring:
-  application:
-    name: cloud-order-server # 软件名称
-
-eureka:
-  client:
-    register-with-eureka: true # 是否在EurekaServer显示，默认true
-    fetch-registry: true # 是否从EurekaService抓取已有的注册信息，默认true。单节点无所谓，集群必须设置为true才能配合 “ribbon"使用负载均衡
-    service-url:
-      defaultZone: http://localhost:7001/eureka # 服务端地址
-```
-
-注意：先要启动EurekaServer（服务端）
-
-浏览器打开：http://localhost:7001/,服务端监控客户端代表成功。
-
-![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/%E6%A1%86%E6%9E%B6/SpringCloud/Eureka/Eureka%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%88%90%E5%8A%9F%E7%BB%93%E6%9E%9C.bmp)
-
-
-
-#### 访问信息有IP信息提示:
-
-```yaml
-eureka:
-  client:
-    register-with-eureka: true # 是否在EurekaServer显示，默认true
-    fetch-registry: true # 是否从EurekaService抓取已有的注册信息，默认true。单节点无所谓，集群必须设置为true才能配合 “ribbon"使用负载均衡
-    service-url:
-      #      defaultZone: http://localhost:7001/eureka # 服务端地址-单机
-      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka  # 服务端地址-集群
-  instance:
-    prefer-ip-address: true # 访问路径显示 IP地址
-```
-
-![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/%E6%A1%86%E6%9E%B6/SpringCloud/Eureka/Eureka-%E8%AE%BF%E9%97%AE%E4%BF%A1%E6%81%AF%E6%9C%89IP%E4%BF%A1%E6%81%AF%E6%8F%90%E7%A4%BA.png)
-
-
-
-
-
-## 单机：
-
 ### 服务端：
 
-#### 依赖：
+##### 依赖：
 
 ```xml
 <!-- 新版本（2020.2） -->
@@ -330,7 +182,7 @@ eureka:
 </dependency>
 ```
 
-#### 主启动：
+##### 主启动：
 
 ```java
 package com.qsl.springcloud;
@@ -350,7 +202,7 @@ public class eurekaMain7002 {
 
 
 
-#### yml:
+##### yml:
 
 ```yaml
 server:
@@ -438,9 +290,157 @@ eureka:
 
 
 
+#### 访问信息有IP信息提示:
+
+```yaml
+eureka:
+  client:
+    register-with-eureka: true # 是否在EurekaServer显示，默认true
+    fetch-registry: true # 是否从EurekaService抓取已有的注册信息，默认true。单节点无所谓，集群必须设置为true才能配合 “ribbon"使用负载均衡
+    service-url:
+      #      defaultZone: http://localhost:7001/eureka # 服务端地址-单机
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka  # 服务端地址-集群
+  instance:
+    prefer-ip-address: true # 访问路径显示 IP地址
+```
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/%E6%A1%86%E6%9E%B6/SpringCloud/Eureka/Eureka-%E8%AE%BF%E9%97%AE%E4%BF%A1%E6%81%AF%E6%9C%89IP%E4%BF%A1%E6%81%AF%E6%8F%90%E7%A4%BA.png)
 
 
-## 微服务注册名配置说明：
+
+
+
+### 单机：
+
+#### 服务端：
+
+##### 依赖：
+
+```xml
+<!-- 新版本（2020.2） -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+</dependency>
+
+<!-- 老版本,不推荐（2018） -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-eureka</artifactId>
+</dependency>
+```
+
+##### 主启动：
+
+```java
+package com.qsl.springcloud;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+
+@SpringBootApplication
+@EnableEurekaClient // 开启Eureka客户端
+public class eurekaMain7002 {
+    public static void main(String[] args) {
+        SpringApplication.run(eurekaMain7002.class,args);
+    }
+}
+```
+
+
+
+##### yml:
+
+```yaml
+server:
+  port: 7001
+
+eureka:
+  instance:
+    hostname: localhost # eureka服务端名称 （ ip ）
+  client:
+    register-with-eureka: false # 是否在注册中心注册显示  true:显示  ，false：不显示
+    fetch-registry: false # false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+    service-url: # 设置与Eureka Server交互的地址查询服务和注册服务都需要依赖这个地址
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+```
+
+浏览器打开：http://localhost:7001/,出现以下页面代表成功。
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/%E6%A1%86%E6%9E%B6/SpringCloud/Eureka%E6%9C%8D%E5%8A%A1%E7%AB%AF.bmp)
+
+
+
+#### 客户端:
+
+##### 依赖：
+
+```xml
+<!-- 新版本（2020.2） -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+</dependency>
+
+<!-- 老版本,不推荐（2018） -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-eureka</artifactId>
+</dependency>
+```
+
+##### 主启动：
+
+```java
+package com.atguigu.springcloud;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+
+@SpringBootApplication
+@EnableEurekaClient //开启Eureka客户端
+public class PaymentMain8001
+{
+    public static void main(String[] args)
+    {
+        SpringApplication.run(PaymentMain8001.class,args);
+    }
+}
+```
+
+
+
+##### yml:
+
+```yaml
+server:
+  port: 80
+  
+spring:
+  application:
+    name: cloud-order-server # 软件名称
+
+eureka:
+  client:
+    register-with-eureka: true # 是否在EurekaServer显示，默认true
+    fetch-registry: true # 是否从EurekaService抓取已有的注册信息，默认true。单节点无所谓，集群必须设置为true才能配合 “ribbon"使用负载均衡
+    service-url:
+      defaultZone: http://localhost:7001/eureka # 服务端地址
+```
+
+注意：先要启动EurekaServer（服务端）
+
+浏览器打开：http://localhost:7001/,服务端监控客户端代表成功。
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/%E6%A1%86%E6%9E%B6/SpringCloud/Eureka/Eureka%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%88%90%E5%8A%9F%E7%BB%93%E6%9E%9C.bmp)
+
+
+
+
+
+### 微服务注册名配置说明：
 
 ```yaml
 spring:
@@ -471,7 +471,7 @@ eureka:
 
 ### 集群：
 
-#### 原理：
+##### 原理：
 
 问题：微服务RPC远程服务调用最核心的是什么：高可用。
  　      搭建Eureka注册中心集群 ，实现负载均衡+故障容错。
@@ -486,7 +486,7 @@ eureka:
 
 
 
-#### 服务端：
+##### 服务端：
 
 配置两台服务端：
 
@@ -499,7 +499,7 @@ cloud-eureka-server7002
 
 ![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/%E6%A1%86%E6%9E%B6/SpringCloud/Eureka/Eureka%E9%9B%86%E7%BE%A43.png)
 
-##### 依赖：
+###### 依赖：
 
 ```xml
 <!-- 新版本（2020.2） -->
@@ -716,9 +716,9 @@ eureka:
 
 ​     默认端口：2181
 
-## 服务端
+### 服务端
 
-### 安装：
+#### 安装：
 
 
 
@@ -730,14 +730,14 @@ eureka:
 192.168.139.142
 ```
 
-#### 下载并解压Zookeeper
+##### 下载并解压Zookeeper
 
 ```shell
 # 下载Zookeeper安装包
 wget http://archive.apache.org/dist/zookeeper/zookeeper-3.5.9/apache-zookeeper-3.5.9-bin.tar.gz
 ```
 
-#### 修改并打开/conf/zoo_sample.cfg为zoo.cfg
+##### 修改并打开/conf/zoo_sample.cfg为zoo.cfg
 
 ```shell
 tickTime=2000
@@ -756,7 +756,7 @@ server.3=192.168.139.142:2888:3888
 #    D：集群中的Leader服务挂了执行选举时服务器相互通信的端口。
 ```
 
-#### 配置`myid`:
+##### 配置`myid`:
 
 ```sh
 # 1. 创建Zookeeper的数据目录
@@ -768,7 +768,7 @@ vim /export/server/zookeeper/data/myid
 
 
 
-#### zookeeper/bin:
+##### zookeeper/bin:
 
 ```shell
 ./zkServer.sh  start|stop|restart|status # 启动 Zookeeper服务端
@@ -898,7 +898,7 @@ public class PaymentController
 
 
 
-## 客户端：
+### 客户端：
 
  win10：    Linux系统没用过。
 
@@ -970,7 +970,7 @@ spring:
         service-name: ${spring.application.name} # 软件名
 ```
 
-### 主启动：
+#### 主启动：
 
 ```java
 @SpringBootApplication
