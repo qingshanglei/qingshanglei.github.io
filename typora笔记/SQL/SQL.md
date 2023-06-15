@@ -533,6 +533,8 @@ select * from  表1
 
 
 
+![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/MySQL/mysql4%E5%A4%A7%E7%89%88%E6%9C%AC.png)
+
 ## MySQL的安装和 卸载
 
 mysql --version //查询mysql环境
