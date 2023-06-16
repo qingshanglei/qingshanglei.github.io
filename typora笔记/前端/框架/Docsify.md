@@ -140,7 +140,7 @@ index.html
                 '/': '🔍点击这里搜索'
             },, // 搜索框提示
             hideOtherSidebarContent: false, // 是否隐藏其他侧边栏内容           
-            namespace: '小枫社长de技术文档',
+            namespace: '技术文档',
         }
     }
 </script>

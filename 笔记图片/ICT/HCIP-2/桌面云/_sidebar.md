@@ -1,0 +1,4 @@
+- [返回上一级 [HCIP-2]](笔记图片/ICT/HCIP-2/)
+- [桌面云](笔记图片/ICT/HCIP-2/桌面云/)
+  - [ITA](笔记图片/ICT/HCIP-2/桌面云/ITA/)
+  - [vAG](笔记图片/ICT/HCIP-2/桌面云/vAG/)

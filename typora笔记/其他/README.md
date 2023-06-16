@@ -1,0 +1,5 @@
+- [返回上一级 [typora笔记]](typora笔记/)
+- [其他](typora笔记/其他/)
+  - [寅](typora笔记/其他/寅.md)
+  - [要](typora笔记/其他/要.md)
+  - [针灸](typora笔记/其他/针灸.md)
