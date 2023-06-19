@@ -91,7 +91,7 @@ test --------------------
 
 package  -------------------- 把该项目打包成 jar包
 
-## Maven基本使用
+# Maven使用
 
 ​     在IDEA中使用Maven。
 
@@ -99,7 +99,15 @@ package  -------------------- 把该项目打包成 jar包
 
 Alt+Insert点击Dependency -------------------- 快速导入本地仓库jar包
 
+项目打包方式：
+
+- jar(默认): 说明该项目为java项目。
+- war:  该项目为Web项目。
+- pom: 该项目为集合 或继承项目（总工程）。
+
 ~~~xml
+<packaging>jar</packaging> <!-- 总工程 -->
+
 <dependencies>  <!-- dependencies标签 --> 
     <dependency>   <!-- 引入坐标 -->
         <groupId>Maven项目隶属组织名称（一般是域名反写）</groupId>
@@ -119,19 +127,20 @@ Alt+Insert点击Dependency -------------------- 快速导入本地仓库jar包
 
 
 
-## Maven的基本命令
+# Maven的基本命令
 
 Maven的基本命令：（会下载相应的插件、jar包）
-
 * compile ：编译
-
 * clean：清理（删除 target目录）
-
 * test：测试
-
 * package：打包
-
 * install：安装（将当前项目 安装到本地仓库中）
+```java
+mvn package # 项目打包
+```
+
+
+
 ## 依赖范围
 
   ​       如图所示给 `junit` 依赖通过 `scope` 标签指定依赖的作用范围。 那么这个依赖就只能作用在测试环境，其他环境下不能使用。
@@ -421,15 +430,7 @@ Maven的基本命令：（会下载相应的插件、jar包）
 
 # 继承和聚合：
 
-项目打包方式：
 
-- jar(默认): 说明该项目为java项目。
-- war:  该项目为Web项目。
-- pom: 该项目为集合 或继承项目（总工程）。
-
-```xml
-<packaging>jar</packaging> <!-- 总工程 -->
-```
 
 
 

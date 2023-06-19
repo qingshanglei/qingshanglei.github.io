@@ -270,8 +270,9 @@ firewalld：CentOS 7 防火墙
 2.开机启动时操作
    systemctl enable firewalld.service #查看防火墙开机启动状态
 
-# 配置防火墙规则，放行端口
-# 放行8080端口的外部访问
+#  例Tomcat：TCP 8080端口对应Http协议， TCP 8443端口对应HttpS协议。
+# 配置防火墙规则，放行端口   
+# 放行8080端口的外部访问 
 firewall-cmd --add-port=8080/tcp --permanent		# --add-port=8080/tcp表示放行8080端口的tcp访问，--permanent表示永久生效
 firewall-cmd --reload	# 重新载入防火墙规则使其生效
 ```
@@ -324,6 +325,7 @@ rz+回车，选择要传送的文件  #  文件远程传输（只能传输文件
 
 alt+p //上传    ,put(上传)    h:(盘) # 好像要FinalShell软件才行
     Sftp > put h:/jdk-7u71-linux-i586.tar.gz 
+   
 ```
 
 
@@ -642,10 +644,8 @@ echo $ （按着tab键,选y）  //查看
 #### 复制/移动/重命名文件（目录）：
 
  cp(copy): 复制文件或目录
-
-  -r :  递归操作
-
-mv: 移动或重命名
+​      -r :  递归操作
+ mv: 移动或重命名
 
 ```java
    cp 文件1 文件2   //将文件1 复制为文件2（复制文件并改名；没文件2为改名，有文件2为覆盖）
@@ -1380,9 +1380,9 @@ yum [选项] [参数] 软件名
 
 |     参数     |            功能             |
 | :----------: | :-------------------------: |
+|  ==search==  |            搜索             |
 |   install    |        安装rpm软件包        |
 |    update    |        更新rpm软件包        |
-|    search    |            搜索             |
 | check-update |      检查是否可用更新       |
 |    remove    |     删除指定的rpm软件包     |
 |     list     |       查询软件包信息        |
@@ -1461,7 +1461,8 @@ export JAVA_HOME CLASSPATH PATH
 ```sh
 source /etc/profile  # 重新加载profile文件
 
-java -version # 检查是否安装成功（成功：有版本信息)
+which javac  # 查看jdk安装目录
+java -version # 检查Jdk是否安装成功（成功：有版本信息)
 ```
 
 
@@ -1660,9 +1661,9 @@ mysql-8.0.31-1.el9.x86_64.rpm-bundle.tar
 ```shell
 ./startup.sh  # 启动Tomcat
 ./shutdown.sh  # 关闭Tomcat
+
+#  腾讯或阿里服务器注意放行端口(TCP协议)。 
 ```
-
-
 
 1.**上传并解压Tomcat**到linux上
 

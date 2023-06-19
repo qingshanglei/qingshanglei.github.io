@@ -322,8 +322,11 @@ spring:
 
 ```shell
 mvn package    #打包SpringBoot项目命令
-java -jar jar包名称.jar     #运行项目命令
+java -jar jar包名称.jar     # 运行项目命令
+nohup java -jar jar包名称.jar & # 后台启动java，&符号表示让运行命令立即返回，只能Linux启动。（jar包启动成功，nohup: ignoring input and appending output to 'nohup.out'）
+
   例：java -jar springboot_01_quickstart-0.0.1-SNAPSHOT.jar
+
 ```
 
 

@@ -10,9 +10,9 @@
 
 Nginx使用场景：
 
-1. http服务器。Nginx是一个http服务可以独立提供http服务，可做网页静态服务器器。
+1. http服务器。Nginx是一个http服务可以独立提供http服务，可做网页静态服务器。
 2. 虚拟主机。可以实现在一台服务器虚拟多个网站。例：个人网站使用的虚拟主机。
-3. 反向代理、负载均衡。当网站的访问量达到一定程度后，单台服务器不能满足用户的请求时，需要用多台服务器时；可以使用Nginx做反向代理。并且多台服务器可以平均分担负载，不会因为某台服务器负载搞宕机而某台服务器闲置的情况。
+3. 反向代理、负载均衡。当网站的访问量达到一定程度后，单台服务器不能满足用户的请求时，需要用多台服务器时；可以使用Nginx做反向代理。并且多台服务器可以平均分担负载，不会因为某台服务器负载高宕机而某台服务器闲置的情况。
 
 
 
@@ -23,7 +23,7 @@ Nginx使用场景：
 前提：安装Nginx必须具备gcc环境。
 
 ```nginx
-yum install gcc-c++
+yum -y install gcc-c++
 ```
 
 其他环境：
@@ -70,6 +70,7 @@ yum install -y openssl openssl-devel # 一键安装openssl
 
 --prefix=/usr/local/nginx  /opt/nginx \ 
 --with-http_gzip_static_module \ #  nginx-1.8.0版本不需要此操作
+
 ```
 
 
@@ -274,6 +275,8 @@ server {
         index  index.html index.htm; # 默认首页
     }
 }
+
+nginx -t # 检查Nginx配置文件是否正确
 ```
 
 
@@ -323,7 +326,6 @@ server {
     location / {	# 访问路径配置
         # root   index;# 根目录
         proxy_pass http://tomcat-travel;
-
         index  index.html index.htm; # 默认首页
     }
     error_page   500 502 503 504  /50x.html;	# 错误页面
