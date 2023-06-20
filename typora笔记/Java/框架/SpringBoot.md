@@ -60,15 +60,9 @@ SpringBoot中常见项目名称，定义了当前项目使用的所有依赖坐�
 
  SpringBoot工程运行化后初始化Spring容器，扫描引导类所在包加载bean
 
-### 内置服务器：
-
-1.    tomcat(默认)：应用面广，负载了若干较重的组件。
-2.    jetty:更轻量级，负载性能远不及tomcat
-3.    undertow:undertow,负载性能勉强跑赢tomcat
-
 **静态页面-拦截器**：SpringBoot项目自带开启静态页面拦截器，不需要设置。
 
-
+   Spring Boot2.4前默认支持JSP（JavaServer Pages）作为模板引擎。从Spring Boot 2.4起，Thymeleaf成为了Spring Boot的默认模板引擎。Thymeleaf是一种现代化的服务器端Java模板引擎，用于构建可展示HTML、XML、JavaScript、CSS和文本的应用程序。
 
 # 创建SpringBoot项目
 
@@ -1144,7 +1138,7 @@ SpringBoot随机数：
 
 
 
-# SpringBoot内置数据源：
+# SpringBoot内置：
 
 ## 内置3数据源：
 
@@ -1193,7 +1187,11 @@ spring:
 H2浏览器访问路径  内存级数据库   启动数据库实例名称
 ```
 
+## 内置服务器：
 
+1.    tomcat(默认)：应用面广，负载了若干较重的组件。
+2.    jetty:更轻量级，负载性能远不及tomcat
+3.    undertow:undertow,负载性能勉强跑赢tomcat
 
 # 缓存：
 

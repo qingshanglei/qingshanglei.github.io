@@ -538,68 +538,268 @@ hincrby/hincrbyfloat <key> <field> <increment>
 ## 集合(Set):
 
 - Redis 的 Set 是 String 类型的无序集合。集合成员是唯一的，这就意味着集合中不能出现重复的数据，集合对象的编码可以是 intset 或者 hashtable。
-
 - Redis 中Set集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是 O(1)。
    - 集合中最大的成员数为 2^32 - 1 (4294967295, 每个集合可存储40多亿个成员)
-
-   特点：单值多value，且无重复，可快速查找、添加、删除
+- 特点：单值多value，且无重复，可快速查找、添加、删除
+- 例： set   k1  v1 v2 v3
 
 ![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/redis%E9%9B%86%E5%90%88(Set).png)
 
 
 
 ```sh
- sadd key member [member...] # 新增
- 
- smembers key # 获取集合
- 
+# 新增/删除集合
+sadd/srem <key> member [member...]
+
+smembers  <key> # 获取集合中的所有数据
+sismember  <key> <member> # 判断元素是否存在集合中
+scard  <key> # 获取集合里元素
+srandmember <key> <count> # 从集合中随机获取一个元素
+spop <key> <count># 从集合中随机获取一个元素，出一个删一个。
+smove <key1> <key2> <value>  # 将key1里的一个值移动到key2
+
+
+# 集合运算   例： A--> abc12    B-->123ax
+sdiff key [key...]  #  差集运算A-B(属于A但不属于)
+sunion key  [key...] # 并集运算A U B(属于A或者属于B的元素合并后的集合)
+sinter key  [key...] # 交集运算A ∩ B
+sintercard numkeys key [key...] [limit limit] # redis7新命令,它不返回结果集，而只返回结果的基数。返回由所有给定集合的交集产生的集合的基数
+
 ```
 
 
 
 使用场景：
 1. 微信抽奖小程序。
+
+   ![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/%E9%9B%86%E5%90%88(Set)%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF1.png)
+
+ 微信抽奖小程序
+
+| 1 用户ID，立即参与按钮                    | sadd key 用户ID                                              |
+| ----------------------------------------- | ------------------------------------------------------------ |
+| 2 显示已经有多少人参与了，上图23208人参加 | SCARD key                                                    |
+| 3 抽奖(从set中任意选取N个中奖人)          | SRANDMEMBER key 2    随机抽奖2个人，元素不删除SPOP key 3             随机抽奖3个人，元素会删除 |
+
 2. 微信朋友圈点赞查看同赞朋友。
+    ![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/%E9%9B%86%E5%90%88(Set)%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF2.png)
+
+  微信朋友圈点赞
+
+| 1 新增点赞                               | sadd pub:msgID 点赞用户ID1 点赞用户ID2 |
+| ---------------------------------------- | -------------------------------------- |
+| 2 取消点赞                               | srem pub:msgID 点赞用户ID              |
+| 3 展现所有点赞过的用户                   | SMEMBERS pub:msgID                     |
+| 4 点赞用户数统计，就是常见的点赞红色数字 | scard pub:msgID                        |
+| 5 判断某个朋友是否对楼主点赞过           | SISMEMBER pub:msgID 用户ID             |
+
 3. QQ内推可能认识的人。
 
+![]()
+
+## 有序集合(ZSet):
+
+- set(sorted set：有序集合) Redis zset 和 set 一样也是string类型元素的集合,且不允许重复的成员。
+- 不同的是每个元素都会关联一个double类型的分数，redis正是通过分数来为集合中的成员进行从小到大的排序。
+- zset的成员是唯一的,但分数(score)却可以重复。
+- zset集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是 O(1)。 集合中最大的成员数为 2^32 - 1
+- 例：   zset  k1  score1  v1  score2  v2
+
+```sh
+# 将一个或多个 member 元素及其 score 值加入到有序集 key 当中。
+zadd <key> <score1><value1> [score2 value2…]
+  例：zadd zkey1 60 v1 70 v2 80 v3
+#  返回索引从start到stop之间的所有元素
+zrange <key> <start> <stop> [WITHSCORES] 
+# 返回有序集 key 中，所有 score 值介于 min 和 max 之间(包括等于 min 或 max 的成员。有序集成员按 score 值递增(从小到大)次序排列。
+#     ①WITHSCORES。  ②"("：不包含。 ③limit：返回限制。
+zrangebyscore <key> min max [withscores] [limit offset count]
+#同上，改为从大到小排列。  
+zrevrangebyscore <key> max min [withscores] [limit offset count] 
+# 在排序的设置返回的成员范围，通过索引获取分数
+zrevrange  <key> <start> <stop> [WITHSCORES] 
+zincrby <key> <increment> <value> 
+# 为元素的score加上增量
+zrem <key><value>
+# 删除该集合下，指定值的元素
+zcount <key> <min> <max> # 获取分数范围内的元素
+
+zrank <key> <value> # 获取集合中的索引
+
+```
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88(ZSet)%E5%91%BD%E4%BB%A4.png)
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88(ZSet)%E5%91%BD%E4%BB%A42.png)
+
+使用场景：根据商品销售对商品进行排序显示。
+
+​     思路：定义商品销售排行榜(sorted set集合)，key为goods:sellsort，分数为商品销售数量。
+
+| 商品编号1001的销量是9，商品编号1002的销量是15    | zadd goods:sellsort 9 1001 15 1002   |
+| ------------------------------------------------ | ------------------------------------ |
+| 有一个客户又买了2件商品1001，商品编号1001销量加2 | zincrby goods:sellsort 2 1001        |
+| 求商品销量前10名                                 | ZRANGE goods:sellsort 0 9 withscores |
 
 
 
 
-4. redis有序集合（ZSet）
 
-    - set(sorted set：有序集合) Redis zset 和 set 一样也是string类型元素的集合,且不允许重复的成员。
-    - 不同的是每个元素都会关联一个double类型的分数，redis正是通过分数来为集合中的成员进行从小到大的排序。
-    - zset的成员是唯一的,但分数(score)却可以重复。
-    - zset集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是 O(1)。 集合中最大的成员数为 2^32 - 1
+## 地理空间(GEO) 3.2+:
 
-5. redis地理空间（GEO）
+- Redis GEO 主要用于存储地理位置信息，并对存储的信息进行操作，包括
 
-    - Redis GEO 主要用于存储地理位置信息，并对存储的信息进行操作，包括
+   添加地理位置的坐标。获取地理位置的坐标。计算两个位置之间的距离。根据用户给定的经纬度坐标来获取指定范围内的地理位置集合
 
-       添加地理位置的坐标。获取地理位置的坐标。计算两个位置之间的距离。根据用户给定的经纬度坐标来获取指定范围内的地理位置集合
+​    地球上的地理位置是使用二维的经纬度表示，经度范围 (-180, 180]，纬度范围 (-90, 90]，只要我们确定一个点的经纬度就可以名取得他在地球的位置。
 
-6. redis基数统计（HyperLogLog）:
+```sql
+  # 滴滴打车,在数据库中查找距离我们(坐标x0,y0)附近r公里范围内部的车辆 
+   select taxi from position where x0-r < x < x0 + r and y0-r < y < y0+r
+```
 
-    - HyperLogLog 是用来做基数统计的算法，HyperLogLog 的优点是，在输入元素的数量或者体积非常非常大时，计算基数所需的空间总是固定且是很小的。
-    - 在 Redis 里面，每个 HyperLogLog 键只需要花费 12 KB 内存，就可以计算接近 2^64 个不同元素的基 数。这和计算基数时，元素越多耗费内存就越多的集合形成鲜明对比。
-    - 但是，因为 HyperLogLog 只会根据输入元素来计算基数，而不会储存输入元素本身，所以 HyperLogLog 不能像集合那样，返回输入的各个元素。
+问题：
 
-7. redis位图（bitmap）: 由0和1状态表现的二进制位的bit数组。
+1. 查询性能问题，如果并发高，数据量大这种查询是要搞垮数据库的
 
-    ![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/%E4%BD%8D%E5%9B%BE-BitMap.png)
+2. 这个查询的是一个矩形访问，而不是以我为中心r公里为半径的圆形访问。
 
-8. redis位域（bitfield）：
+3. 精准度的问题，我们知道地球不是平面坐标系，而是一个圆球，这种矩形计算在长距离计算时会有很大误差
 
-    - 通过bitfield命令可以一次性操作多个比特位域(指的是连续的多个比特位)，它会执行一系列操作并返回一个响应数组，这个数组中的元素对应参数列表中的相应操作的执行结果。
-    -  通过bitfield命令我们可以一次性对多个比特位域进行操作。
+     注意： 核心思想就是将球体转换为平面，区块转换为一点。
 
-9. redis流（Stream）
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/%E5%9C%B0%E7%90%86%E7%A9%BA%E9%97%B4(GEO).png)
 
-    - Redis Stream 是 Redis 5.0 版本新增加的数据结构。
-    - Redis Stream 主要用于消息队列（MQ，Message Queue），Redis 本身是有一个 Redis 发布订阅 (pub/sub) 来实现消息队列的功能，但它有个缺点就是消息无法持久化，如果出现网络断开、Redis 宕机等，消息就会被丢弃。
-    - 简单来说发布订阅 (pub/sub) 可以分发消息，但无法记录历史消息。
-    - 而 Redis Stream 提供了消息的持久化和主备复制功能，可以让任何客户端访问任何时刻的数据，并且能记住每一个客户端的访问位置，还能保证消息不丢失。
+   [地理空间(GEO)原理](https://baike.baidu.com/item/%E7%BB%8F%E7%BA%AC%E7%BA%BF/5596978?fr=aladdin)
+
+
+
+```sh
+  GEORADIUS key longitude(多个经度) latitude(维度) radius <M|KM|FT|MI> [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT count [ANY]] [ASC | DESC] [STORE key] [STOREDIST key]  --
+              
+   GEORADIUSBYMEMBER key member radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT count [ANY]] [ASC | DESC] [STORE key] [STOREDIST key]
+       
+   geoadd city 113.331084 23.112223 "广州塔" 113.331077 23.109816 "广州塔羊城广场"  # 注意：百度地图获取的经纬度要去","   例： 天安门位置：113.331077,23.109816    改为 113.331077 23.109816才能使用。
+```
+
+
+
+使用场景：
+
+1. 美团地图附近位置的酒店推送
+2. 高德地图附近位置的核酸检查点
+
+
+
+## redis基数统计(HyperLogLog)  2.8.9+:
+
+- HyperLogLog 是用来去重复统计功能的基数估计算法。
+- 优点：在输入元素的数量或者体积非常非常大时，计算基数所需的空间总是固定且是很小的。
+- 在 Redis 里面，每个 HyperLogLog 键只需要花费 12 KB 内存，就可以计算接近 2^64 个不同元素的基 数。这和计算基数时，元素越多耗费内存就越多的集合形成鲜明对比。
+- 但是，因为 HyperLogLog 只会根据输入元素来计算基数，而不会储存输入元素本身，所以 HyperLogLog 不能像集合那样，返回输入的各个元素。
+
+   基数： 是一种数据集，去重复后的真实个数。
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/%E5%9F%BA%E6%95%B0.png)
+
+使用场景：
+1.   统计某个网站的UV、统计某个文章的UV(Unique Visitor，独立访客，一般理解为客户端IP,==需要去重考虑==)
+2.   用户搜索网站关键词的数量
+3.   统计用户每天搜索不同词条个数
+4.   天猫网站首页亿级UV的Redis统计方案
+
+```sh
+# 添加指定元素到HyperLogLog
+pfadd key element [element...]
+# 返回给定 HyperLogLog的基数估算值
+pfcount key  [key...]
+# 将多个 HyperLogLog合并为一个HyperLogLog
+pfmerge  destkey sourcekey  [sourc...] 
+```
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/redis%E5%9F%BA%E6%95%B0%E7%BB%9F%E8%AE%A1(HyperLogLog).png)
+
+
+
+## redis位图(bitmap):
+
+原理：由0和1状态表现的二进制位的bit数组。
+说明：用String类型作为底层数据结构实现的一种统计二值状态的数据类型
+​          位图本质是数组，它是基于String数据类型的按位的操作。该数组由多个二进制位组成，每个二进制位都对应一个偏移量(我们称之为一个索引)。
+         Bitmap支持的最大位数是2^32位，它可以极大的节约存储空间，使用512M内存就可以存储多达42.9亿的字节信息(2^32 = 4294967296)
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/%E4%BD%8D%E5%9B%BE-BitMap.png)
+
+使用场景：
+
+1. 用户是否登陆过Y、N，比如京东每日签到送京豆。
+2. 电影、广告是否被点击播放过
+3. 钉钉打卡上下班，签到统计等
+4. 一年365天，全年天天登陆占用多少字节
+
+
+
+```sh
+# 新增   注意：Bitmap的偏移量是从零开始算的。
+setbit key offset(偏移位) value(只能0或1)
+
+strlen  <key> # 统计key的长度
+```
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/redis%E4%BD%8D%E5%9B%BE(bitmap).png)
+
+
+
+
+
+## redis流(Stream) 5.0+:
+
+- Redis Stream 是 Redis 5.0 版本新增加的数据结构。
+- Redis Stream 主要用于消息队列（MQ，Message Queue），Redis 本身是有一个 Redis 发布订阅 (pub/sub) 来实现消息队列的功能，但它有个缺点就是消息无法持久化，如果出现网络断开、Redis 宕机等，消息就会被丢弃。
+- 简单来说发布订阅 (pub/sub) 可以分发消息，但无法记录历史消息。
+- 而 Redis Stream 提供了消息的持久化和主备复制功能，可以让任何客户端访问任何时刻的数据，并且能记住每一个客户端的访问位置，还能保证消息不丢失。
+- ==Redis版的MQ消息中间件+阻塞队列==
+- ==Stream还是不能100%等价于Kafka、RabbitMQ来使用的，生产案例少，慎用==
+
+功能：
+1. 实现消息队列，它支持消息的持久化、支持自动生成全局唯一 ID、支持，
+2. ack确认消息的模式、支持消费组模式等，让消息队列更加的稳定和可靠。
+
+原理：
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/redis%E6%B5%81(Stream)%E5%8E%9F%E7%90%86.png)
+
+一个消息链表，将所有加入的消息都串起来，每个消息都有一个唯一的 ID 和对应的内容
+
+| 1    | Message Content   | 消息内容                                                     |
+| ---- | ----------------- | ------------------------------------------------------------ |
+| 2    | Consumer group    | 消费组，通过XGROUP CREATE 命令创建，同一个消费组可以有多个消费者 |
+| 3    | Last_delivered_id | 游标，每个消费组会有个游标 last_delivered_id，任意一个消费者读取了消息都会使游标 last_delivered_id 往前移动。 |
+| 4    | Consumer          | 消费者，消费组中的消费者                                     |
+| 5    | Pending_ids       | 消费者会有一个状态变量，用于记录被当前消费已读取但未ack的消息Id，如果客户端没有ack，这个变量里面的消息ID会越来越多，一旦某个消息被ack它就开始减少。这个pending_ids变量在Redis官方被称之为 PEL(Pending Entries List)，记录了当前已经被客户端读取的消息，但是还没有 ack (Acknowledge character：确认字符），它用来确保客户端至少消费了消息一次，而不会在网络传输的中途丢失了没处理 |
+
+
+
+```sh
+# 四个特殊符号
+- +  # 最小和最大可能出现的Id
+$ # $ 表示只消费新的消息，当前流中最大的 id，可用于将要到来的信息
+> # 用于XREADGROUP命令，表示迄今还没有发送给组中使用者的信息，会更新消费者组的最后 ID
+* # 用于XADD命令中，让系统自动生成 id
+```
+
+
+
+
+
+
+
+## 位域(bitfield)：
+
+- 通过bitfield命令可以一次性操作多个比特位域(指的是连续的多个比特位)，它会执行一系列操作并返回一个响应数组，这个数组中的元素对应参数列表中的相应操作的执行结果。
+- 通过bitfield命令我们可以一次性对多个比特位域进行操作。
+
+​    ==位域(bitfield)了解即可。。。。==
 
 
 
@@ -623,14 +823,6 @@ hincrby/hincrbyfloat <key> <field> <increment>
    
    hset uid:map 0 uid-yh001
    hset uid:map 1 uid-yh002
-   
-   
- 
-                                                                     GEORADIUS key longitude latitude radius <M|KM|FT|MI> [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT count [ANY]] [ASC | DESC] [STORE key] [STOREDIST key]  --
-              
-   GEORADIUSBYMEMBER key member radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT count [ANY]] [ASC | DESC] [STORE key] [STOREDIST key]
-              
-              geoadd city 113.331084 23.112223 "广州塔" 113.331077 23.109816 "广州塔羊城广场"  --注意：百度地图获取的经纬度要去"," 例： 天安门位置：113.331077,23.109816    改为 113.331077 23.109816才能使用。
    
    redis6.2及7  3600秒(60分钟)
    
@@ -701,7 +893,143 @@ bitfield key set i8 被修改位数（字节）   要修改数字/单词（十�
 
 
 
+# Redis持久化:
 
+https://redis.io/docs/manual/persistence/
+
+## RDB(Redis DataBase):
+
+### 概念：
+
+   RDB（Redis DataBase/Redis 数据库）：RDB 持久性以指定的时间间隔执行数据集的时间点快照。
+
+   在指定的时间间隔，执行数据集的时间点快照。
+   实现类似照片记录效果的方式，就是把某一时刻的数据和状态以文件的形式写到磁盘上，也就是快照。这样一来即使故障宕机，快照文件也不会丢失，数据的可靠性也就得到了保证。这个快照文件称为RDB文件(dump.rdb)。
+​    Redis的数据都在内存中，保存备份时它执行的是==全量快照==（把内存中的所有数据都记录到磁盘中）。
+
+#### 优点：
+
+1. 适合大规模的数据恢复
+2. 按照业务定时备份
+3. 对数据完整性和一致性要求不高
+4. RDB 文件在内存中的加载速度要比 AOF 快得多
+
+#### 缺点：
+
+1. 在一定间隔时间做一次备份，所以如果redis意外down掉的话，就会丢失从当前至最近一次快照期间的数据，==快照之间的数据会丢失==
+2. 内存数据的全量同步，如果数据量太大会导致I/0严重影响服务器性能
+3. RDB依赖于主进程的fork，在更大的数据集中，这可能会导致服务请求的瞬间延迟。fork的时候内存中的数据被克隆了一份，大致2倍的膨胀性，需要考虑
+
+#### 哪些情况会触发RDB快照：
+
+1. 配置文件中默认的快照配置
+2. 手动save/bgsave命令
+3. 执行flushall/flushdb命令也会产生dump.rdb文件，但里面是空的，无意义
+4. 执行shutdown且没有设置开启AOF持久化
+5. 主从复制时，主节点自动触发
+
+#### 禁用快照：
+
+1.    动态停止所有RDB保存规则的方法：redis-cli config set save ""
+2.   配置文件禁用：
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/RDB%E6%8C%81%E4%B9%85%E5%8C%96-%E7%A6%81%E7%94%A8%E5%BF%AB%E7%85%A7.png)
+
+
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/RDB%E6%8C%81%E4%B9%85%E5%8C%96.png)
+
+### 持久化说明：
+
+持久化类似：①手动持久化。   ②自动持久化。
+
+Redis6.0.16以下：
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/Redis6.0.16%E4%BB%A5%E4%B8%8B%E6%8C%81%E4%B9%85%E5%8C%96%E8%AF%B4%E6%98%8E.png)
+
+Redis6.2及Redis-7.0.0+:
+
+​	![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/Redis6.2%E5%8F%8ARedis-7.0.0+%E6%8C%81%E4%B9%85%E5%8C%96%E8%AF%B4%E6%98%8E.png)
+
+### 自动备份/触发：
+
+   本次案例Redis7版本5秒内2次修改触发备份。
+
+1.修改自动备份时间
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/RDB%E6%8C%81%E4%B9%85%E5%8C%96-%E8%87%AA%E5%8A%A8%E5%A4%87%E4%BB%BD1.png)
+
+2.修改dump文件保存路径 及文件名称
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/RDB%E6%8C%81%E4%B9%85%E5%8C%96-%E8%87%AA%E5%8A%A8%E5%A4%87%E4%BB%BD2.png)
+
+3.触发备份
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/RDB%E6%8C%81%E4%B9%85%E5%8C%96-%E8%87%AA%E5%8A%A8%E5%A4%87%E4%BB%BD3.png)
+
+​    恢复数据： 将备份文件 (dump.rdb) 移动到 redis 安装目录并启动服务即可恢复数据。
+
+   注意：不可以把备份文件dump.rdb和生产redis服务器放在同一台机器，必须分开各自存储，以防生产机物理损坏后备份文件也挂了。
+
+物理恢复，一定服务和备份==分机隔离==
+
+
+
+### 手动备份/触发： 
+
+1.  save在主程序中执⾏==会阻塞==当前redis服务器，直到持久化工作完成，执行save命令期间，Redis不能处理其他命令，线上禁止使用。
+2. Redis会使用bgsave对当前内存中的所有数据做快照，这个操作是子进程在后台完成的，这就允许主进程同时可以修改数据。
+
+```sh
+save #手动备份1（注意：会阻塞，线上禁止使用）  
+bgsave #手动备份2-默认 
+lastsave # 获取最后一次成功执行快照的时间-时间戳格式
+```
+
+在Linux程序中，fork()会产生一个和父进程完全相同的子进程，但子进程在此后多会exec系统调用，出于效率考虑，尽量避免膨胀。
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/RDB%E6%8C%81%E4%B9%85%E5%8C%96-%E6%89%8B%E5%8A%A8%E5%A4%87%E4%BB%BD.png)
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/RDB%E6%8C%81%E4%B9%85%E5%8C%96-%E6%89%8B%E5%8A%A8%E5%A4%87%E4%BB%BD_save.png)
+
+
+
+### 数据丢失案例：
+
+1. 正常录入数据
+2. kill -9 端口故意模拟意外down机
+3. redis重启恢复，查看数据是否丢失
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/RDB%E6%8C%81%E4%B9%85%E5%8C%96%E6%95%B0%E6%8D%AE%E4%B8%A2%E5%A4%B1%E6%A1%88%E4%BE%8B.png)
+
+### RDB优化配置项:
+
+  RDB优化配置项详解:配置文件SNAPSHOTTING模块
+
+1. save <seconds> <changes>
+2. dbfilename
+3. dir
+4. stop-writes-on-bgsave-error
+5. rdbcompression
+6. rdbchecksum
+7. rdb-del-sync-files
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/RDB%E4%BC%98%E5%8C%96%E9%85%8D%E7%BD%AE%E9%A1%B9.png)
+
+
+
+## AOF(Append Only File):
+
+ AOF(Append Only File,默认关闭):   以日志的形式来记录每个写操作,将Redis执行过的所有写指令记录下来(读操作不记录)，只许追加文件但不可以改写文件，redis启动之初会读取该文件重新构建数据，换言之，redis重启的话就根据日志文件的内容将写指令从前到后执行一次以完成数据的恢复工作.
+
+  开启AOF功能需要设置配置：appendonly yes
+  Aof保存的是appendonly.aof文件
+
+
+
+
+
+## RDB-AOF混合持久化：
 
 
 
