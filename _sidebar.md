@@ -1,5 +1,5 @@
 
-
+<!--  侧边栏 -->
    
   <!-- - [C#](typora笔记/C#/)
     - [C#](typora笔记/C#/C#.md)
@@ -13,7 +13,7 @@
     - [layui插件](typora笔记/前端/layui插件.md)
     - [Notes](typora笔记/前端/Notes.md)
     - [SASS](typora笔记/前端/SASS.md)
-    - [Vue](typora笔记/前端/Vue.md)
+    - [Vue2](typora笔记/前端/Vue.md)
     - [vue3](typora笔记/前端/vue3.md)
     - [框架](typora笔记/前端/框架/)
       - [Docsify](typora笔记/前端/框架/Docsify.md)

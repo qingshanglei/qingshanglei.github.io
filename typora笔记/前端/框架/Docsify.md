@@ -185,8 +185,9 @@ index.html文件:
 ```java
 <script>
     window.$docsify = {
-    name: '',
-    repo: '',
+    name: '青衫泪博客',  // 搜索框下字体提示
+    // 仓库地址，点击右上角的Github章鱼猫头像会跳转到此地址
+    repo: 'https://github.com/qingshanglei',
     loadSidebar: true, //开启侧边栏
     subMaxLevel:1, // 显示文件的1级标题（1-6等级）
 }
@@ -197,6 +198,8 @@ index.html文件:
 ![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/Docsify/%E9%A1%B5%E9%9D%A2%E4%BE%A7%E8%BE%B9%E6%A0%8F-%E6%98%BE%E7%A4%BA%E6%A0%87%E9%A2%98.png)
 
 # _navbar.md(导航栏):
+
+注意:导航栏的字数不能超过7个，否则报错。
 
 结果：
 
