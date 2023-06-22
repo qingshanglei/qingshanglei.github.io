@@ -1,4 +1,4 @@
-## SpringBoot概念：
+# SpringBoot概念：
 
 `SpringBoot` 是由Pivotal团队提供的全新**框架**，其设计目的是用来**`简化`**Spring应用的**`初始搭建`**以及**`开发过程`**。
 
