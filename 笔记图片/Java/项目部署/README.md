@@ -1,4 +1,0 @@
-- [返回上一级 [Java]](笔记图片/Java/)
-- [项目部署](笔记图片/Java/项目部署/)
-  - [CODING DevOps](笔记图片/Java/项目部署/CODING DevOps/)
-  - [jenkins](笔记图片/Java/项目部署/jenkins/)

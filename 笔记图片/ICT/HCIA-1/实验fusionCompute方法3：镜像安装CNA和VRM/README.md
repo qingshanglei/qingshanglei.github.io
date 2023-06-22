@@ -1,2 +1,0 @@
-- [返回上一级 [HCIA-1]](笔记图片/ICT/HCIA-1/)
-- [实验fusionCompute方法3：镜像安装CNA和VRM](笔记图片/ICT/HCIA-1/实验fusionCompute方法3：镜像安装CNA和VRM/)

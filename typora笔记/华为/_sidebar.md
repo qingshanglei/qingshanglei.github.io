@@ -1,4 +1,0 @@
-- [返回上一级 [typora笔记]](typora笔记/)
-- [华为](typora笔记/华为/)
-  - [华为HCIP](typora笔记/华为/华为HCIP.md)
-  - [华为HCNA](typora笔记/华为/华为HCNA.md)

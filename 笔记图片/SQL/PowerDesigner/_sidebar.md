@@ -1,2 +1,0 @@
-- [返回上一级 [SQL]](笔记图片/SQL/)
-- [PowerDesigner](笔记图片/SQL/PowerDesigner/)

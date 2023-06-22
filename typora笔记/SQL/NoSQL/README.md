@@ -1,4 +1,0 @@
-- [返回上一级 [SQL]](typora笔记/SQL/)
-- [NoSQL](typora笔记/SQL/NoSQL/)
-  - [Mongodb](typora笔记/SQL/NoSQL/Mongodb.md)
-  - [Redis7](typora笔记/SQL/NoSQL/Redis7.md)

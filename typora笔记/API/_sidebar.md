@@ -1,3 +1,0 @@
-- [返回上一级 [typora笔记]](typora笔记/)
-- [API](typora笔记/API/)
-  - [其他](typora笔记/API/其他.md)
