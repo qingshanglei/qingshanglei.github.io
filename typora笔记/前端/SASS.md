@@ -1,9 +1,87 @@
-# SASS使用：
+# 概念：
+
+## 一、CSS预处理器出现的原因
+
+1. 无法嵌套书写导致代码繁重、冗杂、逻辑混乱。
+2. 没有变量和样式复用机制，属性值只能以字面量的形式重复输出。
+
+~~~shell
+# 总结：代码复用性低；不易于维护
+# 注：现在，现在的CSS是可以定义变量的！！！
+~~~
+
+~~~css
+:root{
+    --red: #f3e1e1;
+}
+~~~
+
+-----
+
+## 二、CSS预处理器介绍
+
+### 1. SCSS/SASS
+
+SASS (.scss)。于2007年诞生，最早也是最成熟的CSS预处理器，拥有ruby社区的支持和compass这一最强大的css框架，目前受LESS影响，已经进化到了全面兼容CSS的SCSS。
+
+### 2. LESS
+
+LESS (.less)。于2009年诞生，借鉴了SASS的长处，并兼容了CSS语法，使得开发者使用起来更为方便顺手，但是相比于SASS，其编程功能不够丰富，反而促使SASS进化成为了SCSS。
+
+### 3. Stylus
+
+Stylus (.styl)。于2010年诞生，出自Node.js社区，主要用来给Node项目进行CSS预处理支持，人气较前两者偏低。
+
+
+
+## SCSS和SASS之间的关系
+
+![image-20200706194107318](https://raw.githubusercontent.com/ggdream/scss/master/sources.assets/image-20200706194107318.png)
+
+```
+Sass有两套语法：
+
+1.第一种或更新的语法被称为SCSS。它是CSS语法的扩展。这意味着每个有效的CSS样式表都是具有相同含义的有效SCSS文件。下文描述的Sass功能增强了此语法。使用此语法的文件扩展名为.scss。
+
+2.第二种或更旧的语法被称为SASS。提供了一种更为简洁的CSS编写方式。它使用缩进而不是方括号来表示选择器的嵌套，并使用换行符而不是分号来分隔属性。使用此语法的文件扩展名为.sass。
+
+任何一种格式可以直接 导入 (@import) 到另一种格式中使用，或者通过 sass-convert 命令行工具转换成另一种格式
+```
+
+## CSS预处理器的优劣:
+
+​      优点:CSS预处理器为CSS增加一些编程的特性，无需考虑浏览器的兼容性问题。支持嵌套、变量和逻辑等。可以让CSS更加简洁、提高代码复用性、逻辑分明等等
+​    缺点: css的文件体积和复杂度不可控；增加了调试难度和成本等。
+
+
+
+1. 官方介绍
+
+   ~~~
+   Sass 是一款强化 CSS 的辅助工具，它在 CSS 语法的基础上增加了变量 (variables)、嵌套 (nested rules)、混合 (mixins)、导入 (inline imports) 等高级功能，这些拓展令 CSS 更加强大与优雅。使用 Sass 以及 Sass 的样式库（如 Compass）有助于更好地组织管理样式文件，以及更高效地开发项目。
+   ~~~
+
+2. 特色功能
+
+   - 完全兼容 CSS3
+   - 在 CSS 基础上增加变量、嵌套 (nesting)、混合 (mixins) 等功能
+   - 通过函数进行颜色值与属性值的运算
+   - 提供控制指令 (control directives)等高级功能
+   - 自定义输出格式
+
+​     注意：  less、scss(sass)和stylus代码并不能被浏览器直接解析，所以必须先将它们编译成css代码。
+​     解决方法：vscode   安装Easy Sass（编译）和Sass（代码提示）两个插件
+
+
+
+
+
+# SASS总结：
 
 ```scss
   <style lang="scss" ></style>  -----------html中引有Scss（默认css）
      font:10px/20px Helvetica;  字体大小/行高
-                       嵌套规则：
+嵌套规则：
 ① 选择器嵌套: #container{  .header{color: #F00; } }      css：#container .header{color: #F00; }
 ②父选择器&：a{ &:hover{  color: #F00;  } }     css:a:hover{color: #F00;}
 ③属性嵌套：font: {
@@ -62,11 +140,9 @@ $font:("key":val,"key":val ...);
 @each $var($自命名) in 数组（集合） {   }   -------------判断集合或数组好用
 @while  条件{   条件参数：条件参数 - 1；} -----------（必须要减1要不然跳不出）
  
-       
-
 ```
 
-# SASS语法嵌套规则与注释
+# 语法嵌套规则与注释
 
  
 
@@ -78,7 +154,7 @@ $font:("key":val,"key":val ...);
 
 例如有这么一段css，正常CSS的写法
 
-```scss
+```css
 .container{width:1200px; margin: 0 auto;}
 .container .header{height: 90px; line-height: 90px;}
 .container .header .log{width:100px; height:60px;}
@@ -285,7 +361,7 @@ Sass支持两种注释
 
  
 
-# SASS变量
+# 变量
 
  
 
@@ -476,7 +552,7 @@ $color:#666 !default;
 
 ------
 
-# SASS 导入@import
+# @import
 
  
 
@@ -586,7 +662,7 @@ _base.scss
 
 ------
 
-# SASS混合指令 (Mixin Directives)
+# 混合指令 (Mixin Directives)
 
 ​	混合指令（Mixin）用于定义可重复使用的样式。混合指令可以包含所有的 CSS 规则，绝大部分 Sass 规则，甚至通过参数功能引入变量，输出多样化的样式。
 
@@ -798,7 +874,7 @@ _base.scss
 
 ------
 
-# SASS @extend（继承）指令
+# @extend（继承）指令
 
 ​	在设计网页的时候通常遇到这样的情况：一个元素使用的样式与另一个元素完全相同，但又添加了额外的样式。通常会在 HTML 中给元素定义两个 class，一个通用样式，一个特殊样式。
 
@@ -1063,7 +1139,7 @@ _base.scss
 
 ------
 
-# SASS 运算 (Operations)符的基本使用
+#  运算符 (Operations)
 
  
 
@@ -1328,7 +1404,7 @@ a.#{$class-name} {
 
 ------
 
-# sass 常见函数的基本使用
+# 常见函数
 
  
 
@@ -1500,7 +1576,7 @@ $color:#F00;
 
 ------
 
-# sass 流程控制指令@if、@for、@each、@while
+# 流程控制指令@if、@for、@each、@while
 
  
 
@@ -1747,7 +1823,7 @@ html
 
 ## @each指令
 
-@each 指令的格式是 $var in , $var 可以是任何变量名，比如 $length 或者 $name，而  是一连串的值，也就是值列表。
+@each 指令的格式是 `$var in , $var `可以是任何变量名，比如 `$length `或者 `$name`，而  是一连串的值，也就是值列表。
 
 例如做如下效果
 

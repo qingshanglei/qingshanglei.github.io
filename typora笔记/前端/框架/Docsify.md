@@ -361,7 +361,10 @@ index.html引入即可：
 
 
 
+# Docsify插件：
 
+​       DocsifyBuildSidebar软件快速生成页面侧边栏和导航栏。。。
+​       [DocsifyBuildSidebar官网](https://github.com/xxxxue/Docsify-Build-Sidebar)
 
 
 
