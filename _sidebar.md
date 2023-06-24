@@ -1,6 +1,6 @@
 
 <!--  侧边栏 -->
-   
+
   <!-- - [C#](typora笔记/C#/)
     - [C#](typora笔记/C#/C#.md)
     - [数据库](typora笔记/C#/数据库.md) -->
@@ -55,7 +55,12 @@
       - [Redis7](typora笔记/SQL/NoSQL/Redis7.md)
     - [SQL](typora笔记/SQL/SQL/)
     - [SQL](typora笔记/SQL/SQL.md)
-  - [tool工具](typora笔记/tool工具.md)
+- [面试](typora笔记/面试/备战面试md)
+   - [备战面试](typora笔记/面试/备战面试md)
+   - [面试总结](typora笔记/面试/面试总结md)
+
+- [tool工具](typora笔记/tool工具.md)
+
   - [华为](typora笔记/华为/)
     - [华为HCIP](typora笔记/华为/华为HCIP.md)
     - [华为HCNA](typora笔记/华为/华为HCNA.md)
@@ -69,7 +74,7 @@
     - [腾讯](typora笔记/服务器/腾讯/)
   - [正则表达式](typora笔记/正则表达式.md)
   - [腾讯COS](typora笔记/腾讯COS.md)
-  <!-- - [项目](typora笔记/项目/)
+    <!-- - [项目](typora笔记/项目/)
     - [Java](typora笔记/项目/Java/)
       - [权限系统](typora笔记/项目/Java/权限系统.md)
       - [硅谷课堂](typora笔记/项目/Java/硅谷课堂.md) -->

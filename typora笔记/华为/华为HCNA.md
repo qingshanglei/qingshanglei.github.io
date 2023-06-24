@@ -10,6 +10,13 @@ exit:退出
 
 关机：shutdown
 
+```sh
+admin
+IaaS@PORTAL-CLOUD8!       开头i   ====>华为云密码
+```
+
+
+
 # 云计算的优势：
 
 ### 1.按需自助服务

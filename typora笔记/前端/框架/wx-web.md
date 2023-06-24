@@ -181,7 +181,64 @@
 
 ​    ⼩程序根⽬录下的 sitemap.json ⽂件⽤于配置⼩程序及其⻚⾯是否允许被微信索引。 
 
-# 模板语法： 57
+
+
+## app.js:
+
+```js
+App({
+
+    // 1 应用第一次启动的就会触发的事件
+    //使用场景：在应用第一次启动的时候 获取用户的个人信息
+    onLaunch(){
+        // console.log("onLaunch");
+
+        //通过js的方式跳转    注意：此方法不会触发onPageNotFound事件
+        //  wx.navigateTo({
+        //    url: '/pages/sgsg/sg'
+        //  });
+        // onError 代码发生了报错的时候 就会触发
+    }
+
+    // 2 应用 被用户看到
+    //使用场景：一般是小程序或应用之间切换使用的 ；对应用的数据或者页面效果 重置
+    ,onShow(){
+        console.log("onshow: 应用 被用户看到");
+    }
+
+    // 3 应用 被隐藏了
+    //使用场景： 暂停或者清除定时器
+    ,onHide(){
+        console.log("onHide:  应用 被隐藏了");
+    }
+
+    // 4 应用的代码发生了报错的时候 就会触发
+    //使用场景：在应用发生代码报错的时候，收集用户的错误信息，通过异步请求，将错误的信息发送后台去
+    ,onError(eer){
+
+        console.log("onError: 应用的代码发生了报错的时候 就会触发",eer);
+
+    }
+
+    // 5 应用找不到就会触发
+    // 应用第一次启动的时候，如果找不到第一个入口页面 才会触发
+    ,onPageNotFound(){
+        console.log("onPageNotFound: 应用找不到就会触发");
+
+        // 如果页面不存在了 通过js的方式来重新跳转页面，重新跳转到第二个首页
+        // 不能跳到tabbar页面 导航组件类型
+        wx.navigateTo({
+            url: '/pages/dem4/dem4',
+        })
+    }
+})
+```
+
+
+
+
+
+# wxml:
 
 ​    WXML（WeiXin Markup Language）是框架设计的⼀套标签语⾔，结合[基础组件](https://developers.weixin.qq.com/miniprogram/dev/component/)、[事件系统](https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/event.html)，可以构 建出⻚⾯的结构。
 1. 框架的视图层由 WXML 与 WXSS 编写，由组件来进行展示。
@@ -191,7 +248,7 @@
 5. WXSS(WeiXin Style Sheet) 用于描述页面的样式。
 6. 组件(Component)是视图的基本组成单元。
 
-常用标签：
+## 总结：
 
 ```html
 <view/> <!--  相当于web中的 div标签 块级元素 会换行 -->
@@ -199,87 +256,425 @@
 <view/>  <!--   -->
 
 <!--  不能写成checked="false"，其计算结果是⼀个字符串  -->
-<checkbox checked="{{false}}"> </checkbox> 
+<checkbox checked="{{false}}"> </checkbox>  <!-- 复选框   -->
 
-                        
+                       
 <text>:
   selectable:-------------长按文字复制          decode:-------------对文本内容进行 解码（有这个 &lt;才能用）
 ```
 
-js:
+
+
+注意：此处[组件](https://developers.weixin.qq.com/miniprogram/dev/component/) == 标签。
+
+常用组件: `view,text,rich-text,button,image,navigator,icon,swiper,radio,checkbox`。
+
+
+
+## [text(span标签)](https://developers.weixin.qq.com/miniprogram/dev/component/text.html):
+
+1. ⽂本标签 
+2. 只能嵌套text 
+3. ⻓按⽂字可以复制（只有该标签有这个功能） 
+4.  可以对空格 回⻋ 进⾏编码 
+
+| 属性名     | 类型    | 默认值 | 说明         |
+| ---------- | ------- | ------ | ------------ |
+| decode     | boolean | false  | ⽂本是否可选 |
+| selectable | boolean | false  | 是否解码     |
+
+```html
+<text selectable="{{false}}" decode="{{false}}">
+    普&nbsp;通
+</text>
+```
+
+
+
+## [image](https://developers.weixin.qq.com/miniprogram/dev/component/image.html):
+
+1. 图⽚标签，image组件默认宽度320px、⾼度240px 
+2. ⽀持懒加载 
+
+| 属性名    | 类型    | 默认值      | 必填 | 说明                                         |
+| :-------- | :------ | :---------- | :--- | :------------------------------------------- |
+| src       | string  |             | 否   | 图片资源地址                                 |
+| mode      | string  | scaleToFill | 否   | 图片裁剪、缩放的模式                         |
+| lazy-load | boolean | false       | 否   | 图片懒加载，在即将进入(上下三屏)时才开始加载 |
+
+  mode 有效值： 
+   mode 有 13 种模式，其中 4 种是缩放模式，9种是裁剪模式。
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/image-mode13%E4%B8%AA%20%E6%9C%89%E6%95%88%E5%80%BC.png)
+
+
+
+## [swiper(轮播图)](https://developers.weixin.qq.com/miniprogram/dev/component/swiper.html):
+
+ swiper:微信内置轮播图组件。(默认宽度 100%, ⾼度 150px )
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/swiper(%E8%BD%AE%E6%92%AD%E5%9B%BE).png)
+
+swiper组件属性
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/swiper%E7%BB%84%E4%BB%B6%E5%B1%9E%E6%80%A7.png)
+
+
+
+## [swiper-item](https://developers.weixin.qq.com/miniprogram/dev/component/swiper-item.html):
+
+​    swiper-item(滑块)：仅可放置在[swiper](https://developers.weixin.qq.com/miniprogram/dev/component/swiper.html)组件中，宽高默认为100%。
+
+
+
+## [navigator(a标签)](https://developers.weixin.qq.com/miniprogram/dev/component/navigator.html):
+
+​    navigator: 导航组件 类似超链接标签。
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/navigator-%E8%B6%85%E9%93%BE%E6%8E%A5%E6%A0%87%E7%AD%BE.png)
+
+
+
+## [rich-text(富文本标签)](https://developers.weixin.qq.com/miniprogram/dev/component/rich-text.html):
+
+  rich-text(富文本标签): 可以将字符串解析成 对应标签，类似 vue中 v-html 功能。
+  nodes属性：
+     nodes 属性⽀持 字符串 和 标签节点数组。
+
+| 属性     | 说明       | 类型   | 必填 | 备注                                     |
+| :------- | :--------- | :----- | :--- | :--------------------------------------- |
+| name     | 标签名     | string | 是   | 支持部分受信任的 HTML 节点               |
+| attrs    | 属性       | object | 否   | 支持部分受信任的属性，遵循 Pascal 命名法 |
+| children | 子节点列表 | array  | 否   | 结构和 nodes 一致                        |
+
+文本节点：type = text
+
+| 属性 | 说明 | 类型   | 必填 | 备注         |
+| :--- | :--- | :----- | :--- | :----------- |
+| text | 文本 | string | 是   | 支持entities |
+
+备注：
+1.  nodes 不推荐使用 String 类型，性能会有所下降。
+2. `rich-text` 组件内屏蔽所有节点的事件。
+3. attrs 属性不支持 id ，支持 class 。
+4. name 属性大小写不敏感。
+5. 如果使用了不受信任的HTML节点，该节点及其所有子节点将会被移除。
+6. img 标签仅支持网络图片。
+7. 如果在自定义组件中使用 `rich-text` 组件，那么仅自定义组件的 wxss 样式对 `rich-text` 中的 class 生效。
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/rich-text(%E5%AF%8C%E6%96%87%E6%9C%AC%E6%A0%87%E7%AD%BE).png)
 
 ```js
-// pages/my/my.js
+// 1   index.wxml 加载 节点数组 
+<rich-text nodes="{{nodes}}" bindtap="tap"></rich-text>
+// 2 加载 字符串 
+<rich-text nodes='<img
+src="https://developers.weixin.qq.com/miniprogram/assets/images/head_global_z_@all.p
+ng" alt="">'></rich-text>
+    
+// index.js
 Page({
-
-    /**
-   * 页面的初始数据
-   */
-    data: {
-
-    },
-
-    /**
-   * 生命周期函数--监听页面加载
-   */
-    onLoad: function (options) {
-
-    },
-
-    /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-    onReady: function () {
-
-    },
-
-    /**
-   * 生命周期函数--监听页面显示
-   */
-    onShow: function () {
-
-    },
-
-    /**
-   * 生命周期函数--监听页面隐藏
-   */
-    onHide: function () {
-
-    },
-
-    /**
-   * 生命周期函数--监听页面卸载
-   */
-    onUnload: function () {
-
-    },
-
-    /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-    onPullDownRefresh: function () {
-
-    },
-
-    /**
-   * 页面上拉触底事件的处理函数
-   */
-    onReachBottom: function () {
-
-    },
-
-    /**
-   * 用户点击右上角分享
-   */
-    onShareAppMessage: function () {
-
-    }
+  data: {
+    nodes: [{
+      name: 'div',
+      attrs: {
+        class: 'div_class',
+        style: 'line-height: 60px; color: red;'
+     },
+      children: [{
+        type: 'text',
+        text: 'Hello&nbsp;World!'
+     }]
+   }]
+ },
+  tap() {
+    console.log('tap')
+ }
 })
 ```
 
 
 
+## [button](https://developers.weixin.qq.com/miniprogram/dev/component/button.html):
 
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/button.png)
+
+| 属性      | 类型    | 默认值  | 必填 | 说明                                                         |
+| :-------- | :------ | ------- | :--- | :----------------------------------------------------------- |
+| size      | string  | default | 否   | 按钮的大小                                                   |
+| type      | string  | default | 否   | 按钮的样式类型                                               |
+| plain     | boolean | false   | 否   | 按钮是否镂空，背景色透明                                     |
+| disabled  | boolean | false   | 否   | 是否禁用                                                     |
+| loading   | boolean | false   | 否   | 名称前是否带 loading 图标                                    |
+| form-type | string  |         | 否   | 用于 [form](https://developers.weixin.qq.com/miniprogram/dev/component/form.html) 组件，点击分别会触发 [form](https://developers.weixin.qq.com/miniprogram/dev/component/form.html) 组件的 submit/reset 事件 |
+| open-type | string  |         | 否   | 微信开放能力                                                 |
+
+**size 的合法值 :**
+
+| 合法值  | 说明     |
+| :------ | :------- |
+| default | 默认大小 |
+| mini    | 小尺寸   |
+
+**type 的合法值 :**
+
+| 合法值  | 说明 |
+| :------ | :--- |
+| primary | 绿色 |
+| default | 白色 |
+| warn    | 红色 |
+
+**form-type 的合法值 :**
+
+| 合法值 | 说明     |
+| :----- | :------- |
+| submit | 提交表单 |
+| reset  | 重置表单 |
+
+**open-type 的合法值:**
+
+| 合法值         | 说明                                                         |
+| :------------- | :----------------------------------------------------------- |
+| contact        | 打开客服会话，如果用户在会话中点击消息卡片后返回小程序，可以从 bindcontact 回调中获得具体信息，[具体说明](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/customer-message/customer-message.html) （*小程序插件中不能使用*） |
+| share          | 触发用户转发，使用前建议先阅读[使用指引](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html#使用指引) |
+| getPhoneNumber | 手机号快速验证，可以从bindgetphonenumber回调中获取到用户信息，[具体说明](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/getPhoneNumber.html) （*小程序插件中不能使用*） |
+| getUserInfo    | 获取用户信息，可以从bindgetuserinfo回调中获取到用户信息 （*小程序插件中不能使用*） |
+| launchApp      | 打开APP，可以通过app-parameter属性设定向APP传的参数[具体说明](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/launchApp.html) |
+| openSetting    | 打开授权设置页                                               |
+| feedback       | 打开“意见反馈”页面，用户可提交反馈内容并上传[日志](https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/wx.getLogManager.html)，开发者可以登录[小程序管理后台](https://mp.weixin.qq.com/)后进入左侧菜单“客服反馈”页面获取到反馈内容 |
+| chooseAvatar   | 获取用户头像，可以从bindchooseavatar回调中获取到头像信息     |
+
+open-type 的 contact的实现流程 :
+1. 将⼩程序 的 appid 由测试号改为 ⾃⼰的 appid
+2. 登录微信⼩程序官⽹，添加 客服--微信
+- 普通⽤⼾ A 
+- 客服-微信 B 
+
+```html
+<button
+        type="default"
+        size="{{defaultSize}}"
+        loading="{{loading}}"
+        plain="{{plain}}"
+        >
+    default
+</button>
+```
+
+
+
+[icon](https://developers.weixin.qq.com/miniprogram/dev/component/icon.html):
+
+ 
+
+icon所有图标：
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/icon.png)
+
+属性说明：
+
+| 属性  | 类型          | 默认值 | 必填 | 说明                                                         |
+| :---- | :------------ | :----- | :--- | :----------------------------------------------------------- |
+| type  | string        |        | 是   | icon的类型，有效值：success, success_no_circle, info, warn, waiting, cancel, download, search, clear |
+| size  | number/string | 23     | 否   | icon的大小，单位默认为px，[2.4.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)起支持传入单位(rpx/px)，[2.21.3](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)起支持传入其余单位(rem 等)。 |
+| color | string        |        | 否   | icon的颜色，同css的color                                     |
+
+js:
+
+```js
+Page({
+    data: {
+        iconSize: [20, 30, 40, 50, 60, 70],
+        iconType: [
+            'success', 'success_no_circle', 'info', 'warn', 'waiting', 'cancel',
+            'download', 'search', 'clear'
+        ],
+        iconColor: [
+            'red', 'orange', 'yellow', 'green', 'rgb(0,255,255)', 'blue', 'purple'
+        ],
+    }
+})
+```
+
+wxml:
+
+```html
+<view class="group">
+    <block wx:for="{{iconSize}}">
+        <icon type="success" size="{{item}}"/>
+    </block>
+</view> <view class="group">
+    <block wx:for="{{iconType}}">
+        <icon type="{{item}}" size="40"/>
+    </block>
+</view> <view class="group">
+    <block wx:for="{{iconColor}}">
+        <icon type="success" size="40" color="{{item}}"/>
+    </block>
+</view>
+```
+
+
+
+[radio(单选框)](https://developers.weixin.qq.com/miniprogram/dev/component/radio.html)：
+
+​    注意：①可以通过 color属性来修改颜色。
+​               ②需要搭配 [radio-group](https://developers.weixin.qq.com/miniprogram/dev/component/radio-group.html)⼀起使⽤。
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/%E5%8D%95%E9%80%89%E6%A1%86.png)
+
+
+
+[checkbox(复选框)](https://developers.weixin.qq.com/miniprogram/dev/component/checkbox.html):
+
+注意：①可以通过 color属性来修改颜色。
+           ②需要搭配 [checkbox-group](https://developers.weixin.qq.com/miniprogram/dev/component/checkbox-group.html)⼀起使⽤。
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/%E5%A4%8D%E9%80%89%E6%A1%86.png):
+
+
+
+## [自定义组件 (自定义标签)](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/)：
+
+- 类似vue或者react中的自定义组件。
+- ⼩程序允许我们使⽤⾃定义组件的⽅式来构建⻚⾯。
+- 类似页面，一个自定义组件由`json ` `wxml ` `wxss ` `js` 4个文件组成。
+
+### 创建⾃定义组件:
+
+- ​    在微信开发者⼯具中快速创建组件的⽂件结构 
+- ​    在⽂件夹内 components/myHeader ，创建组件 名为 myHeader
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/%E5%88%9B%E5%BB%BA%E2%BE%83%E5%AE%9A%E4%B9%89%E7%BB%84%E4%BB%B6.png)
+
+ 
+
+### 声明组件: 
+
+⾸先需要在组件的 json ⽂件中进⾏⾃定义组件声明 `myHeader.json`。
+
+```json
+{
+  "component": true //代表自定义组件，在小程序中可以在不同的页面或组件中进行复用。
+}
+```
+
+### 编辑组件 :
+
+​     同时，还要在组件的 wxml ⽂件中编写组件模板，在 wxss ⽂件中加⼊组件样式slot 表⽰插槽，类似vue中的slot。
+
+####    myHeader.wxml:
+
+```html
+<!-- 这是自定义组件的内部WXML结构 -->
+<view class="inner">
+    {{innerText}}
+    <slot></slot>
+</view>
+```
+
+   在组件的 wxss ⽂件中编写样式
+注意：在组件wxss中不应使用ID选择器、属性选择器和标签名选择器。
+
+####    myHeader.wxss:
+
+```css
+/* 这里的样式只应用于这个自定义组件 */
+.inner {
+    color: red;
+}
+```
+
+### 注册组件: 
+
+   在组件的 js ⽂件中，需要使⽤ Component() 来注册组件，并提供组件的属性定义、内部数据和 ⾃定义⽅法。
+   myHeader.js
+
+```js
+Component({
+    properties: {
+        // 这里定义了innerText属性，属性值可以在组件使用时指定
+        innerText: {
+            // 期望要的数据是 string类型
+            type: String,
+            value: 'default value',
+        }
+    },
+    data: {
+        // 这里是一些组件内部数据
+        someData: {}
+    },
+    methods: {
+        // 这里是一个自定义方法
+        customMethod: function(){}
+    }
+})
+```
+
+ 
+
+### 声明引⼊⾃定义组件 :
+
+ ⾸先要在⻚⾯的 json ⽂件中进⾏引⽤声明。还要提供对应的组件名和组件路径
+
+#### index.wxml:
+
+```js
+{
+    // 引用声明
+    "usingComponents": {
+        // 要使用的组件的名称     // 组件的路径
+        "my-header":"/components/myHeader/myHeader"
+    }
+}
+```
+
+### ⻚⾯中使⽤⾃定义组件:
+
+```html
+<view>
+    <!-- 以下是对一个自定义组件的引用 -->
+    <my-header inner-text="Some text">
+        <view>用来替代slot的</view>
+    </my-header>
+</view>
+```
+
+### 组件-⾃定义组件传参 :
+
+1. ⽗组件通过属性的⽅式给⼦组件传递参数 
+2. ⼦组件通过事件的⽅式向⽗组件传递参数 
+
+
+
+
+总结：
+1. 标签名 是 中划线的⽅式 
+2. 属性的⽅式 也是要中划线的⽅式 
+3. 其他情况可以使⽤驼峰命名 
+1. 组件的⽂件名如 myHeader.js 的等 
+2. 组件内的要接收的属性名 如 innerText
+4. 更多。。
+
+
+
+## 其他属性:
+
+
+
+### 定义段与⽰例⽅法:
+
+   定义段与⽰例⽅法 Component 构造器可⽤于定义组件，调⽤ Component 构造器时可以指定组件的属性、数据、⽅法 等。
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/%E5%AE%9A%E4%B9%89%E6%AE%B5%E4%B8%8E%E2%BD%B0%E4%BE%8B%E2%BD%85%E6%B3%95.png)
+
+
+
+
+
+[]():
+
+[]():
 
 ### 数据绑定
 
@@ -321,9 +716,9 @@ Page({
 
 
 
-   
 
-# wxml:
+
+
 
 ##  字符串&& 数据类型 &&布尔类型&& object类型&& 复选框&& 循环
 
@@ -377,32 +772,19 @@ Page({
 
 
 ### 7 运算 =》 表达式
-
 ​    1 可以在花括号中加入 表达式 --“语句"
-
-​    2 表达式 
-
-​    指的是一些简单 运算 数字运算 字符串 拼接 逻辑运算
-
+​    2 表达式 ：指的是一些简单 运算 数字运算 字符串 拼接 逻辑运算
 ​    1 数字的加减..
-
 ​    2 字符串拼接
-
 ​    3 三元表达式
-
 ​    3 语句
-
 ​     1 复杂的代码段
-
 ​      1 if else
-
 ​      2 switch
-
 ​      3 do while...
-
 ​      4 for 
 
- -->
+
 
 
 
@@ -677,7 +1059,7 @@ Page({
 ```js
 Page({
   /**
-   * 页面的初始数据
+页面的初始数据
    */
   data: {
       num:0
@@ -793,7 +1175,13 @@ view{
 <text selectable decode>长按文字复制：selectable &&  decode:解码    &lt;</text>
 ```
 
-# WXSS
+# WXSS:
+
+​    WXSS( WeiXin Style Sheets )是⼀套样式语⾔，⽤于描述 WXML 的组件样式。 
+   与 CSS 相⽐，WXSS 扩展的特性有： 
+
+   1. 响应式⻓度单位 rpx
+   2. 样式导⼊ 
 
 主题颜色 通过变量来实现
 
@@ -809,6 +1197,157 @@ view{
 
 
 ```
+
+ 注意: ⼩程序 不⽀持通配符 `*`。
+
+```css
+*{   /** 代码无效 **/
+    margin:0;
+    padding:0;
+    box-sizing:border-box; 
+}
+```
+
+### 小程序只⽀持以下选择器：
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/%E2%BD%AC%E5%89%8D%E2%BD%80%E6%8C%81%E7%9A%84%E9%80%89%E6%8B%A9%E5%99%A8.png)
+
+ 
+
+## ⼩程序中使⽤less: 
+
+   原⽣⼩程序不⽀持 less ，其他基于⼩程序的框架⼤体都⽀持，如 wepy ， mpvue ， taro 等。 但是仅仅因为⼀个less功能，⽽去引⼊⼀个框架，肯定是不可取的。
+  解决方法：
+
+1. VS Code编辑器，安装插件 easy less插件。
+
+   ![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/easy%20less%E6%8F%92%E4%BB%B6.png)
+
+2.  在vs code的设置中加⼊如下配置 ,即可使用less
+
+   ```js
+   "less.compile": {
+       "outExt":       ".wxss"
+   }
+   ```
+
+
+
+
+
+
+# 生命周期:
+
+  生命周期: 分为应⽤⽣命周期和⻚⾯⽣命周期。
+关于小程序前后台的定义和小程序的运行机制，请参考[运行机制](https://developers.weixin.qq.com/miniprogram/dev/framework/runtime/operating-mechanism.html)章节。
+
+⻚⾯⽣命周期流程：
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/%E2%BB%9A%E2%BE%AF%E2%BD%A3%E5%91%BD%E5%91%A8%E6%9C%9F%E6%B5%81%E7%A8%8B.png)
+
+
+
+## [应⽤⽣命周期](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html)：
+
+| 属性                                                         | 类型     | 说明                                                         |
+| :----------------------------------------------------------- | :------- | :----------------------------------------------------------- |
+| [onLaunch](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onLaunch-Object-object) | function | 生命周期回调——监听小程序初始化。                             |
+| [onShow](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onShow-Object-object) | function | 生命周期回调——监听小程序启动或切前台。                       |
+| [onHide](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onHide) | function | 生命周期回调——监听小程序切后台。                             |
+| [onError](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onError-String-error) | function | 错误监听函数。                                               |
+| [onPageNotFound](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onPageNotFound-Object-object) | function | 页面不存在监听函数。                                         |
+| [onUnhandledRejection](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onUnhandledRejection-Object-object) | function | 未处理的 Promise 拒绝事件监听函数。                          |
+| [onThemeChange](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onThemeChange-Object-object) | function | 监听系统主题变化                                             |
+| 其他                                                         | any      | 开发者可以添加任意的函数或数据变量到 `Object` 参数中，用 `this` 可以访问 |
+
+
+
+
+
+
+
+## [⻚⾯⽣命周期](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html)：
+
+
+
+| 属性                                                         | 类型         | 说明                                                         |
+| :----------------------------------------------------------- | :----------- | :----------------------------------------------------------- |
+| [data](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#data) | Object       | 页面的初始数据                                               |
+| options                                                      | Object       | 页面的组件选项，同 [`Component` 构造器](https://developers.weixin.qq.com/miniprogram/dev/api/xr-frame/classes/Component.html) 中的 `options` ，需要基础库版本 [2.10.1](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| [behaviors](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/behaviors.html) | String Array | 类似于mixins和traits的组件间代码复用机制，参见 [behaviors](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/behaviors.html)，需要基础库版本 [2.9.2](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) |
+| [onLoad](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onLoad-Object-query) | function     | 生命周期回调—监听页面加载                                    |
+| [onShow](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onShow) | function     | 生命周期回调—监听页面显示                                    |
+| [onReady](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onReady) | function     | 生命周期回调—监听页面初次渲染完成                            |
+| [onHide](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onHide) | function     | 生命周期回调—监听页面隐藏                                    |
+| [onUnload](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onUnload) | function     | 生命周期回调—监听页面卸载                                    |
+| [onRouteDone](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onRouteDone) | function     | 生命周期回调—监听路由动画完成                                |
+| [onPullDownRefresh](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onPullDownRefresh) | function     | 监听用户下拉动作                                             |
+| [onReachBottom](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onReachBottom) | function     | 页面上拉触底事件的处理函数                                   |
+| [onShareAppMessage](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onShareAppMessage-Object-object) | function     | 用户点击右上角转发                                           |
+| [onShareTimeline](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onShareTimeline) | function     | 用户点击右上角转发到朋友圈                                   |
+| [onAddToFavorites](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onAddToFavorites-Object-object) | function     | 用户点击右上角收藏                                           |
+| [onPageScroll](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onPageScroll-Object-object) | function     | 页面滚动触发事件的处理函数                                   |
+| [onResize](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onResize-Object-object) | function     | 页面尺寸改变时触发，详见 [响应显示区域变化](https://developers.weixin.qq.com/miniprogram/dev/framework/view/resizable.html#在手机上启用屏幕旋转支持) |
+| [onTabItemTap](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onTabItemTap-Object-object) | function     | 当前是 tab 页时，点击 tab 时触发                             |
+| [onSaveExitState](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onSaveExitState) | function     | 页面销毁前保留状态回调                                       |
+| 其他                                                         | any          | 开发者可以添加任意的函数或数据到 `Object` 参数中，在页面的函数中用 `this` 可以访问。**这部分属性会在页面实例创建时进行一次深拷贝**。 |
+
+js文件：
+
+```js
+// pages/my/my.js
+Page({
+
+    /** 页面的初始数据*/
+    data: {
+       msg:"hello"
+    },
+
+    /** 生命周期函数--监听页面加载 */
+    onLoad: function (options) {
+
+    },
+
+    /** 生命周期函数--监听页面初次渲染完成 */
+    onReady: function () {
+
+    },
+
+    /** 生命周期函数--监听页面显示 */
+    onShow: function () {
+
+    },
+
+    /** 生命周期函数--监听页面隐藏*/
+    onHide: function () {
+
+    },
+
+    /** 生命周期函数--监听页面卸载*/
+    onUnload: function () {
+
+    },
+
+    /** 页面相关事件处理函数--监听用户下拉动作 */
+    onPullDownRefresh: function () {
+
+    },
+
+    /** 页面上拉触底事件的处理函数 */
+    onReachBottom: function () {
+
+    },
+
+    /** 用户点击右上角分享 */
+    onShareAppMessage: function () {
+
+    }
+})
+```
+
+
+
+
 
 # js
 
