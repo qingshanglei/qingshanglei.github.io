@@ -3,12 +3,13 @@
 
   <!-- - [C#](typora笔记/C#/)
     - [C#](typora笔记/C#/C#.md)
-    - [数据库](typora笔记/C#/数据库.md) -->
+        - [数据库](typora笔记/C#/数据库.md) -->
+
   - [前端](typora笔记/前端/)
     - [ES6](typora笔记/前端/ES6.md)
     - [Flex布局](typora笔记/前端/Flex布局.md)
-    - [Html插件](typora笔记/前端/Html插件.md)
-    - [jquery插件](typora笔记/前端/jquery插件.md)
+    - [其他框架](typora笔记/前端/其他框架.md)
+    - [jquery](typora笔记/前端/jquery.md)
     - [js](typora笔记/前端/js.md)
     - [layui插件](typora笔记/前端/layui插件.md)
     - [Notes](typora笔记/前端/Notes.md)
@@ -55,8 +56,8 @@
       - [Redis7](typora笔记/SQL/NoSQL/Redis7.md)
     - [SQL](typora笔记/SQL/SQL/)
     - [SQL](typora笔记/SQL/SQL.md)
-- [面试](typora笔记/面试/备战面试md)
-   - [备战面试](typora笔记/面试/备战面试md)
+- [面试](typora笔记/面试)
+   - [备战面试](typora笔记/面试)
    - [面试总结](typora笔记/面试/面试总结md)
 
 - [tool工具](typora笔记/tool工具.md)
@@ -67,7 +68,6 @@
   - [各种资源](typora笔记/各种资源.md)
   - [常识](typora笔记/常识.md)
   - [ControlPanel命令行](typora笔记/ControlPanel命令行.md)
-  - [插件](typora笔记/插件.md)
   - [Ajax](typora笔记/Ajax/Ajax.md)
   - [其他](typora笔记/API/其他.md)
   - [服务器](typora笔记/服务器/)

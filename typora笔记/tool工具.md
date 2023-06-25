@@ -64,6 +64,40 @@ ren 旧名 新名 // 批量修改文件名
 
 
 
+# [cpolar](https://www.cpolar.com/?channel=0&invite=4Fqp):
+
+1.    cpolar内网穿透工具(部署本地项目让被人能访问)
+2.    其他看官网，写这个是因为官网的地址写错了。。。。
+
+## 将隧道配置为后台服务：
+
+路径：C:\Users\GT\.cpolar\cpolar.yml
+
+```yaml
+authtoken: xxxxxxxxxxxx #认证token
+tunnels:
+# 配置硅谷课堂前台域名
+  ggktFront:   # 隧道名称 
+    proto: http  #协议：http
+    addr: "8080"  # 本地端口
+    region: cn_vip  #地区：cn_vip，可选:us,hk,cn,cn_vip(中国)
+# 配置硅谷课堂前台后台
+  ggktEnd:
+    proto: http
+    addr: "8333"
+```
+
+管理员身份打开Developer PowerShell， 关闭并重启cpolar服务 
+
+```sh
+# 关闭cpolar服务 
+Stop-Service cpolar
+```
+
+打开cpolar官网或软件出现隧道端口即可。。。
+
+
+
 
 
 
