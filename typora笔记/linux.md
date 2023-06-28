@@ -24,22 +24,13 @@ Linux的发行版本：
 
 内核：当前CPU的
 
-
-
 主机或物理机：自己的电脑
-
 创建的电脑：虚拟机
-
 G->T->P->E  
-
 Super键就是win10键。
-
 Super+上：窗口最大化                       Super+下：窗口最小化
-
 Super+左：窗口在左边（Super+下：恢复到原始窗口）
-
 Super+右：窗口在右边
-
 Ctrl+Alt+F2: 打开命令提示窗（F2~F6都行），Ctrl+Alt+F1: 返回Linux页面
 
 ## Linux安装：
@@ -1528,6 +1519,13 @@ mvn -version # 检查是否安装成功（成功：有版本信息）
 
 ##### 配置：
 
+ ```sql
+-- 以 root 账户连接库时没有密码。
+Access denied for user 'root'@'localhost' (using password: NO)
+ ```
+
+
+
 主要配置管理员用户root的密码以及配置允许远程登录的权限。
 
 1. 获取MySQL的初始密码
@@ -1540,7 +1538,6 @@ mvn -version # 检查是否安装成功（成功：有版本信息）
      mysql -uroot -p   换行输入密码   #登录mysql
    
      ALTER USER 'root'@'localhost' IDENTIFIED BY '密码';	#修改root用户密码  （ 密码需要符合：大于8位，有大写字母，有特殊符号，不能是连续的简单语句如123，abc）
-   
 ```
 
 2.配置root的简单密码:
@@ -1553,6 +1550,7 @@ set global validate_password_length=4;	 # 密码长度最低4位即可
 
 # 然后就可以用简单密码了（课程中使用简单密码，为了方便，生产中不要这样）
 ALTER USER 'root'@'localhost' IDENTIFIED BY '简单密码';
+
 ```
 
 3.配置root运行远程登录：
@@ -1566,6 +1564,7 @@ grant all privileges on *.* to root@"IP地址或%" identified by '密码' with g
 # IP地址即允许登陆的IP地址，也可以填写%，表示允许任何地址
 # 密码表示给远程登录独立设置密码，和本地登陆的密码可以不同
 
+grant all privileges on *.* to root@"%" identified by 'S234sdfsdf@243' with grant option; 
 # 刷新权限，生效
 flush privileges;
 ```

@@ -3,10 +3,8 @@
 默认端口为：80
 
 ​    *Nginx* (engine x) 是一个高性能的HTTP和反向代理web服务器，同时也提供了IMAP/POP3/SMTP服务。官方测试Nginx能够支持5万并发连接，并且cpu、内存等资源消耗却非常低，运行非常稳定。
-
 ​     同Tomcat一样，Nginx可以托管用户编写的WEB应用程序成为可访问的网页服务，同时也可以作为流量代理服务器，控制流量的中转。
-
-​    Nginx只能部署静态网站，但能通过Tomcat部署网站搭集群。
+   ==Nginx只能部署静态网站==，但能通过Tomcat部署网站搭集群。
 
 Nginx使用场景：
 
@@ -18,7 +16,9 @@ Nginx使用场景：
 
 # 安装：
 
-## 前提：
+## tar方式安装&启动:
+
+### 前提：
 
 前提：安装Nginx必须具备gcc环境。
 
@@ -47,7 +47,7 @@ yum install -y zlib zlib-devel # 安装zlib
 yum install -y openssl openssl-devel # 一键安装openssl
 ```
 
-## Nginx安装:
+
 
 1.上传并解压Nginx。
 
@@ -112,11 +112,101 @@ cd /usr/local/ngiux/sbin  # 进入sbin目录
 
 
 
+## yum方式安装&启动：
 
+1.    此方法安装Nginx的操作需要root身份。
+2.    yum方式安装会自动安装gcc等环境。
+
+1. 安装yum依赖程序
+
+   ```shell
+   # root执行
+   yum install -y yum-utils
+   ```
+
+2. 手动添加，nginx的yum仓库
+
+   yum程序使用的仓库配置文件，存放在：`/etc/yum.repo.d`内。
+
+   ```shell
+   # root执行
+   # 创建文件使用vim编辑
+   vim /etc/yum.repos.d/nginx.repo
+   # 填入如下内容并保存退出
+   [nginx-stable]
+   name=nginx stable repo
+   baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
+   gpgcheck=1
+   enabled=1
+   gpgkey=https://nginx.org/keys/nginx_signing.key
+   module_hotfixes=true
+   
+   [nginx-mainline]
+   name=nginx mainline repo
+   baseurl=http://nginx.org/packages/mainline/centos/$releasever/$basearch/
+   gpgcheck=1
+   enabled=0
+   gpgkey=https://nginx.org/keys/nginx_signing.key
+   module_hotfixes=true
+   ```
+
+   > 通过如上操作，我们手动添加了nginx的yum仓库
+
+3. 通过yum安装最新稳定版的nginx
+
+   ```shell
+   # root执行
+   yum install -y nginx
+   ```
+
+4. 启动
+
+   ```shell
+   # nginx自动注册了systemctl系统服务
+   systemctl start nginx		# 启动
+   systemctl stop nginx		# 停止
+   systemctl status nginx		# 运行状态
+   systemctl enable nginx		# 开机自启
+   systemctl disable nginx		# 关闭开机自启
+   ```
+
+1. 配置防火墙放行
+
+   nginx默认绑定80端口，需要关闭防火墙或放行80端口
+
+   ```shell
+   # 方式1（推荐），关闭防火墙
+   systemctl stop firewalld		# 关闭
+   systemctl disable firewalld		# 关闭开机自启
+   
+   # 方式2，放行80端口
+   firewall-cmd --add-port=80/tcp --permanent		# 放行tcp规则下的80端口，永久生效
+   firewall-cmd --reload							# 重新加载防火墙规则
+   
+   ls /usr/share/nginx/html/ # html文件位置
+   find / -name nginx.conf # 查看nginx.conf文件位置（一般在/etc/nginx/nginx.conf）
+   ```
+
+2. 启动后浏览器输入Linux服务器的IP地址或主机名即可访问
+
+   http://192.168.88.130 或 http://centos
+
+   > ps：80端口是访问网站的默认端口，所以后面无需跟随端口号
+   >
+   > 显示的指定端口也是可以的比如：
+   >
+   > - http://192.168.88.130:80
+   > - http://centos:80
+   
+   nginx安装成功图：
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/Nginx/%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F.png)
 
 # 前端项目部署：
 
 ## 项目部署：
+
+### 部署单个：
 
    前端项目替换Html里的文件：
 
@@ -126,16 +216,23 @@ nginx.exe  // 命令提示符执行命令-启动Nginx
 nginx.exe -s stop // 关闭Nginx（另开窗口）
 ```
 
-
-
 解决部署前端404问题：
 
 nginx.conf新增:
 
 ```nginx
-location /prod-api/ { # 拦截路径,只允许带prod-api路径访问
-      proxy_pass   http://localhost:8080/; # 代理服务器-后端端口
- }
+http {
+    server {
+        location / {
+            root   html;  #  网页文件所在目录
+            index  index.html index.htm; # 网页文件
+        }
+        location /prod-api/ { # 拦截路径,只允许带prod-api路径访问
+            proxy_pass   http://localhost:8080/; # 代理服务器-后端端口
+        }
+    }
+}
+
 ```
 
 ### 部署多个：
@@ -202,8 +299,8 @@ server { # 黑马旅游网-官网
     location / { # 访问路径配置
         root  html/hmTourismNetwork/index/;   # 根目录
         index  index.html ;  # 默认首页
-    }   
-}   
+    }
+}
 
 server { # 黑马旅游网-登录
     listen       80; 

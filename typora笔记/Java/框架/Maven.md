@@ -91,19 +91,13 @@ test --------------------
 
 package  -------------------- 把该项目打包成 jar包
 
-# Maven使用
+# 使用Maven
 
 ​     在IDEA中使用Maven。
 
 1.在pom.xml文件配置下列文件。
 
 Alt+Insert点击Dependency -------------------- 快速导入本地仓库jar包
-
-项目打包方式：
-
-- jar(默认): 说明该项目为java项目。
-- war:  该项目为Web项目。
-- pom: 该项目为集合 或继承项目（总工程）。
 
 ~~~xml
 <packaging>jar</packaging> <!-- 总工程 -->
@@ -124,6 +118,36 @@ Alt+Insert点击Dependency -------------------- 快速导入本地仓库jar包
     </dependency>
 </dependencies>
 ~~~
+
+
+
+# 总结：
+
+项目打包方式：
+
+- jar(默认): 说明该项目为java项目。
+- war:  该项目为Web项目。
+- pom: 该项目为集合 或继承项目（总工程）。
+
+```xml
+<packaging>jar</packaging> <!-- 总工程 -->
+
+<dependencies>  <!-- dependencies标签 --> 
+    <dependency>   <!-- 引入坐标 -->
+        <groupId>Maven项目隶属组织名称（一般是域名反写）</groupId>
+        <artifactId>Maven项目名称（从com.到要使用的类名）</artifactId>
+        <version>版本号</version>
+        <scope>依赖范围（compile/test/provided/runtime/system）</scope>
+        <optional>true</optional> <!--可选依赖 -->
+        <exclusions>  <!-- 排除依赖（可多个）-->
+            <exclusion>
+                <groupId>com.itheima</groupId>
+                <artifactId>maven_03_pojo</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+</dependencies>
+```
 
 
 

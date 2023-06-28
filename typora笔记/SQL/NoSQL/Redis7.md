@@ -222,6 +222,10 @@ wget https://download.redis.io/releases/redis-7.0.0.tar.gz
 
 ###  解压后在redis目录下执行make命令：
 
+```sh
+make && make install 
+```
+
 ![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/%E5%AE%89%E8%A3%85Redis.png)
 
 ### 将默认的redis.conf复制到/myredis路径下：
@@ -242,9 +246,15 @@ redis.conf配置文件，改完后确保生效，记得重启
 
 ### 启动&连接服务:
 
-  启动服务: /usr/local/bin目录下运行redis-server，启用/myredis目录下的redis.conf文件 
+  
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/%E5%AE%89%E8%A3%85Redis3.png)
 
 ```sh
+redis-server # 前台启动服务(不推荐)
+redis-server /myredis/redis.conf  # 后台启动服务1
+nohup ./redis-server /myredis/redis.conf & #后台启动服务2
+
 ps -ef|grep redis|grep -v grep   # 查询Redis端口是否启动
 ping # 检查是否安装Redis成功，出现PONG安装成功。
 quit # 退出Redis客户端
@@ -256,11 +266,9 @@ redis-cli -a 密码 -p 端口  2>/dev/null #连接服务，并去除warning警�
 关闭_单实例关闭：redis-cli -a 密码 shutdown
 关闭_多实例关闭(指定端口关闭)：redis-cli  -p 6379 shutdown
 lsof -i: 6379  # 查询端口是否关闭
-
-redis-server # 前台启动(不推荐)
 ```
 
-![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/%E5%AE%89%E8%A3%85Redis3.png)
+
 
 
 

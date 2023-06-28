@@ -1063,14 +1063,12 @@ Cookie的实现是基于HTTP协议的
 ~~~java
          setMaxAge(int seconds): //设置Cookie存活时间
 ~~~
+1.  正数：将Cookie写入浏览器所在电脑的硬盘，持久化存储。到时间自动删除
+2.  负数：默认值，Cookie在当前浏览器内存中，当浏览器关闭，则Cookie被销毁
+3.  零： 删除对应Cookie
 
-1. ​       正数：将Cookie写入浏览器所在电脑的硬盘，持久化存储。到时间自动删除
 
-2. ​       负数：默认值，Cookie在当前浏览器内存中，当浏览器关闭，则Cookie被销毁
-
-3. ​        零： 删除对应Cookie
-
-   ### Cookie存储中文
+### Cookie存储中文
 
 默认不支持存储中文，如需存储则要进行转码：URL编码
 
@@ -1079,14 +1077,6 @@ Cookie的实现是基于HTTP协议的
 // URL编码 &解码       enc：要转换的编码格式（UTF-8,GBK等）
       URLEncoder.encode(String s, String enc); 
 ~~~
-
-
-
-
-
-
-
-
 
 
 
@@ -1132,12 +1122,12 @@ HttpSession session = request.getSession();
 
 Cookie和Session的区别：
 
-| 存储位置：    Cookie是将数据存储在客户端； | Session将数据存储在服务端 |
-| ------------------------------------------ | ------------------------- |
-| 安全性：             Cookie不安全；        | Session安全               |
-| 数据大小：           Cookie最大3KB；       | Session无限制             |
-| 存储时间：           Cookie可以长期存储；  | Session默认30分钟         |
-| 服务器性能：        Cookie不占服务器资源； | Session占用服务器资源     |
+| 存储位置：  | Cookie是将数据存储在客户端； | Session将数据存储在服务端 |
+| :---------- | :--------------------------- | ------------------------- |
+| 安全性：    | Cookie不安全；               | Session安全               |
+| 数据大小:   | Cookie最大3KB；              | Session无限制             |
+| 存储时间:   | Cookie可以长期存储；         | Session默认30分钟         |
+| 服务器性能: | Cookie不占服务器资源；       | Session占用服务器资源     |
 
 Translation ----IDEA翻译插件
 

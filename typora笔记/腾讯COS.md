@@ -862,6 +862,7 @@ public class WechatController {
 三种部署方式： ①原始部署方式 。
                           ②Jenkins部署 。 
                           ③CODING部署。
+                          ④BT(宝塔)部署。
 
 ​    注意：原始部署方式不适合SpringCloud部署。。。。
 
@@ -969,7 +970,7 @@ kill 端口
 
 ![](../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2/jenkins/%E7%99%BB%E5%BD%95%E6%88%90%E5%8A%9F.png)
 
-## 配置自动化部署需要环境：
+### 配置自动化部署需要环境：
 
 ```sh
 which jdk(服务名) # 查询jdk的路径，其他也行。。。
@@ -977,7 +978,7 @@ which jdk(服务名) # 查询jdk的路径，其他也行。。。
 
 ![](../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2/jenkins/%E9%85%8D%E7%BD%AE%E9%83%A8%E7%BD%B2%E7%8E%AF%E5%A2%83.png)
 
-## Jenkins自动化部署：
+### Jenkins自动化部署：
 
 
 
@@ -1070,7 +1071,9 @@ CODING DevOps 是面向软件研发团队的一站式研发协作管理平台，
 
 
 
+## BT(宝塔)部署：
 
+  Nginx+数据库+Tomcat+JDK点击一键安装。。。
 
 
 

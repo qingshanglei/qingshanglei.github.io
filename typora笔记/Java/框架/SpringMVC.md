@@ -1344,7 +1344,7 @@ public class ProjectExceptionAdvice {
 
 
 
-# 拦截器：
+# 拦截器(Interceptor)：
 
 ## 概念：
 
