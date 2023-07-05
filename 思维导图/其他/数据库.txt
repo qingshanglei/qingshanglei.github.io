@@ -1,0 +1,82 @@
+    查询 ：SELECT          来源：FROM       条件：where
+   跳过序列中指定数量的元素，然后返回剩余的元素（例：10，不要前面的，只有10和10之后的）： .Skip()
+   从序列的开头返回指定数量的连续元素（提取数据）： .Take()
+   判断字符串是否为空：.IsNullOrEmpty()
+   查询单条数据，当没有数据或者有多少条数据是会触发异常 ： .Single()
+   查询多条数据并转为List :  .ToList()
+   查询有多少条数据 ： .Count() 
+   将数字的指定字符串表示形式转换为等效的32位带符号整数：ToInt32
+   内连接：INNER JOIN                    例： SYS_Academe INNER JOIN  
+                                                        SYS_Grade ON SYS-Academe.academeID=SYS_Grade.academeID
+ ON（连接条件）：SYS_Academe.academeID =(equals)  SYS_Grade.academeID       equals : =              
+
+    // try :捕捉异常
+       try                                         快捷键：try+tab
+	{	        
+		
+	}
+	catch (Exception e)
+	{
+                      Debug.WriteLine(e);    //查看错误：Debug.WriteLine(e);
+		throw;
+	}
+                
+                                                                         JSON
+  JSON字符串 => js对象(反序列化)： .parse（）
+  js对象 => JSON字符串（序列化）：.stringify（）
+
+
+
+
+
+
+
+             新增：
+ 1：接受数据
+ 2：数据验证
+ 3：去重复
+ 4：保存新增
+
+
+  把图片文件转换成url路径： .readAsDataURL( )       
+
+
+
+
+                                                              using System;
+   使用区域敏感排序规则，当前区域来比较字符串，同时忽略被比较字符串的大小写：StringComparison.CurrentCultureIgnoreCase
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

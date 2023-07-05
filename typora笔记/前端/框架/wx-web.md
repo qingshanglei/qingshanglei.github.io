@@ -167,13 +167,36 @@
 
 
 
-## ⻚⾯配置page.json ：
+## ⻚⾯配置page(名字自定义).json ：
 
    [页面配置文档](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/page.html)
 
 这⾥的 page.json 其实⽤来表⽰⻚⾯⽬录下的 page.json 这类和⼩程序⻚⾯相关的配置。 开发者可以独⽴定义每个⻚⾯的⼀些属性，如顶部颜⾊、是否允许下拉刷新等等。 ⻚⾯的配置只能设置 app.json 中部分 window 配置项的内容，⻚⾯中配置项会覆盖 app.json的 window 中相同的配置项。 
 
 ![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/%E2%BB%9A%E2%BE%AF%E9%85%8D%E7%BD%AEpage.png)
+
+wxml:
+
+```html
+<text>pages/img/img.wxml</text>
+```
+
+img.json:
+
+```json
+{
+    "usingComponents": {},
+    "navigationBarBackgroundColor": "#eee", // 导航栏背景颜色
+    "navigationBarTitleText": "图片", // 导航栏标题
+    "navigationBarTextStyle": "black" //导航栏标题颜色，只支持black /white 
+}
+```
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/%E2%BB%9A%E2%BE%AF%E9%85%8D%E7%BD%AEpage%E7%BB%93%E6%9E%9C.png)
+
+
+
+
 
 
 
@@ -273,6 +296,29 @@ App({
 
 
 
+```js
+async freeze(){
+    var sendData = {
+        token: app.globalData.token,
+        carId: this.data.car.carId,
+        frozenAmount:this.data.freezeAmount
+    }
+    const r = await api({
+        url:"/alipay/goAliPayCarDeposit/"+this.data.car.carId+"/"+this.data.freezeAmount,      
+        method:'POST',
+        data:sendData
+    });
+
+    if(r.data.data.success){
+        my.redirectTo({url:'/page/order/index/index'})
+    }else{
+        my.alert({content:r.data.data.msg})
+    }
+}
+```
+
+
+
 ## [text(span标签)](https://developers.weixin.qq.com/miniprogram/dev/component/text.html):
 
 1. ⽂本标签 
@@ -309,6 +355,12 @@ App({
 
 ![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/image-mode13%E4%B8%AA%20%E6%9C%89%E6%95%88%E5%80%BC.png)
 
+```html
+<image mode="aspectFill" lazy-load src="https://img14.360buyimg.com/imgzone/jfs/t1/190629/1/11484/70757/60dfcf4bE211ab3dd/1fd53d5343d22676.jpg" />
+```
+
+
+
 
 
 ## [swiper(轮播图)](https://developers.weixin.qq.com/miniprogram/dev/component/swiper.html):
@@ -321,6 +373,57 @@ swiper组件属性
 
 ![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/swiper%E7%BB%84%E4%BB%B6%E5%B1%9E%E6%80%A7.png)
 
+```js
+    1 轮播图外层容器 swiper
+    2 每一个轮播项 swiper-item
+    3 swiper标签 存在默认样式
+      1 width 100%
+      2 height 150px       image 存在默认宽度和高度 320 * 240
+      3 swiper 高度 无法实现由内容撑开 ,宽度可以
+    4 先找出 原图的宽度和高度 等比例 给swiper定宽度和高度
+      原图的宽度和高度 1125* 352px
+      swiper 宽度/swiper 高度=原图的宽度 / 原图的高度
+      swiper高度 = swiper宽度  *   原图的高度 / 原图的宽度
+      height: 100vw(100% && 750rpx) * 352 /1125
+    5 autoplay 自动轮播
+    6 interval 修改轮播时间    interval 必须配合 circular使用
+    7 circular 衔接轮播
+    8 indicator-dots 圆形按钮显示器（指示器&& 分页器&& 索引器）
+```
+
+
+
+
+
+轮播图：
+
+```html
+<swiper autoplay interval="1000" circular indicator-dots indicator-color="pink" indicator-active-color="#fff">
+    <swiper-item>
+        <image src="https://images.wallpaperscraft.com/image/single/railway_bridge_trees_976049_1280x720.jpg" />
+    </swiper-item>
+    <swiper-item>
+        <image src="https://images.wallpaperscraft.com/image/single/bouquet_flowers_composition_137663_1280x720.jpg" />
+    </swiper-item>
+    <swiper-item>
+        <image src="https://images.wallpaperscraft.com/image/single/girl_piercing_cap_972493_1280x720.jpg" />
+    </swiper-item>
+    <swiper-item>
+        <image src="https://images.wallpaperscraft.com/image/single/roses_bush_bloom_128901_1280x720.jpg"
+               style="background-size:cover " />
+    </swiper-item>
+    <swiper-item>
+        <image src="https://images.wallpaperscraft.com/image/single/silhouette_city_street_123496_1280x720.jpg" />
+    </swiper-item>
+    <swiper-item>
+        <image mode="aspectFill" lazy-load
+               src="https://images.wallpaperscraft.com/image/single/girl_backpack_building_974824_1280x720.jpg" />
+    </swiper-item>
+</swiper>
+```
+
+
+
 
 
 ## [swiper-item](https://developers.weixin.qq.com/miniprogram/dev/component/swiper-item.html):
@@ -329,11 +432,23 @@ swiper组件属性
 
 
 
+
+
 ## [navigator(a标签)](https://developers.weixin.qq.com/miniprogram/dev/component/navigator.html):
 
 ​    navigator: 导航组件 类似超链接标签。
 
 ![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/navigator-%E8%B6%85%E9%93%BE%E6%8E%A5%E6%A0%87%E7%AD%BE.png)
+
+```html
+<navigator url="/pages/dem10/dem10">跳到轮播图页面</navigator>
+<navigator url="/pages/imdex/imdex">直接跳转到 tabbar页面</navigator>
+<navigator open-type="redirect" url="/pages/dem10/dem10">跳到轮页面 redirect</navigator>
+<navigator open-type="switchTab" url="/pages/index/index"> switchTab 直接跳转到 tabbar页面</navigator>
+<navigator open-type="reLaunch" url="/pages/index/index"> relaunch 可以随便跳转</navigator>
+```
+
+
 
 
 
@@ -411,14 +526,14 @@ Page({
 | form-type | string  |         | 否   | 用于 [form](https://developers.weixin.qq.com/miniprogram/dev/component/form.html) 组件，点击分别会触发 [form](https://developers.weixin.qq.com/miniprogram/dev/component/form.html) 组件的 submit/reset 事件 |
 | open-type | string  |         | 否   | 微信开放能力                                                 |
 
-**size 的合法值 :**
+### **size 的合法值 :**
 
 | 合法值  | 说明     |
 | :------ | :------- |
 | default | 默认大小 |
 | mini    | 小尺寸   |
 
-**type 的合法值 :**
+### **type 的合法值 :**
 
 | 合法值  | 说明 |
 | :------ | :--- |
@@ -426,14 +541,14 @@ Page({
 | default | 白色 |
 | warn    | 红色 |
 
-**form-type 的合法值 :**
+### **form-type 的合法值 :**
 
 | 合法值 | 说明     |
 | :----- | :------- |
 | submit | 提交表单 |
 | reset  | 重置表单 |
 
-**open-type 的合法值:**
+### **open-type 的合法值:**
 
 | 合法值         | 说明                                                         |
 | :------------- | :----------------------------------------------------------- |
@@ -461,11 +576,53 @@ open-type 的 contact的实现流程 :
         >
     default
 </button>
+
+<button>默认按钮</button>
+<!-- size -->
+<button size="mini">小按钮</button>
+
+<!--  type -->
+<button type="primary"> primary 绿⾊按鈕</button>
+<button type="default"> default 白色按鈕</button>
+<button type="warn"> warn 红色按鈕</button>
+
+<button type="warn" plain> plain 按钮是否镂空，背景⾊透明</button>
+<button type="warn" loading> loading 名称前是否带 loading 图标</button>
+
+<!--  open-type -->
+<button open-type="contact"> contact 客服</button>
+<button open-type="share">share  转发当前的小程序(不包括朋友圈)</button>
+<button open-type="getPhoneNumber" size="mini" bindgetphonenumber="getPhoneNumber">getPhoneNumber 获取当前用户的手机号（要企业号）《10月18号21:46分 ：真机调试可以使用》</button>
+<button open-type="getUserInfo" bindgetuserinfo="getUserInfo"> getUserInfo 获取当前用户的个人信息</button>
+<button open-type="launchApp">launchApp 在小程序当中 直接打开App </button>
+<button open-type="openSetting"> 打开小程序内置的 授权页面</button>
+<button open-type="feedback"> 客服反馈 feedback</button>
+```
+
+js:
+
+```js
+Page({
+
+    //获取用户的手机号码
+    getPhoneNumber(e){
+        console.log(e);
+    } ,
+
+    //获取用户个人信息
+    getUserInfo(e) {
+        console.log(e);
+    }
+})
 ```
 
 
 
-[icon](https://developers.weixin.qq.com/miniprogram/dev/component/icon.html):
+
+
+
+
+## [icon](https://developers.weixin.qq.com/miniprogram/dev/component/icon.html):
 
  
 
@@ -481,22 +638,12 @@ icon所有图标：
 | size  | number/string | 23     | 否   | icon的大小，单位默认为px，[2.4.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)起支持传入单位(rpx/px)，[2.21.3](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)起支持传入其余单位(rem 等)。 |
 | color | string        |        | 否   | icon的颜色，同css的color                                     |
 
-js:
-
-```js
-Page({
-    data: {
-        iconSize: [20, 30, 40, 50, 60, 70],
-        iconType: [
-            'success', 'success_no_circle', 'info', 'warn', 'waiting', 'cancel',
-            'download', 'search', 'clear'
-        ],
-        iconColor: [
-            'red', 'orange', 'yellow', 'green', 'rgb(0,255,255)', 'blue', 'purple'
-        ],
-    }
-})
+```html
+<icon type="success" size="60" color="bulu"> </icon>
 ```
+
+
+
 
 wxml:
 
@@ -516,23 +663,132 @@ wxml:
 </view>
 ```
 
+js:
+
+```js
+Page({
+    data: {
+        iconSize: [20, 30, 40, 50, 60, 70],
+        iconType: [
+            'success', 'success_no_circle', 'info', 'warn', 'waiting', 'cancel',
+            'download', 'search', 'clear'
+        ],
+        iconColor: [
+            'red', 'orange', 'yellow', 'green', 'rgb(0,255,255)', 'blue', 'purple'
+        ],
+    }
+})
+```
 
 
-[radio(单选框)](https://developers.weixin.qq.com/miniprogram/dev/component/radio.html)：
+
+## [radio(单选框)](https://developers.weixin.qq.com/miniprogram/dev/component/radio.html)：
 
 ​    注意：①可以通过 color属性来修改颜色。
 ​               ②需要搭配 [radio-group](https://developers.weixin.qq.com/miniprogram/dev/component/radio-group.html)⼀起使⽤。
 
 ![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/%E5%8D%95%E9%80%89%E6%A1%86.png)
 
+```html
+<radio-group bindchange="handleChange"> 
+    <radio value="male">男</radio>
+    <radio value="female">女</radio>
+</radio-group>
+
+<view>你选中的是：{{gender}}</view>
+```
+
+js：
+
+```js
+Page({
+    data:{ // 数据区
+        gender:""
+    },
+
+    handleChange(e){
+        console.log(e);
+        // 1 获取单选框中的值
+        let gender=e.detail.value;    //let 代表局部变量,类型以 var
+        // 2 把值赋值给data中
+        this.setData({
+            // gender:gender  // 方法1
+            gender  // 方法2
+        })
+        // this.gender=gender; // 无效，获取到了数据，但页面不加载
+        console.log(this.gender);
+    }
+})
+```
 
 
-[checkbox(复选框)](https://developers.weixin.qq.com/miniprogram/dev/component/checkbox.html):
+
+
+
+## [checkbox(复选框)](https://developers.weixin.qq.com/miniprogram/dev/component/checkbox.html):
 
 注意：①可以通过 color属性来修改颜色。
            ②需要搭配 [checkbox-group](https://developers.weixin.qq.com/miniprogram/dev/component/checkbox-group.html)⼀起使⽤。
 
 ![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/%E5%A4%8D%E9%80%89%E6%A1%86.png):
+
+wxml:
+
+```html
+<view>
+    <checkbox-group bindchange="handleItemChange">
+        <checkbox value="{{item.value}}" wx:for="{{list}}" wx:key="id"> 
+            <!--wx:key  ⽤来提⾼数组渲染的性能,表⽰ 循环项中的唯⼀属性 如 id-->
+            {{item.name}}
+        </checkbox>
+    </checkbox-group>
+
+    <view>
+        选中的水果：{{checkedList}}
+    </view>
+</view>
+```
+
+js:
+
+```js
+Page({
+    data:{
+        list:[
+            {
+                id:0,
+                name:"🍎",
+                value:"apple"
+            }, {
+                id:1,
+                name:"🍌",
+                value:"bananer"
+            }, {
+                id:2,
+                name:"🤫",
+                value:"grape"
+            }
+        ],
+        //定义一个空数组
+        checkedList:[]
+    },
+
+    //复选框的选中事件（单击事件）
+    handleItemChange(e){
+        console.log(e);
+        //赋值给空数组
+        const checkedList=e.detail.value;
+        
+        this.setData({ // 
+            checkedList
+        })
+    }
+})
+```
+
+
+
+
 
 
 
@@ -557,7 +813,8 @@ wxml:
 
 ```json
 {
-  "component": true //代表自定义组件，在小程序中可以在不同的页面或组件中进行复用。
+    "component": true //代表自定义组件，在小程序中可以在不同的页面或组件中进行复用。
+    "usingComponents": {} 
 }
 ```
 
@@ -602,12 +859,10 @@ Component({
             value: 'default value',
         }
     },
-    data: {
-        // 这里是一些组件内部数据
+    data: { // 数据区
         someData: {}
     },
-    methods: {
-        // 这里是一个自定义方法
+    methods: { // 方法区
         customMethod: function(){}
     }
 })
@@ -660,7 +915,7 @@ Component({
 
 
 
-## 其他属性:
+## 自定义组件:
 
 
 
@@ -735,8 +990,108 @@ Component({
    }
    ```
 
+# 事件：
+
+```vue
+<!-- 点击事件（tap/click）：当用户点击组件时触发该事件。-->
+<view bindtap="handleTap">点击我</view>
+
+<!-- 触发事件：当用户点击组件时触发该事件。-->
+<radio-group bindchange="handleChange"> 
+      <radio value="male">男</radio>
+      <radio value="female">女</radio>
+</radio-group>
+
+<!-- 长按事件（longpress）：当用户长时间按压组件时触发该事件。 -->
+<view bindlongpress="handleLongPress">长按我</view>
+
+<!-- 输入input）：当用户在输入框中输入内容时触发该事件。 -->
+<input bindinput="handleInput" />
+
+<!-- 表单提交事件（submit）：当用户提交表单时触发该事件。 -->
+<form bindsubmit="handleSubmit">
+  <input name="username" placeholder="用户名" />
+  < name="password" type="password" placeholder="密码" />
+  <button formType="submit">提交</button>
+</form>
 
 
+<!-- 滚动事件（scroll）：当元素滚动时触发该事件。 -->
+<scroll-view bindscroll="handlescroll-view"> </scroll-view>
+
+```
+
+js：
+
+```js
+Page({
+
+    data:{
+        gender:""
+    },
+
+    handleChange(e){
+        console.log(e);
+        // 1 获取单选框中的值
+        let gender=e.detail.value;           //let 代表局部变量,类型以 var
+        // 2 把值赋值给data中
+        this.setData({
+            // gender:gender  // 方法1
+            gender  // 方法2
+        })
+        // this.gender=gender; // 无效，获取到了数据，但页面不加载
+        console.log(this.gender);
+    }
+})
+```
+
+
+
+
+
+
+
+```js
+1. 页面级事件：
+   - onLoad：页面加载时触发的事件。
+   - onShow：页面显示时触发的事件。
+   - onHide：页面隐藏时触发的事件。
+   - onUnload：页面卸载时触发的事件。
+
+2. 网络事件：
+   - onNetworkStatusChange：网络状态变化时触发的事件。
+
+3. 用户触摸事件：
+   - onTouchStart：手指触摸屏幕时触发的事件。
+ - onTouchMove：手指在屏幕上移动时触发的事件。
+   - onTouchEnd：手指离开屏幕时触发的事件。
+   - onTouchCancel：触摸被打断时触发的事件。
+
+4. 表单事件：
+   - onSubmit：表单提交时触发的事件。
+   - onReset：表单重置时触发的事件。
+
+5. 用户滚动事件：
+   - onScroll：页面滚动时触发的事件。
+
+6. 视图事件：
+   - onClick：点击事件。
+   - onLongPress：长按事件。
+   - onTransitionEnd：CSS 动画或过渡结束时触发的画开始时触发的事件。
+   - onAnimationIteration：CSS 动画一次循环完成时触发的事件。
+   - onAnimationEnd：CSS 动画结束时触发的事件。
+
+7. 媒体事件：
+   - onAudioPlay：音频播放时触发的事件。
+   - onAudioPause：音频暂停时触发的事件。
+   - onAudioStop：音频停止时触发的事件。
+   - onAudioError：音频播放错误时触发的事件。
+   - onVideoPlay：视频播放时触发的事件。
+   - onVideoPause：视频暂停时触发的事件。
+   - onVideoEnded：视频播放到末尾时触发的事件。
+   - onVideoError：视频播放错误时触发的事件。
+
+```
 
 
 
@@ -1123,12 +1478,6 @@ Page({
 
 
 
-
-
-
-
-
-
 ## 点击事件：
 
 ### wxml:
@@ -1172,29 +1521,29 @@ Page({
 // pages/dem4/dem4.js
 Page({
 
-  /**
+    /**
    * 页面的初始数据
    */
-  data: {
-      num:0
-  },
-//输入框的input事件的执行逻辑
-   bingha(e){
-    //  console.log("点击事件");
-    //  console.log(e.detail.value);
-      this.setData({
-    num: e.detail.value
-      })
-   },
-  //  加 减 按钮的事件
-  handletap(e){
-console.log(e);
-// 1 获取自定义属性 operation
-      const operation=e.currentTarget.dataset.operation;
-      this.setData({
-        num: this.data.num + operation
-          }) 
-        }
+    data: {
+        num:0
+    },
+    //输入框的input事件的执行逻辑
+    bingha(e){
+        //  console.log("点击事件");
+        //  console.log(e.detail.value);
+        this.setData({
+            num: e.detail.value
+        })
+    },
+    //  加 减 按钮的事件
+    handletap(e){
+        console.log(e);
+        // 1 获取自定义属性 operation
+        const operation=e.currentTarget.dataset.operation;
+        this.setData({
+            num: this.data.num + operation
+        }) 
+    }
 })
 ```
 
@@ -1304,13 +1653,18 @@ view{
 
 
 
-[]()
 
-[]()
 
 ## less语法：
 
  dem7是less语法，有点难。。。
+
+```js
+less中 支持 两种注释  多行  单行
+wxss 不能写 单行注释 因为 写了 和没写是一样！！！
+```
+
+
 
 
 
