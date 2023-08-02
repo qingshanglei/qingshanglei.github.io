@@ -98,6 +98,63 @@ props({params:{id,title}}) { //连续解构赋值
 
 
 
+## map:
+
+
+
+```js
+/** 页面的初始数据 */
+data: {
+    // 左侧菜单数据
+    leftMenuList: [],
+        // 右侧菜单数据
+    rightContent: [],
+            // 接口的返回数据
+        Cates: [
+            {"cat_id": 1,
+             "cat_name": "大家电",
+             "cat_pid": 0,
+             "cat_level": 0,
+             "cat_deleted": false,
+             "cat_icon": "/full/none.jpg",
+             "children": [
+                 {
+                     "cat_id": 3,
+                     "cat_name": "电视",
+                     "cat_pid": 1,
+                     "cat_level": 1,
+                     "cat_deleted": false,
+                     "cat_icon": "/full/none.jpg",
+                     "children": [
+                         {
+                             "cat_id": 5,
+                             "cat_name": "曲面电视",
+                             "cat_pid": 3,
+                             "cat_level": 2,
+                             "cat_deleted": false,
+                             "cat_icon": "https://api-hmugo-web.itheima.net/full/2fb113b32f7a2b161f5ee4096c319afedc3fd5a1.jpg"
+                         },}，
+                         {
+                         "cat_id": 55,
+                         "cat_name": "热门推荐",
+                         "cat_pid": 0,
+                         "cat_level": 0,
+                         "cat_deleted": false,
+                         "cat_icon": "/full/none.jpg",
+                         "children": [ ... ] ,
+                     ]
+                 },
+
+   // 获取分类数据方法
+  getCates() {
+  // 返回左侧大菜单的数据-标题（ES6写法,一直遍历数组中带cat_name的数据）
+   let leftMenuList=this.Cates.map(v=>v.cat_name);
+   // 结果： "leftMenuList": [ "大家电","热门推荐","海外购", ... ]
+}
+```
+
+
+
 
 
 # 模块化：

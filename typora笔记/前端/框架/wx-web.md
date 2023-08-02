@@ -259,7 +259,44 @@ App({
 
 
 
+## 事件：
 
+```html
+<!-- 点击事件 -->
+<view wx:for="{{tabs}}" wx:key="id" class="title_item {{item.isActive?'active':''}}"
+      bindtap="handleItemTap"
+      > {{item.value}}
+</view>
+
+
+```
+
+
+
+## 存储数据：
+
+注意：小程序中不使用html的 存储数据.
+
+```
+  web中的本地存储和 小程序中本地存储的区别：
+       1.写代码的方式不同：
+          web:  
+            存数据：localStorage.setItem("key","val");
+            取数据：localStorage.getItem("key");
+          小程序：
+            存数据：wx.setStorageSync('key', "val");
+            取数据：wx.getStorageSync('cates');
+```
+
+
+
+​    注意：新版小程序使用ES7的async语法，在小程序开发工具中勾选ES6转ES5语法 和增强编译就行了，不需要再下载 facebook的regenerator库。
+
+
+
+## 传递参数：
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7%E6%9F%A5%E7%9C%8B%E5%8F%82%E6%95%B0.png)
 
 # wxml:
 
@@ -788,6 +825,203 @@ Page({
 
 
 
+## [scroll-view(可滚动标签)：](https://developers.weixin.qq.com/miniprogram/dev/component/scroll-view.html)
+
+## 通用属性
+
+| 属性                    | 类型          | 默认值  | 必填 | 说明                                                         |
+| :---------------------- | :------------ | :------ | :--- | :----------------------------------------------------------- |
+| ==scroll-x==            | boolean       | false   | 否   | 允许横向滚动                                                 |
+| ==scroll-y==            | boolean       | false   | 否   | 允许纵向滚动                                                 |
+| upper-threshold         | number/string | 50      | 否   | 距顶部/左边多远时，触发 scrolltoupper 事件                   |
+| lower-threshold         | number/string | 50      | 否   | 距底部/右边多远时，触发 scrolltolower 事件                   |
+| ==scroll-top==          | number/string |         | 否   | 设置竖向滚动条位置                                           |
+| scroll-left             | number/string |         | 否   | 设置横向滚动条位置                                           |
+| scroll-into-view        | string        |         | 否   | 值应为某子元素id（id不能以数字开头）。设置哪个方向可滚动，则在哪个方向滚动到该元素 |
+| scroll-with-animation   | boolean       | false   | 否   | 在设置滚动条位置时使用动画过渡                               |
+| enable-back-to-top      | boolean       | false   | 否   | iOS点击顶部状态栏、安卓双击标题栏时，滚动条返回顶部，只支持竖向。自 2.27.3 版本开始，若非显式设置为 false，则在显示尺寸大于屏幕 90% 时自动开启。 |
+| enable-flex             | boolean       | false   | 否   | 启用 flexbox 布局。开启后，当前节点声明了 `display: flex` 就会成为 flex container，并作用于其孩子节点。 |
+| scroll-anchoring        | boolean       | false   | 否   | 开启 scroll anchoring 特性，即控制滚动位置不随内容变化而抖动，仅在 iOS 下生效，安卓下可参考 CSS `overflow-anchor` 属性。 |
+| enable-passive          | boolean       | false   | 否   | 开启 passive 特性，能优化一定的滚动性能                      |
+| refresher-enabled       | boolean       | false   | 否   | 开启自定义下拉刷新                                           |
+| refresher-threshold     | number        | 45      | 否   | 设置自定义下拉刷新阈值                                       |
+| refresher-default-style | string        | "black" | 否   | 设置自定义下拉刷新默认样式，支持设置 `black | white | none`， none 表示不使用默认样式 |
+| refresher-background    | string        | "#FFF"  | 否   | 设置自定义下拉刷新区域背景颜色                               |
+| refresher-triggered     | boolean       | false   | 否   | 设置当前下拉刷新状态，true 表示下拉刷新已经被触发，false 表示下拉刷新未被触发 |
+| enhanced                | boolean       | false   | 否   | 启用 scroll-view 增强特性，启用后可通过 [ScrollViewContext](https://developers.weixin.qq.com/miniprogram/dev/api/ui/scroll/ScrollViewContext.html) 操作 scroll-view |
+| bounces                 | boolean       | true    | 否   | iOS 下 scroll-view 边界弹性控制 (同时开启 enhanced 属性后生效) |
+| show-scrollbar          | boolean       | true    | 否   | 滚动条显隐控制 (同时开启 enhanced 属性后生效)                |
+| paging-enabled          | boolean       | false   | 否   | 分页滑动效果 (同时开启 enhanced 属性后生效)                  |
+| fast-deceleration       | boolean       | false   | 否   | 滑动减速速率控制, 仅在 iOS 下生效 (同时开启 enhanced 属性后生效) |
+| binddragstart           | eventhandle   |         | 否   | 滑动开始事件 (同时开启 enhanced 属性后生效) detail { scrollTop, scrollLeft } |
+| binddragging            | eventhandle   |         | 否   | 滑动事件 (同时开启 enhanced 属性后生效) detail { scrollTop, scrollLeft } |
+| binddragend             | eventhandle   |         | 否   | 滑动结束事件 (同时开启 enhanced 属性后生效) detail { scrollTop, scrollLeft, velocity } |
+| bindscrolltoupper       | eventhandle   |         | 否   | 滚动到顶部/左边时触发                                        |
+| bindscrolltolower       | eventhandle   |         | 否   | 滚动到底部/右边时触发                                        |
+| bindscroll              | eventhandle   |         | 否   | 滚动时触发，event.detail = {scrollLeft, scrollTop, scrollHeight, scrollWidth, deltaX, deltaY} |
+| bindrefresherpulling    | eventhandle   |         | 否   | 自定义下拉刷新控件被下拉                                     |
+| bindrefresherrefresh    | eventhandle   |         | 否   | 自定义下拉刷新被触发                                         |
+| bindrefresherrestore    | eventhandle   |         | 否   | 自定义下拉刷新被复位                                         |
+| bindrefresherabort      | eventhandle   |         | 否   | 自定义下拉刷新被中止                                         |
+
+
+
+### wxml:
+
+```html
+  <view class="cates_container">
+    <!-- 左侧目录菜单 开始-->
+    <scroll-view scroll-y class="left_menu">
+      <view>1</view>
+         <view>2</view>
+         <view>3</view>
+         <view>4</view>
+         <view>5</view>
+         <view>6</view>
+         <view>7</view>
+         <view>8</view>
+         <view>9</view>
+         <view>10</view>
+         <view>11</view>
+         <view>12</view>
+         <view>13</view>
+         <view>14</view>
+         <view>15</view>
+         <view>16</view>
+         <view>17</view>
+         <view>18</view>
+         <view>19</view>
+         <view>20</view>
+         <view>21</view>
+         <view>22</view>
+         <view>23</view>
+         <view>24</view>
+         <view>25</view>
+         <view>26</view>
+         <view>27</view>
+         <view>28</view>
+         <view>29</view>
+         <view>30</view>
+         <view>31</view>
+         <view>32</view>
+         <view>33</view>
+         <view>34</view>
+         <view>35</view>
+         <view>36</view>
+         <view>37</view>
+         <view>38</view>
+         <view>39</view>
+         <view>40</view>
+         <view>41</view>
+         <view>42</view>
+         <view>43</view>
+         <view>44</view>
+         <view>45</view>
+         <view>46</view>
+         <view>47</view>
+         <view>48</view>
+         <view>49</view>
+         <view>50</view>
+         
+    </scroll-view>
+    <!-- 左侧目录菜单 结束-->
+        
+
+    <!-- 右侧商品菜单 开始-->
+    <scroll-view scroll-y  class="right_content">
+      <view>1</view>
+      <view>2</view>
+      <view>3</view>
+      <view>4</view>
+      <view>5</view>
+      <view>6</view>
+      <view>7</view>
+      <view>8</view>
+      <view>9</view>
+      <view>10</view>
+      <view>11</view>
+      <view>12</view>
+      <view>13</view>
+      <view>14</view>
+      <view>15</view>
+      <view>16</view>
+      <view>17</view>
+      <view>18</view>
+      <view>19</view>
+      <view>20</view>
+      <view>21</view>
+      <view>22</view>
+      <view>23</view>
+      <view>24</view>
+      <view>25</view>
+      <view>26</view>
+      <view>27</view>
+      <view>28</view>
+      <view>29</view>
+      <view>30</view>
+      <view>31</view>
+      <view>32</view>
+      <view>33</view>
+      <view>34</view>
+      <view>35</view>
+      <view>36</view>
+      <view>37</view>
+      <view>38</view>
+      <view>39</view>
+      <view>40</view>
+      <view>41</view>
+      <view>42</view>
+      <view>43</view>
+      <view>44</view>
+      <view>45</view>
+      <view>46</view>
+      <view>47</view>
+      <view>48</view>
+      <view>49</view>
+      <view>50</view>
+    </scroll-view>
+    <!-- 右侧商品菜单 结束-->
+  </view>
+```
+
+### wxss:
+
+注意：此处采用less写法。
+
+```less
+/* pages/category/index.wxss */
+page { /* 类似 *{  height: 100%; }    主要：⼩程序不⽀持通配符`*`。*/ 
+    height: 100%;
+}
+
+.cates {
+    height: 100%;
+
+    .cates_container {
+        /* less中使用calc的时候要注意  
+         calc()less中的函数； 100vh 表示视窗的高度，90rpx 表示90个物理像素。 */
+        height: calc(100vh - 90rpx);
+        display: flex;
+
+        .left_menu {
+            /* 子项 高度 100% flex*/
+            flex: 2;
+            background-color: aqua;
+        }
+
+        .right_content {
+            /* 子项 高度 100% flex*/
+            flex: 5;
+            background-color: lawngreen;
+        }
+    }
+}
+```
+
+结果：
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/scroll-view%E5%8F%AF%E6%BB%9A%E5%8A%A8%E6%A0%87%E7%AD%BE.png)
+
 
 
 
@@ -917,13 +1151,226 @@ Component({
 
 ## 自定义组件:
 
-
-
-### 定义段与⽰例⽅法:
-
    定义段与⽰例⽅法 Component 构造器可⽤于定义组件，调⽤ Component 构造器时可以指定组件的属性、数据、⽅法 等。
 
-![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/%E5%AE%9A%E4%B9%89%E6%AE%B5%E4%B8%8E%E2%BD%B0%E4%BE%8B%E2%BD%85%E6%B3%95.png)
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/%E7%BB%84%E4%BB%B6.png)
+
+
+
+### 注册组件：
+
+ 路径：components\Tabs\Tabs.wxml
+
+#### Tabs.wxml:
+
+```html
+<view class="tabs">
+   <view class="tabs_title">
+   <!--  写死的 -->      
+   <!-- <view class="title_item">首页</view>
+    <view class="title_item">原创</view>
+    <view class="title_item">分类</view>
+    <view class="title_item">关于</view>   -->
+
+<!-- 在类里面判断   {{item.isActive==true?'active':' '}} -->
+    <view 
+       wx:for="{{tabs}}" 
+       wx:key="id" 
+       class="title_item  {{item.isActive==true?'active':' '}}" 
+       bindtap="hanIdtemTap"
+       data-index="{{index}}"
+     >
+     {{item.name}}
+    </view>
+  </view> 
+
+  <view class="tabs_content">
+   <!-- slot标签（占位符标签/插槽）
+             等到 父组件调有 子组件的时候 再传递 标签过来
+             ， 最终这些被传递的标签 就会替换 slot的位置 （东西位置互换） -->
+    <slot> </slot>
+  </view>
+</view>
+```
+
+#### wxss:
+
+```css
+.tabs_title{
+    display: flex;
+    padding:10rpx 0;
+}
+.title_item{
+    flex: 1;
+    display: flex;
+    justify-content: center;  /*文字水平对齐 */
+    align-items: center; /*垂直水平对齐 */
+
+}
+.active{
+    color:red;
+    border-bottom: 5rpx solid currentColor;
+}
+
+```
+
+#### js:
+
+```js
+// components/tabs/Tabs.js
+Component({
+    /**
+   * 组件的属性列表
+   *    里面存放的是 要从父组件中接收的数据
+   */
+    properties: {
+        //要接收的数据名称
+        //  aaa:{
+        //    //type 要接收的数据类型
+        //   type:String
+        //    ,value:""
+        //   // value 要接收的数据
+        //  }
+
+        tabs:{
+            type:Array,
+            value:[]
+        }
+
+
+    },
+
+    /**
+   * 组件的初始数据
+   */
+    data: {
+
+    },
+
+
+    //  组件的方法列表
+    //  1 页面.js 文件中 存放事件回调函数的事件 存放在data同层级下！！！
+    //  2 组件.js文件中 存放事件回调函数的时候 必须要存在 methods中！！！
+    methods: { // 方法区
+        hanIdtemTap(e){
+            /*
+             1 绑定点击事件 需要在methods中绑定
+             2 获取被点击的索引
+             3 获取原数组
+             4 对数组循环
+                1、循环每一个被属性，把选中的属性 改为false
+                2、给 当前的索引的 项 添加激活选中效果
+             5 点击事件触发的时候
+                触发父组件中的自定义事件 同时传递数据给 父组件
+                this.triggerEvent("父组件自定义事件的名称"，要传递的参数)
+           */
+
+            // 2 获取索引
+            //{属性} 是es6中的解构赋值写法，意思是将对象中的index属性提前出来改成自定义的index属性
+            const {index}=e.currentTarget.dataset;   
+            //      触发父组件中的自定义事件 同时传递数据给 父组件
+            this.triggerEvent("itemChange",{index})
+            // const item=e.currentTarget.dataset;   
+            // console.log(item);
+            // 3 获取data中的数组
+            //解构函数 对复杂类型进行解构的时候 ，相当于复制了一份 变量的引用而已
+            //最严谨的做法 重新拷贝一份 数组，再对这个数组的备份进行处理
+            //以下三项结果一样
+            // let tabs =JSON.parse(JSON.stringify(this.data.tabs));
+            //  let tabs=this.data;
+
+        }
+    }
+})
+
+```
+
+#### json:
+
+```json
+{
+  "component": true,  // 组件
+  "usingComponents": {}
+}
+```
+
+### 使用组件：
+
+ 路径：pages\dem17\dem17.wxml
+
+#### json:
+
+```json
+{
+    "usingComponents": {
+        "Tabs":"../../components/Tabs/Tabs" 
+    }
+}
+```
+
+#### wxml:
+
+```html
+<!-- 1 父组件（页面）向子组件 传递数据 通过 标签属性的方式来传递
+1 在子组件上进行接收
+2 把这个数据当成是data中的数据直接用 -->
+<Tabs tabs="{{tabs}}" binditemChange="handleItemChange">
+    <block wx:if="{{tabs[0].isActive}}">0</block>
+    <block wx:elif="{{tabs[1].isActive}}">1</block>
+    <block wx:elif="{{tabs[2].isActive}}">2</block>
+    <block wx:else>3</block>
+</Tabs>
+```
+
+#### js：
+
+```js
+// pages/dem17/dem17.js
+Page({
+
+    /** 数据区 */
+    data: {
+        tabs:[
+            {
+                id:0,
+                name:"首页",
+                isActive:true
+            } ,{
+                id:1,
+                name:"原创",
+                isActive:false
+            },{
+                id:3,
+                name:"分类",
+                isActive:false
+            },{
+                id:4,
+                name:"关于",
+                isActive:false
+            }
+        ]
+
+    },
+
+    //自定义事件 用来接收子组件传递的数据
+    handleItemChange(e){
+
+        const {index}=e.detail;
+        let {tabs}=this.data; 
+        // 4 循环数组
+
+        // [].forEach 遍历数组的时候 修改了 v（每一个循环项） ,v被修改了，也会导致原数组被修改
+        tabs.forEach((v,i)=>i===index?v.isActive=true:v.isActive=false);
+        this.setData({
+            tabs
+        })
+    }
+})
+```
+
+
+
+
 
 
 
@@ -940,7 +1387,10 @@ Component({
    与 CSS 相⽐，WXSS 扩展的特性有： 
 
    1. 响应式⻓度单位 rpx
-   2. 样式导⼊ 
+      2. 视窗的高度:vh     例：
+      3. vm（Viewport Height）是一种相对单位， 1vm等于视口高度的1%。例：如果视口高度为800px，那么1vm就等于8px。      ==注意：vm单位只适用于垂直方向上的尺寸==。  
+      4.   vw（Viewport Width）单位是指视窗宽度的百分比单位，其中1vw等于视窗宽度的1%，  ==vw 水平方向上的相对尺寸==。
+      5. 样式导⼊ 
 
 主题颜色 通过变量来实现
 
@@ -1663,6 +2113,19 @@ view{
 less中 支持 两种注释  多行  单行
 wxss 不能写 单行注释 因为 写了 和没写是一样！！！
 ```
+
+
+
+
+
+# 解决保存页面跳转首页问题：
+
+   Bug:在分类编辑完保存数据自动跳转到首页。
+   解决方法：编辑默认指定当前路径即可。
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/%E5%9C%A8%E5%88%86%E7%B1%BB%E9%A1%B5%E9%9D%A2%E7%BC%96%E8%BE%91%E5%AE%8C%E4%BF%9D%E5%AD%98%E6%95%B0%E6%8D%AE%E8%87%AA%E5%8A%A8%E8%B7%B3%E8%BD%AC%E5%88%B0%E9%A6%96%E9%A1%B5.png)
+
+
 
 
 
