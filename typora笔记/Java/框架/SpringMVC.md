@@ -1205,7 +1205,7 @@ public class Result{
 ### exception/ProjectExceptionAdvice:
 
 ```java
-@RestControllerAdvice //2. 开启异常处理器
+@RestControllerAdvice //2. 开启异常处理器(AOP实现)
 public class ProjectExceptionAdvice {
 
     //1、在BookServicempl类的getById方法里自定义里异常。

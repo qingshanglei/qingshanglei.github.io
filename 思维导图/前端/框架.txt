@@ -1,0 +1,56 @@
+justify-content:space-evenly
+
+
+《h$*5》：<h1>~<h5>
+  
+    微章：
+     <code>甘肃地震局</code>：字体变红色
+    <kbd></kbd>:变黑色
+
+    /-----------using 引用“系统命名空间”-------------------------/
+
+/------------namespace  MyFirstPro 创建自定义“用户命名空间”---------------/
+
+/-------------命名空间 >类 > 函数 > 代码块（流程控制语句、表达式）}  ------/
+
+/--------------static 静态成员--------------------------/
+
+     表格：
+             <table class= "table">
+                <tr>
+                       <th> </th>    
+                </tr>
+                 <tr>
+                       <td>     </td>
+                       <td colspan="2">     </td>
+                </tr>
+             </table> 
+                  行:<tr>            表头  :<th>            格子:<td>     conlspan:合并  
+              .table{      border-collapse:collapse (让单元格合成一条线 ); }   
+             表格属性(靠左): align="left"          display: table;(表格显示)
+
+        <!--快捷键：meta:vp-->：
+           <meta name="viewport" content="width =device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+             宽度等于手机宽度:width=device-width
+             手机显示比例：initial-scale-1.0
+  
+
+
+    <input type="text" id="txtName" class="long">
+  <label for="">日期：</label>
+
+    <span>
+     <select>
+         <option>已完成</option>
+         <option>已暂停</option>
+    </select>
+       <a href="#">【编辑】</a>
+</span>
+
+/---------------静态类： static Class 
+                       实例类： Class+对象object
+                       同一个类：具有共同的属性和成员--------------------------------------------/
+
+/---------------程序的结构： 
+                         类   函数 控制语句 表达式  关键字或常量 变量 标识符                          
+------------------------------/

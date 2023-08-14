@@ -1,3 +1,0 @@
-   遍历 ： @foreach(var item in listAcademe){
-
-}

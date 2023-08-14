@@ -73,12 +73,14 @@ maven加载xml流程：
 ```xml
 <!--解决maven加载机制问题：src/main/java模块能加载yml、properties和xml文件 -->
 <build>
+     <!-- 打包插件   -->
     <plugins>
         <plugin>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
         </plugin>
     </plugins>
+    
     <resources>
         <resource>  
             <directory>src/main/java</directory>
@@ -104,7 +106,7 @@ maven加载xml流程：
 application.properties:
 
 ```properties
-mybatis-plus.mapper-locations=classpath:com/atguigu/ggkt/vod/mapper/xml/*.xml
+mybatis-plus.mapper-locations=classpath:com/qsl/ggkt/vod/mapper/xml/*.xml
 ```
 
 

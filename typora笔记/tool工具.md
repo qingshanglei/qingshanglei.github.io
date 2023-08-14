@@ -31,7 +31,9 @@ Setting → File Types → Ignored Files and Folders
 
 
 
-# VS Code:
+# [VS Code](https://code.visualstudio.com/):
+
+
 
 ```html
  !+回车键  <!-- 生成Html头部-->

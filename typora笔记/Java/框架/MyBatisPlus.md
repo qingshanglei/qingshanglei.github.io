@@ -77,6 +77,9 @@ public class brand {
     /** 设置该属性在数据库表字段中是否存在 */
     @TableField(exist = false)
     private Integer online; // 是否在线
+     /** 逻辑删除（0:不可用 1:可用）*/
+    @TableField("is_deleted")
+    private Integer isDeleted;
 }
 ```
 
@@ -270,7 +273,8 @@ public class SysRoleMapperTest {
        .ge(String column,Object val) //大于等于
        .le(String column,Object val)  // 数据小于等于
        .between(String column,Object val2,val2) // 数据在什么之间
-     排序    
+     排序  
+       .eq(Stringcolumn, Object val) //等于
        .orderByDesc(String column)    // 降序
        .orderByAsc(String column)    // 升序
      并且，或
@@ -846,8 +850,8 @@ public class MybatisPlusConfig {
 方式2：
 
 ```java
-@Configuration // 配置类
-@MapperScan("com.qsl.ggktparent.vod.mapper") //  @MapperScan注解替代@Mapper或@Resource注解
+@Configuration // 配置类    
+@MapperScan("com.qsl.ggktparent.vod.mapper") //  @MapperScan注解替代@Mapper或@Resource注解  ==》com.qsl.ggktparent.*.mapper也行
 public class ServiceVodConfig {
 
     /*MP分页插件*/

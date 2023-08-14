@@ -290,9 +290,55 @@ App({
 
 
 
-​    注意：新版小程序使用ES7的async语法，在小程序开发工具中勾选ES6转ES5语法 和增强编译就行了，不需要再下载 facebook的regenerator库。
+## ⼩程序中⽀持es7的async语法 :
 
+ 注意：小程序默认不支持ES7语法。
 
+方法1：
+​    es7的 async 号称是解决回调的最终⽅案
+
+1. 在⼩程序的开发⼯具中，勾选 es6转es5语法 
+2. 下载 facebook的regenerator库中的 regenerator/packages/regenerator-runtime/runtime.js 
+3. 在⼩程序⽬录下新建⽂件夹 lib/runtime/runtime.js ，将代码拷⻉进去 
+4. 在每⼀个需要使⽤async语法的⻚⾯js⽂件中，都引⼊（不能全局引⼊）
+
+```json
+import regeneratorRuntime from '../../lib/runtime/runtime';
+```
+
+js:
+
+```js
+  // 获取分类数据方法-ES7的async语法
+  async getCates() {
+    // 使用ES7的async await来发送异步请求
+    const res = await request({ url: "/categories" });
+
+    // console.log("获取分类数据方法", res)
+    this.Cates = res;
+
+    // 存储接口数据，已加快使用小程序
+    wx.setStorageSync('cates', { time: Date.now(), data: this.Cates });
+
+    // 返回左侧菜单的数据-标题（ES6写法,遍历数组中当前层级所有带cat_name的数据）
+    let leftMenuList = this.Cates.map(v => v.cat_name); // 结果： "leftMenuList": [ "大家电","热门推荐","海外购", ... ]
+    // 返回右侧菜单的数据
+    let rightContent = this.Cates[0].children;
+
+    // 返回数据
+    this.setData({
+      leftMenuList,
+      rightContent
+    })
+
+  },
+```
+
+方法2：
+
+​     注意：新版小程序使用ES7的async语法，在小程序开发工具中勾选ES6转ES5语法 和增强编译就行了，不需要再下载 facebook的regenerator库。
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/ES6%E8%BD%ACES5.png)
 
 ## 传递参数：
 
@@ -826,6 +872,8 @@ Page({
 
 
 ## [scroll-view(可滚动标签)：](https://developers.weixin.qq.com/miniprogram/dev/component/scroll-view.html)
+
+![]()
 
 ## 通用属性
 
@@ -1439,6 +1487,8 @@ Page({
        "outExt":       ".wxss"
    }
    ```
+
+  注意: 微信开发者工具点击`新建Component`，会自动创建 js，json,wxml，wxss等文件。
 
 # 事件：
 

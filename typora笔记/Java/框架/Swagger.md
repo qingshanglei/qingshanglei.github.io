@@ -86,7 +86,7 @@ public class SwaggerConfig {
             .title("网站-API文档")
             .description("本文档描述了网站微服务接口定义")
             .version("1.0")
-            .contact(new Contact("qsl", "http://atguigu.com", "atguigu.com"))
+            .contact(new Contact("qsl", "http://atguigu.com", "2274916510.com"))
             .build();
     }
 }

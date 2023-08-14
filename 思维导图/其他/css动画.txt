@@ -1,4 +1,0 @@
-     
-     旋转:rotate (正：顺，负：逆)   例：transform : rotate(-90deg);
-     动画延迟：transition-delay:    例 ：.on:hover {  transition-delay:0.5s;             }
-  

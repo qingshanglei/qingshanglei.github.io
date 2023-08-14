@@ -1,0 +1,34 @@
+       //================css篇=================//
+    The id value[btn1]must be unique  :  id重复
+        width：100px;(去除线) ：权重问题
+     
+
+
+
+
+   //================js篇=================//
+    car is not defined   at :  car这个变量没定义。  defined:定义
+    document.getElementByid is not a function at window. onload:   方法写错了
+                                                                                   
+                                                VS :数据库
+         
+            //报错：Uncaught TypeError: Illegal invocation
+            //原因：jQuery Ajax 上传文件处理方式，使用ajax向后台发送数据时其中的图片数据的参数类型为file,
+            //      属于对象，而不是一个字符串值。导致错误的出现
+        解决方法:  contentType: false,//让Ajax不指定数据类型
+                processData: false,//让Ajax不对数据进行处理
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
