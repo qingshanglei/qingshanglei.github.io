@@ -1,6 +1,6 @@
-# 概念：
+# [概念：](https://www.elastic.co/cn/elasticsearch/)
 
-Elasticsearch(ES)是一个分布式全文搜索引擎。
+ElasticSearch(ES)是一个分布式全文搜索引擎。
 
 Elasticsearch  (简称ES)是一个分布式、高扩展、高实时的、RESTful 风格的搜索与数据分析引擎。它能很方便的使大量数据具有搜索、分析和探索的能力。充分利用Elasticsearch的水平伸缩性，能使数据在生产环境变得更有价值。Elasticsearch 的实现原理主要分为以下几个步骤，首先用户将数据提交到Elasticsearch 数据库中，再通过分词控制器去将对应的语句分词，将其权重和分词结果一并存入数据，当用户搜索数据时候，再根据权重将结果排名，打分，再将返回结果呈现给用户。
 
@@ -71,7 +71,7 @@ mapping是处理数据的方式和规则方面做一些限制，如：某个字�
 
 ![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/ElasticSearch/%E5%AE%89%E8%A3%85ES%E6%B5%81%E7%A8%8B.png)
 
-
+## 安装ES:
 
  前提：JDK1.8+。
 
@@ -83,7 +83,7 @@ mapping是处理数据的方式和规则方面做一些限制，如：某个字�
 
 ![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/ElasticSearch/%E4%BD%BF%E7%94%A8ES.png)
 
-**注意事项二**：
+**注意：**
    出现闪退，通过路径访问发现“空间不足”
   **修改config/jvm.options文件**的22行23行，把2改成1，让Elasticsearch启动的 时候占用1个G的内存。
   -Xmx512m：设置JVM最大可用内存为512M。
@@ -95,11 +95,9 @@ mapping是处理数据的方式和规则方面做一些限制，如：某个字�
 
  elasticsearch服务是一个restful风格的http服务。我们可以采用postman作为客户端来进行操作，elastic stack官方也给我们提供了kibana来进行客户端操作，这个相比postman要友好一点，因为里面有些自动补全的代码提示
 
-下载地址: https://www.elastic.co/cn/downloads/past-releases/kibana-7-8-0
+[下载地址:]( https://www.elastic.co/cn/downloads/past-releases/kibana-7-8-0)
 
-
-
-
+本次7.8版本。
 
 
 
@@ -120,8 +118,8 @@ IK分词器3.0的特性如下：
 
 
 
-安装：
+   
 
-​     [下载地址: ](https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.8.0/elasticsearch-analysis-ik-7.8.0.zip)
+[安装：](https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.8.0/elasticsearch-analysis-ik-7.8.0.zip)
 
 ​     `ES`安装完成后， 在`ES`的`plugins/ik目录下解压,重新启动ElasticSearch就完成安装了。注意：解压后的zip不要放在plugins目录下。

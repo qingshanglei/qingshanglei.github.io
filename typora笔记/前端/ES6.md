@@ -62,10 +62,10 @@ console.log(date3);
 var obj = { x: 100, y: 200 };
 var obj2 = {
     a: 1,
-    ...obj, //解开obj对象
+    ...obj, //解开obj对象 
     b: 2
 };
-console.log(obj2)
+console.log(obj2) // 结果： a: 1, x: 100, y: 200, b: 2 
 ```
 
 ## 解构赋值：

@@ -3666,6 +3666,20 @@ sh startup.sh -m standalone
 
 ​    默认账号名/密码为 nacos/nacos
 
+==注意：2.2.1启动版本报错。==
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/%E6%A1%86%E6%9E%B6/SpringCloud/Alibaba/Nacos/Nacos2.2.1%E7%89%88%E6%9C%AC%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99.png)
+
+  原因：2.2.1版本原默认配置的秘钥移除了，手动配上就好。
+
+[秘钥参考官方文档：](https://nacos.io/zh-cn/docs/v2/guide/user/auth.html)
+
+```
+ 官网提供的秘钥（可手动生成）： SecretKey012345678901234567890123456789012345678901234567890123456789
+```
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/%E6%A1%86%E6%9E%B6/SpringCloud/Alibaba/Nacos/%E8%A7%A3%E5%86%B3Nacos2.2.1%E7%89%88%E6%9C%AC%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99.png)
+
 
 
 

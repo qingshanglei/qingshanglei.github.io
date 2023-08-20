@@ -261,6 +261,11 @@ App({
 
 ## 事件：
 
+## 注意
+
+- [wx.showLoading](https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showLoading.html) 和 [wx.showToast](https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showToast.html) 同时只能显示一个
+- [wx.showToast](https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showToast.html) 应与 [wx.hideToast](https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.hideToast.html) 配对使用
+
 ```html
 <!-- 点击事件 -->
 <view wx:for="{{tabs}}" wx:key="id" class="title_item {{item.isActive?'active':''}}"
@@ -268,7 +273,16 @@ App({
       > {{item.value}}
 </view>
 
+<script>
+    // 微信弹窗
+    wx.showToast({
+        title: '没有下一页数据了',
+        icon: 'error',
+        duration: 1500, // 提示的延迟时间
+        mask: false,  // 是否显示透明蒙层，防止触摸穿透 
+    });
 
+</script>
 ```
 
 
@@ -343,6 +357,10 @@ js:
 ## 传递参数：
 
 ![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/wx-web/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7%E6%9F%A5%E7%9C%8B%E5%8F%82%E6%95%B0.png)
+
+返回数据没有总页数解决方法：
+
+ 总页数 = Math.ceil(总条数 / 当前页总条数)
 
 # wxml:
 
@@ -873,7 +891,7 @@ Page({
 
 ## [scroll-view(可滚动标签)：](https://developers.weixin.qq.com/miniprogram/dev/component/scroll-view.html)
 
-![]()
+
 
 ## 通用属性
 
@@ -1610,7 +1628,7 @@ Page({
 
 | 属性                                                         | 类型     | 说明                                                         |
 | :----------------------------------------------------------- | :------- | :----------------------------------------------------------- |
-| [onLaunch](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onLaunch-Object-object) | function | 生命周期回调——监听小程序初始化。                             |
+| [onLaunch](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onLaunch-Object-object) | function | 生命周期回调——==监听小程序初始化==。                         |
 | [onShow](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onShow-Object-object) | function | 生命周期回调——监听小程序启动或切前台。                       |
 | [onHide](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onHide) | function | 生命周期回调——监听小程序切后台。                             |
 | [onError](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onError-String-error) | function | 错误监听函数。                                               |
@@ -1640,8 +1658,8 @@ Page({
 | [onHide](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onHide) | function     | 生命周期回调—监听页面隐藏                                    |
 | [onUnload](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onUnload) | function     | 生命周期回调—监听页面卸载                                    |
 | [onRouteDone](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onRouteDone) | function     | 生命周期回调—监听路由动画完成                                |
-| [onPullDownRefresh](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onPullDownRefresh) | function     | 监听用户下拉动作                                             |
-| [onReachBottom](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onReachBottom) | function     | 页面上拉触底事件的处理函数                                   |
+| [onPullDownRefresh](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onPullDownRefresh) | function     | ==监听用户下拉动作==                                         |
+| [onReachBottom](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onReachBottom) | function     | ==页面上拉触底事件的处理函数==                               |
 | [onShareAppMessage](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onShareAppMessage-Object-object) | function     | 用户点击右上角转发                                           |
 | [onShareTimeline](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onShareTimeline) | function     | 用户点击右上角转发到朋友圈                                   |
 | [onAddToFavorites](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onAddToFavorites-Object-object) | function     | 用户点击右上角收藏                                           |
