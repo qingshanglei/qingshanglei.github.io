@@ -6,13 +6,17 @@
       ：root{   --变量名：变量类型;    }             类型（例color）：var(--变量名);   --------------使用变量
            搜索：ctrl+F；然后搜索关键字；
 
+   <link rel="icon" type="image/x-icom" href="../images/icon2.ico">---引入网页图标     <style lang="scss" >  --------- 行内样式，默认css
+   <link rel="stylesheet" href="css">或 link+fab ------------------------css引入
+   <script></script>+src= <script src=""></script> 或  script+fab---------js引入；
+
   <button></button>-----按钮标签                                                            <ul></ul>-------段落标签
 
-  <u></u>---------------下划线                                                                  <link rel="icon" type="image/x-icom" href="../images/icon2.ico">---引入网页图标 
+  <u></u>---------------下划线                                                               
 
-  <a href="#" title="停留显示字体"></a>---------------里面加跳转网页，锚标签                         link+fab=<link rel="stylesheet" href="css">------------------------css引入
+  <a href="#" title="停留显示字体"></a>---------------里面加跳转网页，锚标签                         
  
-  <s></s>---------------删除线                                         script+fab= <script></script>+src= <script src=""></script>---------js引入；
+  <s></s>---------------删除线                                        
      
   <span></span>--------（行内）                                   <label for="Name">姓名</label>------for="Name"：光标聚集效果     根据input的id凝聚光标
    

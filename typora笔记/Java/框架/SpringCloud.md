@@ -2235,12 +2235,6 @@ Sentinel 的开源生态：
 
 
 
-
-
-
-
-
-
 ### 安装：
 
   sentienl为一个jar包无需安装，使用java -jar命令即可启动。
@@ -3296,8 +3290,6 @@ Spring Cloud Stream 为一些供应商的消息中间件产品提供了个性化
 
 Binder:绑定器，绑定器对象。
 
-<font color="red"></font>
-
 
 
 ## 服务端：
@@ -4006,7 +3998,7 @@ clusterMode：是否集群。
 
    官网：http://seata.io/zh-cn/
 
-​       Seata优缺点 ：配置繁琐，使用降低。
+​       Seata优缺点 ：配置繁琐，使用简单。
 
 ### 传统分布式事务流程：
 
@@ -4256,6 +4248,7 @@ Seata的三种存储模式（store.mode）:
 
 
 ```sh
+@EnableTransactionManagement # 开启Steata分布式事务
 @Transactional # 提交本地事务
 
 @GlobalTransactional  # 提交全局事务

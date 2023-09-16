@@ -70,6 +70,10 @@ ALTER TABLE 表名 DROP 列名;            //删除列
 ​      DML主要是对 **表数据**进行增（insert）删（delete）改（update）操作。
 
 ```mysql
+# 加锁，id为1的数据加锁，加锁后，别人不能修改、删除数据。
+  SELECT * FROM sku_info WHERE id=1 FOR UPDATE
+   
+   
    INSERT INTO 表名(列名1,列名2,…) VALUES(值1,值2,…)，(值1,值2,…)...;  //给指定列添加数据(可批量添加数据)
    INSERT INTO 表名 VALUES(值1,值2,…)，(值1,值2,…)...;  //给全部列添加数据(可批量添加数据)
 
@@ -191,8 +195,6 @@ fetch next 要显示的行数 ROWS ONLY   ----分页
 ```
 
 ## 基本
-
-
 
 ```sql
 order by   字段（ASC升序|DESC降序）      
@@ -344,6 +346,8 @@ select * from  表1
 
 
 ~~~
+
+
 
 
 

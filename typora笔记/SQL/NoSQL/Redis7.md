@@ -498,7 +498,7 @@ linsert <key> before <value> <newvalue>
 
 
 
-## 哈希表(Hash):
+## 哈希(Hash):
 
 ​    Redis hash 是一个 string 类型的 field（字段） 和 value（值） 的映射表，hash 特别适合用于存储对象。 Redis 中每个 hash 可以存储 2^32 - 1 键值对（40多亿）
 
@@ -1177,13 +1177,110 @@ redis-cli -a 071800 --cluster add-node 192.168.139.142:6385 192.168.139.140:6382
 
 ## Jedis:
 
+```java
+public class JedisDemo {
+    public static void main(String[] args) {
+
+        Jedis jedis = new Jedis("192.168.139.140", 6379);// ip,端口
+        jedis.auth("071800"); //密码
+        System.out.println(jedis.ping()); // 出现PONG表示连接成功
+
+
+        // =======================五大数据类型======================
+        jedis.set("k1", "hello-Jedis");
+        System.out.println(jedis.get("k1"));
+
+        System.out.println("==========字符串（String）==========");
+        Set<String> keys = jedis.keys("*");
+        System.out.println(keys);
+
+        System.out.println("==========列表（list）==========");
+        jedis.lpush("list1", "1", "2", "3");
+        System.out.println(jedis.lrange("list1", 0, -1));
+
+        System.out.println("==========哈希（hash）==========");
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("001", "z3");
+        map.put("002", "l4");
+        map.put("003", "w5");
+        jedis.hset("id", map); //设置哈希值
+        System.out.println(jedis.hget("id", "001")); //获取哈希值
+
+        System.out.println("==========集合（Set）==========");
+        jedis.sadd("Set1","123","234","345");
+        System.out.println(jedis.smembers("Set1"));
+
+        System.out.println("==========有序集合（ZSet）==========");
+        jedis.zadd("ZSet1",60,"张楚岚");
+        jedis.zadd("ZSet1",80,"张灵玉");
+        jedis.zadd("ZSet1",100,"王也");
+        System.out.println(jedis.zrange("ZSet1", 0, -1));
+
+        System.out.println("==========位图（bitmap）==========");
+        jedis.setbit("是否登录",1,false);
+        jedis.setbit("是否登录",2,true);
+        jedis.setbit("是否登录",3,true);
+        jedis.setbit("是否登录",4,true);
+        jedis.setbit("是否登录",110,true);
+        System.out.println(jedis.getbit("是否登录", 110));
+
+        System.out.println("==========基数统计（HyperLogLog）==========");
+//        jedis.pfadd("北京",)
+
+    }
+}
+```
+
 
 
 ## Lettuce:
 
+```java
+public class LettuceDemo {
+    public static void main(String[] args) {
+        // 1.使用构造器链式编程来builder我们RedisURI
+        RedisURI uri = RedisURI.Builder
+                .redis("192.168.139.140")
+                .withPort(6379)
+                .withAuthentication("default","071800")
+                .build();
+
+        // 2.创建连接客户端
+        RedisClient redisClient = RedisClient.create(uri);
+        StatefulRedisConnection conn = redisClient.connect();
+
+        // 3.通过conn创建操作的command
+        RedisCommands commands= conn.sync();
+
+        //=========biz==========
+        //keys
+        List keys = commands.keys("*"); //获取所有数据
+        System.out.println("=============>"+keys);
+
+        // String
+        commands.set("k2", "hello-lettuce");
+        System.out.println("=============>"+commands.get("k2"));
+        // list,zset,hset,bitmap ....
+
+        //=========biz==========
+
+        //4.释放,关闭资源等
+        conn.close();
+        redisClient.shutdown();
+    }
+}
+```
+
+
+
 
 
 ## RedisTemplate:
+
+两方法：
+
+1. RedisTemplate
+2. StringRedisTemplate
 
 
 
@@ -1214,7 +1311,7 @@ Config/RedisConfig:
 public class RedisConfig {
 
     /**
-     * redis序列化的工具配置类，下面这个请一定开启配置
+     * redis序列化的工具配置类，下面请一定开启这个配置
      * 127.0.0.1:6379> keys *
      * 1) "ord:102"  序列化过
      * 2) "\xac\xed\x00\x05t\x00\aord:102"   野生，没有序列化过
@@ -1279,10 +1376,10 @@ spring:
     database: 0 # 选择数据库
     lettuce:
       pool: # 连接池最大连接数
-        max-active: 8
-        max-wait: -1ms
-        max-idle: 8
-        min-idle: 0
+        max-active: 8  # 最大连接数
+        max-wait: -1ms  # 最大阻塞等待时间(负数表示没限制)
+        max-idle: 5 # 最大空闲
+        min-idle: 0 # 最小空闲
 ```
 
 
@@ -1321,7 +1418,7 @@ spring:
 
 
 
-微服务技术：BootCloud+docker+nginx+juc+jmeter....
+微服务技术：SpringCloud+docker+nginx+juc+jmeter....
 
 
 
@@ -1345,8 +1442,53 @@ spring:
 |             | Word（仅docx）  |      |
 |             |                 |      |
 
-llettcus与jedis区别：
+## llettcus与jedis区别：
 
-1.  jedis连接Redis服务器是直连模式，当多线程模式下使用jedis会存在线程安全问题，解决方案可以通过配置连接池使每个连接专用，这样整体性能就大受影响。
+1. jedis连接Redis服务器是直连模式，当多线程模式下使用jedis会存在线程安全问题，解决方案可以通过配置连接池使每个连接专用，这样整体性能就大受影响。
+
 2. lettcus(默认)基于Netty框架进行与Redis服务器连接，底层设计中采用StatefulRedisConnection。 StatefulRedisConnection自身是线程安全的，可以保障并发访问安全问题，所以一个连接可以被多线程复用。当然lettcus也支持多连接实例一起工作。
+
+   
+
+[使用HashOperations:](https://www.cnblogs.com/shiguotao-com/p/10560458.html)
+
+| 方法                                                         | c参数                                                        | s说明                                                        |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| `Long delete(H key, Object... hashKeys);`                    | `H key：集合key Object... hashKeys：key对应hashkey`          | 删除map集合中一个或多个hashkey对应的value                    |
+| `Boolean hasKey(H key, Object hashKey);`                     | `H key：集合key Object hashKey：集合key中的hashkey`          | 判断当前集合中是否已经存在hashkey                            |
+| `HV get(H key, Object hashKey);`                             | `H key：集合key Object hashKey：集合key中的hashkey`          | 获取集合中的某个值                                           |
+| `List<HV> multiGet(H key, Collection<HK> hashKeys);`         | `H key：集合key Collection<HK> hashKeys：hashkey集合`        | 批量获取集合中的值                                           |
+| `Long increment(H key, HK hashKey, long delta);`             | `H key：集合key Object hashKey：集合key中的hashkeylong delta：需要增加的值` | 以增量的形式改变集合存放的值。如：原值为1，delta参数为2时，1+2=3 集合中存放的元素值为3 |
+| `Double increment(H key, HK hashKey, double delta);`         | `H key：集合key Object hashKey：集合key中的hashkeydouble delta：需要增加的值` | 以增量的形式改变集合存放的值。如：原值为1，delta参数为2时，1+2.1=3 集合中存放的元素值为3.1 |
+| `Set<HK> keys(H key);`                                       | `H key：集合key `                                            | 获取集合中所有hashkey                                        |
+| `Long size(H key);`                                          | `H key：集合key `                                            | 获取集合长度                                                 |
+| `void putAll(H key, Map<? extends HK, ? extends HV> m);`     | `H key：集合keyMap<? extends HK, ? extends HV> m： 存放hashkey和value的map集合` | 批量向redis hash集合中存放元素                               |
+| `void put(H key, HK hashKey, HV value);`                     | `H key：集合key HK hashKey：集合key中的hashkeyHV value：hashkey对应的值` | 向redis hash几何中存放一个元素                               |
+| `Boolean putIfAbsent(H key, HK hashKey, HV value);`          | `H key：集合key HK hashKey：集合key中的hashkeyHV value：hashkey对应的值` | 如果不存在，则向redis hash几何中存放一个元素                 |
+| `List<HV> values(H key);`                                    | `H key：集合key `                                            | 获取集合中所有元素的value                                    |
+| `Map<HK, HV> entries(H key);`                                | `H key：集合key `                                            | 获取集合中的所有元素                                         |
+| `Cursor<Map.Entry<HK, HV>> scan(H key, ScanOptions options);` | `H key：集合key ScanOptions options：`                       |                                                              |
+
+# Redisson(分布式锁)
+
+​    分布式锁（多服务共享锁） 在分布式的部署环境下，通过锁机制来让多客户端互斥的对共享资源进行访问。
+
+   例如redis里面的某个商品库存为1，此时两个请求同时到来，其中一个请求执行到上图的第3步，更新数据库的库存为0，但是第4步还没有执行。而另外一个请求执行到了第2步，发现库存还是1，就继续执行第3步。这样的结果，是导致卖出了2个商品，然而其实库存只有1个。
+
+**解决方案：**用锁把2、3、4步锁住，让他们执行完之后，另一个线程才能进来执行第2步。
+
+   Redisson分布式锁解决分布式环境下并发安全问题，完全实现了juc的功能，不仅有锁，还都是分布式锁
+
+依赖：
+
+注意：与SpringCloud、SpringBoot的版本关系。
+
+```xml
+<!--  Redis分布式锁-redisson -->
+<dependency>
+    <groupId>org.redisson</groupId>
+    <artifactId>redisson</artifactId>
+    <version>3.11.2</version>
+</dependency>
+```
 

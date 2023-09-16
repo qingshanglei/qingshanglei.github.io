@@ -293,17 +293,24 @@ spring:
 
 ![jar包项目运行报错](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/%E6%A1%86%E6%9E%B6/SpringBoot/jar%E5%8C%85%E9%A1%B9%E7%9B%AE%E8%BF%90%E8%A1%8C%E6%8A%A5%E9%94%99.png)
 
-**注意：**  jar包运行必须有以下依赖,不然运行报错。
+  **注意：**
+
+1.   jar包运行必须有以下依赖,不然运行报错。
+2. SpringCloud不可以放在pom下，否则报错，可以放在servie或gateway模块上。
 
 ```xml
 <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+                <fork>true</fork> <!--fork:表示在打包过程中使用一个单独的进程来执行构建任务 -->
+                <addResources>true</addResources> <!--addResources: 表示将额外的资源文件添加到生成的 JAR 文件中。-->
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
 ```
 
 #### 能运行SpringBoot项目的jar详细目录：
@@ -1142,7 +1149,7 @@ SpringBoot随机数：
 
 ## 内置3数据源：
 
-SpringBoot内置的数据源：HikariCP，DataSource，DBCP
+  SpringBoot内置的数据源：HikariCP，DataSource，DBCP
 
 ### HikariCP：
 

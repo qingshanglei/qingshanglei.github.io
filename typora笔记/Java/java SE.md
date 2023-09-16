@@ -312,7 +312,7 @@ CollectionUtils
 ## Map
 
 ~~~java
-======================Map<K,V>集合(多态-HashMap() )====================== 
+====================Map<K,V>集合(多态-HashMap() )=============== 
     K:键的类型 V:值的类型 
         put(k ,v) ------------------ 添加元素 
         remove(Object key) ------------------根据键删除键值对元素 
@@ -519,32 +519,68 @@ delete() ------------删除由此抽象路径名表示的文件或目录
 
 # 多线程:
 
-线程流程图：
+## 线程生命周期：
 
 ![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87//Java/Java%20SE/%E7%BA%BF%E7%A8%8B%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png)
 
-```java
+ 进程：是正在运行的程序；进程既是基本的分配单元，也是基本的执行单元。
+       ①是系统进行资源分配和调用的独立单位。
+       ②每一个进程都有它自己的内存空间和系统资源。
+ 线程：是进程中的单个顺序控制流，是一条执行路径,**一个进程中可以包含多个线程，一个进程中至少有一个线程。**线程可以利用进程所拥有的资源，在引入线程的操作系统中，通常都是把进程作为分配资源的基本单位，而把线程作为独立运行和独立调度的基本单位，由于线程比进程更小，基本上不拥有系统资源，故对它的调度所付出的开销就会小得多，能更高效的提高系统多个程序间并发执行的程度。
+       ①单线程：一个进程只有一个执行路径，则称为单线程程序。
+       ②多线程：一个进程有多条执行路径，则称为多线程程序。
 
-       ========================实现多线程========================
-     进程：是正在运行的程序
-           ①是系统进行资源分配和调用的独立单位
-           ②每一个进程都有它自己的内存空间和系统资源
-     线程：是进程中的单个顺序控制流，是一条执行路径
-           ①单线程：一个进程只有一个执行路径，则称为单线程程序
-           ②多线程：一个进程有多条执行路径，则称为多线程程序
-           
-           
-          多线程的实现方式：
-             方式1：继承Thread类重写， 重写run()方法
-                    start()----------- 线程开始执行；Java虚拟机调用此线程的run方法
-                   为什么要重写run方法：  因为run()是用来封装被线程执行的代码
-                   run()方法和start()方法的区别：
-                       run(): 封装线程执行的代码，直接调用，相当与普通方法的调用
-                       start(): 启动线程；然后由JVM调用此线程的run()方法
-             设置和获取线程名称：
-                setName()-----------更改此线程名称
-                getName()-----------返回此线程的名称
-                Thread.currentThread()-----------返回对当前正在执行的线程对象的引用（设置为主线程）
+## 线程分类：
+
+​     线程分为：并发、串行和并行。
+
+1. 并发：同一时刻多个线程在访问同一个资源，多个线程对一个点。
+​          例子：春运抢票、微信抢红包、电商秒杀...
+2. 串行
+       ①串行-同步串行：代表多任务按先后顺序执行，并且都是**同一个线程**来执行。
+
+![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/Java%20SE/%E7%BA%BF%E7%A8%8B/%E4%B8%B2%E8%A1%8C-%E5%90%8C%E6%AD%A5%E4%B8%B2%E8%A1%8C.png)
+
+​     ②串行-异步串行：代表多任务按先后顺序执行，并由**不同的线程**来执行。
+
+![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/Java%20SE/%E7%BA%BF%E7%A8%8B/%E4%B8%B2%E8%A1%8C-%E5%BC%82%E6%AD%A5%E4%B8%B2%E8%A1%8C.png)
+
+3. 并行：多项任务一起执行，之后再汇总
+​       例子：泡方便面，电水壶一边烧水，一边撕调料倒入桶中。
+
+![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/Java%20SE/%E7%BA%BF%E7%A8%8B/%E5%B9%B6%E8%A1%8C.png)
+
+4.   任务合并：一个任务的执行依赖于前面多个任务执行的返回值，并且这些任务可以由同一个线程执行，也可以由不同的线程执行；
+
+![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/Java%20SE/%E7%BA%BF%E7%A8%8B/%E4%BB%BB%E5%8A%A1%E5%90%88%E5%B9%B6.png)
+
+## 创建线程的方式：
+
+1. 第一种 继承Thread类。
+
+2. 第二种 实现Runnable接口。
+
+3. 第三种 使用Callable接口。
+
+4. 第四种 使用线程池。
+
+      ①Executors线程池创建线程。
+
+      ②ThreadPoolExecutor线程池创建线程。
+
+```java
+  ========================实现多线程========================   
+     多线程的实现方式：
+        方式1：继承Thread类重写， 重写run()方法
+            start()----------- 线程开始执行；Java虚拟机调用此线程的run方法
+            为什么要重写run方法：  因为run()是用来封装被线程执行的代码
+            run()方法和start()方法的区别：
+              run(): 封装线程执行的代码，直接调用，相当与普通方法的调用
+              start(): 启动线程；然后由JVM调用此线程的run()方法
+           设置和获取线程名称：
+              setName()-----------更改此线程名称
+              getName()-----------返回此线程的名称
+              Thread.currentThread()-----------返回对当前正在执行的线程对象的引用（设置为主线程）
            
           线程有两种调度模型： （java使用的是抢占式调度模型）
               分时调度模型：所有线程轮流使用CPU的使用权，平均分配每个线程占用CPU的时间片
@@ -557,18 +593,24 @@ delete() ------------删除由此抽象路径名表示的文件或目录
              sleep(long millis)-----------使当前正在执行的线程 停止指定和毫秒数
              join()-----------等待这个线程死亡
              setDaemon(true)-----------将此线程标记为守护线程，当运行的线程都是守护线程时，java虚拟机退出
+      
            方式2: 实现Runnable接口，重写run()方法
               Thread(Runnable target)-----------分配一个新的Thread对象
               Thread(Runnable target,String name)-----------分配一个新的Thread对象
                
             相比继承Thread类，实现Runnable接口的好处
-               ①避免了Java单继承的局限性
-               ②适合多个相同程序的代码去处理同一个资源的情况，把线程和程序的代码、数据有效分离，较好的体现了面向对象的设计思想
-       ========================线程同步========================
+               ①避免了Java单继承的局限性。
+               ②适合多个相同程序的代码去处理同一个资源的情况，把线程和程序的代码、数据有效分离，较好的体现了面向对象的设计思想。
+```
+
+## 线程同步：
+
+```java
+   ========================线程同步========================
            同步代码块：
              synchronized(任意对象){  多条语句操作共享数据的代码} -----------锁多条语句操作共享数据，可以使用同步代码块实现
-             好处：解决了多线程的数据安全问题
-             弊端：当线程多的时候，每个线程都会上锁，很耗费资源，降低程序的运行效率
+             优点：解决了多线程的数据安全问题
+             缺点：当线程多的时候，每个线程都会上锁，很耗费资源，降低程序的运行效率
                
            修饰符 synchronized 返回值类型 方法名(方法参数){    }-----------同步方法
               this -----------同步方法锁对象
@@ -595,6 +637,274 @@ delete() ------------删除由此抽象路径名表示的文件或目录
         notifyAll()-----------唤醒正在等待对象监视器的所有线程
 ```
 
+
+
+##  线程池:
+
+**（1）线程池的优势：**线程复用；控制最大并发数；管理线程。
+**（2）创建线程池:**
+
+![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/Java%20SE/%E7%BA%BF%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E6%B1%A0.png)
+
+**（3）线程池的7个重要参数:**
+
+![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/Java%20SE/%E7%BA%BF%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%847%E4%B8%AA%E9%87%8D%E8%A6%81%E5%8F%82%E6%95%B0.png)
+
+1. corePoolSize：线程池中的常驻核心线程数
+
+2. maximumPoolSize：线程池中能够容纳同时 执行的最大线程数，此值必须大于等于1
+
+3. keepAliveTime：多余的空闲线程的存活时间 当前池中线程数量超过corePoolSize时，当空闲时间达到keepAliveTime时，多余线程会被销毁直到 只剩下corePoolSize个线程为止
+
+4. unit：keepAliveTime的单位 
+
+5. workQueue：任务队列，被提交但尚未被执行的任务
+
+6. threadFactory：表示生成线程池中工作线程的线程工厂， 用于创建线程，**一般默认的即可。**
+
+   - DefaultThreadFactory(默认)：用于创建线程，线程的名称以"pool-"开头，后面跟着线程池的编号和线程的序号。
+   - ThreadFactoryBuilder：Google Guava库提供的线程工厂类，可以通过Builder模式进行配置，可以设置线程名称、优先级、是否为守护线程等。
+   - CustomThreadFactory：自定义的线程工厂类，根据需求自行实现ThreadFactory接口的newThread()方法，可以完全自定义线程的创建方式。
+
+7. handler：拒绝策略，表示当队列满了，并且工作线程大于 等于线程池的最大线程数（maximumPoolSize）时，如何来拒绝 请求执行的runnable的策略
+
+   - AbortPolicy(默认):   在任务无法被执行时抛出RejectedExecutionException异常，阻止任务进入线程池。
+   - CallerRunsPolicy:    当任务添加到线程池中被拒绝时，会在线程池当前正在运行的Thread线程池中处理被拒绝的任务。
+   - DiscardPolicy:    当线程池无法处理任务时，该策略会丢弃当前无法执行的任务，并且不会有任何异常抛出。
+   - DiscardOldestPolicy:   当线程池无法处理任务时，该策略会丢弃队列中最旧的任务（即最先提交的任务），然后尝试重新提交当前无法执行的任务。
+   - **注意： 只有第一个会抛异常，这个还是默认的拒绝策略，其它3个都是默默的消化掉问题。**
+
+   
+
+   
+
+   
+
+### CompletableFuture-异步编排 :
+
+Future是Java 5添加的类，用来描述一个异步计算的结果。你可以使用isDone方法检查计算是否完成，或者使用get阻塞住调用线程，直到计算完成返回结果，你也可以使用cancel方法停止任务的执行。
+
+在Java 8中, CompletableFuture提供了非常强大的Future的扩展功能，可以帮助我们简化异步编程的复杂性，提供了函数式编程的能力，可以通过回调的方式处理计算结果，并且提供了转换和组合CompletableFuture的方法。
+
+CompletableFuture和FutureTask同属于Future接口的实现类，都可以获取线程的执行结果。
+
+![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/Java%20SE/%E7%BA%BF%E7%A8%8B/Future%E6%B5%81%E7%A8%8B.png)
+
+#### 创建异步对象
+
+有两种格式，一种是supply开头的方法，一种是run开头的方法
+- supply开头：这种方法，可以返回异步线程执行之后的结果。
+- run开头：这种不会返回结果，就只是执行线程任务。
+- sync为
+
+```java
+public static <U> CompletableFuture<U> supplyAsync(Supplier<U> supplier);
+public static <U> CompletableFuture<U> supplyAsync(Supplier<U> supplier, Executor executor);
+
+public static CompletableFuture<Void> runAsync(Runnable runnable);
+public static CompletableFuture<Void> runAsync(Runnable runnable, Executor executor);
+```
+
+CompletableFuture 提供了四个静态方法来创建一个异步操作。
+
+没有指定Executor的方法会使用**ForkJoinPool.commonPool()** 作为它的线程池执行异步代码。如果指定线程池，则使用指定的线程池运行。以下所有的方法都类同。
+
+##### **\- runAsync方法不支持返回值:**
+
+```java
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class Demo1 {
+    public static void main(String[] args) {
+        // 此处使用Executors创建线程池，为了方便，正常使用ThreadPoolExecutor创建。
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        System.out.println("main begin....");
+        CompletableFuture<Void> completableFuture =
+                CompletableFuture.runAsync(()->{
+                    System.out.println("当前线程："+Thread.currentThread().getId());
+                    int result = 1024;
+                    System.out.println("result:"+result);
+                },executorService);
+        System.out.println("main over....");
+    }
+}
+```
+
+
+
+##### **\- supplyAsync方法-支持返回值:**
+
+```java
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class Demo2 {
+    public static void main(String[] args) throws Exception {
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        System.out.println("main begin....");
+        CompletableFuture<Integer> future =
+                CompletableFuture.supplyAsync(()->{
+                    System.out.println("当前线程："+Thread.currentThread().getId());
+                    int result = 1024;
+                    System.out.println("result:"+result);
+                    return result;
+                },executorService);
+        //获取返回结果
+        Integer value = future.get();
+        System.out.println("main over...."+value);
+    }
+}
+```
+
+#### 计算完成时回调方法—complete:
+
+当CompletableFuture的计算结果完成，或者抛出异常的时候，可以执行特定的Action。主要是下面的方法：
+
+![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/Java%20SE/%E7%BA%BF%E7%A8%8B/wps2.jpg)
+
+​    whenComplete可以处理正常或异常的计算结果，exceptionally处理异常情况。BiConsumer<? super T,? super Throwable>可以定义处理业务
+
+**whenComplete 和 whenCompleteAsync 的区别：**
+
+1. whenComplete：是执行当前任务的线程执行继续执行 whenComplete 的任务。
+
+2. whenCompleteAsync：是执行把 whenCompleteAsync 这个任务继续提交给线程池来进行执行。
+
+
+方法不以Async结尾，意味着Action使用相同的线程执行，而Async可能会使用其他线程执行（如果是使用相同的线程池，也可能会被同一个线程选中执行）
+
+```java
+public class Demo3 {
+    public static void main(String[] args) throws Exception {
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        System.out.println("main begin....");
+        CompletableFuture<Integer> completableFuture =
+            CompletableFuture.supplyAsync(()->{
+                System.out.println("当前线程："+Thread.currentThread().getId());
+                int result = 10/0;
+                System.out.println("result:"+result);
+                return result;
+            },executorService)
+            .whenComplete((rs,exception)->{ // 返回结果，异常信息
+                System.out.println("结果："+rs);
+                System.out.println(exception);
+            });
+        System.out.println("main over....");
+    }
+}
+```
+
+
+
+#### 线程串行化方法:
+
+1. thenApply 方法：当一个线程依赖另一个线程时，获取上一个任务返回的结果，并返回当前任务的返回值。
+
+
+![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/Java%20SE/%E7%BA%BF%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E4%B8%B2%E8%A1%8C%E5%8C%96.jpg)
+
+2. thenAccept方法：消费处理结果。接收任务的处理结果，并消费处理，无返回结果。
+
+
+![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/Java%20SE/%E7%BA%BF%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E4%B8%B2%E8%A1%8C%E5%8C%962.jpg)
+
+3. thenRun方法：只要上面的任务执行完成，就开始执行thenRun，只是处理完任务后，执行 thenRun的后续操作
+
+![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/Java%20SE/%E7%BA%BF%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E4%B8%B2%E8%A1%8C%E5%8C%963.jpg)
+
+带有Async默认是异步执行的。这里所谓的异步指的是不在当前线程内执行。
+
+```java
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class Demo4 {
+    public static void main(String[] args) {
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        // 线程1执行返回的结果：100
+        CompletableFuture<Integer> futureA =
+                CompletableFuture.supplyAsync(() -> {
+                    int res = 100;
+                    System.out.println("线程一："+res);
+                    return res;
+                });
+
+        // 线程2 获取到线程1执行的结果
+        CompletableFuture<Integer> futureB = futureA.thenApplyAsync((res)->{
+            System.out.println("线程二--"+res);
+            return ++res;
+        },executorService);
+
+        //线程3: 无法获取futureA返回结果
+        CompletableFuture<Void> futureC = futureA.thenRunAsync(() -> {
+            System.out.println("线程三....");
+        }, executorService);
+    }
+}
+```
+
+
+
+#####  多任务组合:
+
+```java
+public static CompletableFuture<Void> allOf(CompletableFuture<?>... cfs);
+
+public static CompletableFuture<Object> anyOf(CompletableFuture<?>... cfs);
+```
+
+1. allOf：等待所有任务完成 
+
+2. anyOf：只要有一个任务完成
+
+   allOf 或 anyOf：
+
+   -  get()： 获取计算结果（要抛异常）
+   -  join() ：获取计算结果。
+
+```java
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class Demo5 {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
+        // 线程1
+        CompletableFuture<Integer> futureA =
+                CompletableFuture.supplyAsync(() -> {
+                    System.out.println(Thread.currentThread().getName()+"--begin..");
+                    int res = 100;
+                    System.out.println("一："+res);
+                    System.out.println(Thread.currentThread().getName()+"--over..");
+                    return res;
+                },executorService);
+
+        // 线程2
+        CompletableFuture<Integer> futureB =
+                CompletableFuture.supplyAsync(() -> {
+                    System.out.println(Thread.currentThread().getName()+"--begin..");
+                    int res = 30;
+                    System.out.println("二："+res);
+                    System.out.println(Thread.currentThread().getName()+"--over..");
+                    return res;
+                },executorService);
+
+        CompletableFuture<Void> all = CompletableFuture.allOf(futureA,futureB);
+        all.get();
+        System.out.println("over....");
+    }
+}
+```
+
+
+
 # 网络编程
 
 ```java
@@ -615,7 +925,8 @@ delete() ------------删除由此抽象路径名表示的文件或目录
                ①用户数据报协议
                ②无连接通信协议，既在数据传输时，数据的发送端和接收端不建立逻辑连接
                ③应用于音频、视频和普通数据等不太重要数据的传输   例：视频会议
- ========================UDP通信程序（先运行接数据，在运行发数据）========================
+               
+ =============UDP通信程序（先运行接数据，在运行发数据）==============
      UDP协议是一种不可靠的网络协议，他在通信的两端各建立一个Socket对象，但两个Socket只是发送，
              发送数据：  
        DatagramSocket -----------创建发送端的Socket对象（基于UDP协议的Socket）
@@ -630,7 +941,7 @@ delete() ------------删除由此抽象路径名表示的文件或目录
          getLength()-----------返回要发送的数据的长度或接收到的数据的长度
          close() -----------关闭 发送\接收端    
                
- ========================TCP通信程序（客户端：先写后读， 服务端：先读后写）========================
+ =========TCP通信程序（客户端：先写后读， 服务端：先读后写）=========
        TCP通信协议是一种可靠的网络协议，它在通信的两端各建立一个Socket对象，从而在通信的两端形成网络虚拟链路，一旦建立了虚拟的网络链路，两端的程序就可以通过虚拟链路进行通信（通过IO类来进行网络通信）    	
        java为客户端提供了Socket类，为服务器提供了ServerSocket类        
       发送数据：            
@@ -657,7 +968,7 @@ delete() ------------删除由此抽象路径名表示的文件或目录
     Lambda表达式简写： 
         useFlyable(s->{ System.out.println(s); }) -----------参数只有一个，小括号可以省略 
         useFlyable(s-> System.out.println(s)) -----------代码只有一条， 大括号和分号可以省略 
-        useAddable((x,y)-> x + y)-----------代码只有一条，大括号和分号可以省略,且return也要省略 可推导的就是可省略的
+        useAddable((x,y)-> x + y)-----------代码只有一条，大括号和分号可以省略,且return也可以省略 可推导的就是可省略的。
     
     -=========================方法引用符-========================= 
     方法引用符 ::   例：usePrintable(System.out::println);
@@ -688,8 +999,14 @@ delete() ------------删除由此抽象路径名表示的文件或目录
           T:函数输入的类型 R:函数结果的类型 
               apply<T t> -----------将此函数应用于给定的参数 
               andThen(Consumer affter) -----------依次执行此操作，然后执行after 操作（可多个）
-              
-          -=========================Stream流-========================= 
+~~~
+
+
+
+# Stream流：
+
+```java
+
        startsWith(String name) -----------查询以name开头的字符串
          Stream流中间方法：                    
            filter(Predicate predicate) ----------- 用于对流中的数据进行过滤 (依次执行此操作)    
@@ -718,18 +1035,25 @@ delete() ------------删除由此抽象路径名表示的文件或目录
               
       Stream流的收集方法：
         collect(Collectors collector)
-          Collectors:是个接口 
+          Collectors:是个接口
+            groupingBy()-----------分组 
             toList() -----------把元素收集到List集合中 
             toSet() -----------把元素收集到Set集合中
             toMap(Function keyMapper,Function valueMapper)----------- 把元素收集到Map集合中        
     -=·-=·-=·-=·-=· Collection集合 
        stream()-----------生成流 
-              
     -=·-=·-=·-=·-=· Map集合（间接生成流）
               
     -=·-=·-=·-=·-=· 数组 
        Stream.of(T...values) -----------（通过Stream接口的静态方法of生成 流）          
-~~~
+              
+       reduce() -----------相加
+       subtract() -----------减于
+       multiply() -----------乘于
+       divide()-----------除以
+```
+
+
 
 # 反射
 
@@ -785,7 +1109,13 @@ delete() ------------删除由此抽象路径名表示的文件或目录
              Method类中用于调用成员方法的方法：
                 invoke(Object obj,Object... args)-----------调用obj对 象的成员方法，参数是args,返回值是Object类型   
                     
-             =========================模块化-========================= 
+           
+~~~
+
+## 模块化：
+
+```java
+  =========================模块化-========================= 
         模块的使用： 
            导出/使用模块前，必须在模块的src目录下新建一个名为module-info.java 的描述性文件 ，专门定义模块名，访问权限，模块依赖的信息
                exports 包名; ----------- 模块导出 
@@ -794,8 +1124,12 @@ delete() ------------删除由此抽象路径名表示的文件或目录
         模块服务的使用：（java9+） 
              provides 接口名 with 实现类; -----------服务提供(服务接口指定实 现类) 
              uses 接口名; -----------声明服务接口
-             ServiceLoader.load(接口名.class); -----------加载无法            
-~~~
+             ServiceLoader.load(接口名.class); -----------加载无法
+```
+
+
+
+
 
 # 单元测试
 

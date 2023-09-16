@@ -659,9 +659,10 @@ PreparedStatement作用：
 
 * 释放空闲时间超过最大空闲时间的数据库连接来避免因为没有释放数据库连接而引起的数据库连接遗漏
 * 好处
-  * 资源重用
-  * 提升系统响应速度
-  * 避免数据库连接遗漏
+  * 资源重用。
+  * 提升系统响应速度。
+  * 避免数据库连接遗漏。
+线程池的优势：线程复用；控制最大并发数；管理线程。
 
 ### 数据库实现连接池
 
@@ -800,7 +801,7 @@ tomcat是绿色版软件,解压即安装。
 
 ### Tomcat Maven插件
 
-在pom.xml配置jar包（引入Tomcat插件），就完成了
+在pom.xml配置jar包（引入Tomcat插件），就完成了。SpringBoot内置Tomcat。
 
 ~~~xml
  <!--  box.xml-->
@@ -1524,6 +1525,16 @@ public class FastJsonDemo {
 ​    注意：①热部署仅仅加载当前开发者自定义开发的资源，不加载jar资源。
 
 ​               ②热部署对注解内的属性的修改不明显，建议重启微服务。
+
+​              ③热部署版本必须与SpringBoot的版本一直，否则报错。（本次SpringBoot与devtools的版本都为2.3.6.RELEASE）
+
+​      报错如下:     SpringBoot版本为2.3.6.RELEASE，devtools版本为2.5.4。
+
+```java
+java.lang.IllegalArgumentException: Unresolvable class definition for class [org.springframework.boot.devtools.autoconfigure.DevToolsDataSourceAutoConfiguration$DatabaseShutdownExecutorEntityManagerFactoryDependsOnPostProcessor]
+```
+
+
 
 
 

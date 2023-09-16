@@ -1158,6 +1158,8 @@ public class SpringMvcConfig {
 }
 ```
 
+# 重定向：
+
 
 
 
@@ -1200,7 +1202,7 @@ public class Result{
 
 
 
-## 全局异常：
+## 全局异常 &系统异常：
 
 ### exception/ProjectExceptionAdvice:
 
@@ -1220,20 +1222,8 @@ public class ProjectExceptionAdvice {
         // 发送消息给开发人员，ex对象发送给开发人员
         return new Result(Code.SYSTEM_UNKNOW_ERR, null, "系统繁忙，请稍后重试！");
     }
-}
-```
-
-
-
-## 特定异常：
-
-### exception/ProjectExceptionAdvice:
-
-```java
-@RestControllerAdvice //2. 开启异常处理器
-public class ProjectExceptionAdvice {
-
-    /* （特定异常处理）系统异常*/
+    
+        /* （特定异常处理）系统异常*/
     @ExceptionHandler(SystemException.class)
     public Result deSystemException(SystemException ex) {
         // 记录日志
@@ -1243,8 +1233,6 @@ public class ProjectExceptionAdvice {
     }
 }
 ```
-
-
 
 
 
@@ -1392,7 +1380,8 @@ public class ProjectExceptionAdvice {
 1.在servlet =》interceptor 创建类ProjectInterceptor
 
 ```java
-@Controller //定义为bean标签
+@Controller //定义为bean标签 
+//实现HandlerInterceptor接口或实现子接口HandlerInterceptorAdapter。
 public class ProjectInterceptor implements HandlerInterceptor {
 
     //原始方法调用前执行的内容

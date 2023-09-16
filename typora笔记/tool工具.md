@@ -70,10 +70,15 @@ ren 旧名 新名 // 批量修改文件名
 
 1.    cpolar内网穿透工具(部署本地项目让被人能访问)
 2.    其他看官网，写这个是因为官网的地址写错了。。。。
+3.    无脑安装后，浏览器访问: http://localhost:9200/  
+
+![](../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Tool/Cpolar/%E8%AE%BF%E9%97%AECpolar.png)
+
+
 
 ## 将隧道配置为后台服务：
 
-路径：C:\Users\GT\.cpolar\cpolar.yml
+路径：C:\Users\GT\.cpolar\cpolar.yml,注意不是官网的 c:\Users\用户名.cpolar\cpolar.yml路径。
 
 ```yaml
 authtoken: xxxxxxxxxxxx #认证token

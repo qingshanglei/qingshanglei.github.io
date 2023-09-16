@@ -327,7 +327,7 @@ uname -a # 查看系统版本
 # 查看所有用户和角色
 rabbitmqctl list_users  
 # 创建账号
-rabbitmqctl add_user qsl(用户名) 123(密码)  
+rabbitmqctl add_user qsl(用户名) 123456(密码)  
 # 设置用户角色
 rabbitmqctl set_user_tags qsl administrator
 # 设置用户权限
@@ -3166,6 +3166,14 @@ spring:
     port: 5672 # 端口
     username: qsl
     password: 123456
+    # 以下可省略。。。
+    publisher-confirm-type: CORRELATED  # 发布者确认类型，消息是否被成功发送到交换机
+    publisher-returns: true  # 发布者返回true
+    listener: # 监听器配置
+      simple:  # 简单模式
+        prefetch: 1  # 预取数量
+        concurrency: 3 # 并发量
+        acknowledge-mode: manual  # 确认模式-手动确认（消费端）
 ```
 
 

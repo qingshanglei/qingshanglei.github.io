@@ -248,10 +248,9 @@ graphical.target 等 价于原运行级别 5（多用户有网，有图形界面
 
 
 ### 防火墙：
+1. iptwbles:   CentOS 6 防火墙
+2. firewalld：CentOS 7 防火墙
 
-iptwbles:   CentOS 6 防火墙
-
-firewalld：CentOS 7 防火墙
 
 ```julia
  1.临时操作(CentOS 7)

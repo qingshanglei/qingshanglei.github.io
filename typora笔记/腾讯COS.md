@@ -327,7 +327,7 @@ public class MenuController {
             StringBuffer buffer = new StringBuffer();
             buffer.append("https://api.weixin.qq.com/cgi-bin/token");
             buffer.append("?grant_type=client_credential");
-            buffer.append("&appid=%s"); //获取appid
+            buffer.append("&appid=%s"); //获取appid （%s为占位符）
             buffer.append("&secret=%s"); //获取secret
             // 请求路径设置参数:appid,secret
             String url = String.format(buffer.toString(), WXPublicAccount.ACCESS_KEY_ID, WXPublicAccount.ACCESS_KEY_SECRET);
@@ -671,17 +671,16 @@ scope等于snsapi_userinfo时的授权页面：
 
 
 
-## 微信支付：
+#  [微信支付: ](https://pay.weixin.qq.com/)
 
-​       [微信支付官网 ](https://pay.weixin.qq.com/)     [支付文档-旧](https://pay.weixin.qq.com/wiki/doc/api/index.html)      [支付文档-新](https://pay.weixin.qq.com/wiki/doc/apiv3/index.shtml)
+1. ​     [微信支付官网 ](https://pay.weixin.qq.com/)     [支付文档-旧](https://pay.weixin.qq.com/wiki/doc/api/index.html)      [支付文档-新](https://pay.weixin.qq.com/wiki/doc/apiv3/index.shtml)
+2. ​     [wx.requestPayment: ](https://developers.weixin.qq.com/miniprogram/dev/api/payment/wx.requestPayment.html)
 
  支付类型： ①付款码支付，②==JSAPI支付(公众号H5页面)==，③Native支付，④App支付，⑤H5支付，⑥小程序支付，⑦刷脸支付。
 
 ​     去微信支付官网申请接口(企业)，直接使用老师的接口,本次采用JSAPI支付。
 
 ​     注意：支付功能只能手机端测试，pc端等功能不完整。
-
-![](../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/WeChat/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/%E6%94%AF%E4%BB%98%E6%B5%81%E7%A8%8B.png)
 
 依赖：
 
@@ -698,6 +697,215 @@ scope等于snsapi_userinfo时的授权页面：
 微信分享：
 
 注意：使用手机测试，其他端测试可能会出现错误问题.
+
+
+
+对应接口:
+
+1. 生成微信支付二维码
+
+2. 查询微信支付状态
+
+
+
+## JSAPI支付：
+
+公众号支付流程：
+
+![](../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/WeChat/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/%E6%94%AF%E4%BB%98%E6%B5%81%E7%A8%8B.png)
+
+
+
+## 小程序支付：
+
+支付流程：
+
+![](../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%94%AF%E4%BB%98%E6%B5%81%E7%A8%8B.png)
+
+
+
+
+
+```yaml
+  # 微信小程序-微信支付
+  wechat:
+    appid: wxcc651fcbab275e33  #小程序微信公众平台appId
+    partner: 1481962542 # 商户号
+    partnerkey: MXb72b9RfshXZD4FRGV5KLqmv5bx9LT9  # 商户key
+    notifyurl: http://gmall-prod.atguigu.cn/api/payment/weixin/notify
+    cert: C:\data\apiclient_cert.p12
+```
+
+
+
+# 微信登录
+
+公众号登录：
+
+小程序登录：
+
+注意： 微信小程序测试号不支持部署上线，只能企业号部署。
+
+# Docker:
+
+## 安装：
+
+```sh
+# 环境安装：
+yum -y install gcc-c++
+
+# 第一步：安装必要的一些系统工具
+yum install -y yum-utils device-mapper-persistent-data lvm2
+
+# 第二步：添加软件源信息
+yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+
+# 第三步：更新并安装Docker-CE
+yum makecache fast
+yum -y install docker-ce
+
+# 第四步：开启Docker服务
+service docker start
+systemctl enable docker
+
+# 第五步：测试是否安装成功
+docker -v
+
+# 第六步：配置镜像加速器
+# 您可以通过修改daemon配置文件/etc/docker/daemon.json来使用加速器
+mkdir -p /etc/docker
+vim /etc/docker/daemon.json
+
+{
+ "registry-mirrors": ["https://registry.docker-cn.com"]
+}
+
+# 重启Docker生效
+systemctl restart docker
+```
+
+
+
+
+
+## 基本命令：
+
+```sh
+docker search mysql # 查询mysql  注意：OFFICIAL为官网提供安装包。
+docker pull  chbox/mysql8 # 拉取mysql8镜像
+docker images # 查看所有镜像镜像
+docker ps # 查询
+docker ps -a # 查询所有
+docker logs dockerId # 查询docker指定id日志
+docker run -d -p 8200:8200 service-gateway:1.0 # 启动端口号为8200的gateway1.0版本
+docker rm -f dockerId # 根据dockerId删除镜像
+```
+
+![](../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/%E6%A1%86%E6%9E%B6/Docker/%E6%9F%A5%E8%AF%A2%E6%89%80%E6%9C%89%E9%95%9C%E5%83%8F.png)
+
+
+
+## 安装第三方软件：
+
+### MySQL:
+
+```sh
+# 第一步：拉取镜像
+docker pull mysql:5.7
+
+# 第二步：启动
+docker run --name mysql --restart=always -v /home/ljaer/mysql:/var/lib/mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql:5.7
+
+# 第三步：测试mysql
+# 进入容器：
+docker exec -it sun_mysql /bin/bash
+
+# 登录mysql：
+
+mysql -u root -p 
+root
+
+# 如果顺利进入，安装成功
+```
+
+## RabbitMQ:
+
+```java
+# 第一步：拉取镜像
+docker pull rabbitmq:management
+
+# 第二步：启动
+docker run -d -p 5672:5672 -p 15672:15672 --restart=always --name rabbitmq rabbitmq:management
+```
+
+## redis:
+
+```java
+# 第一步：拉取镜像
+docker pull redis:latest
+
+# 第二步：启动
+docker run -d -p 6379:6379  --restart=always redis:latest redis-server
+```
+
+## nacos:
+
+```java
+# 第一步：拉取镜像
+docker pull nacos/nacos-server
+
+# 第二步：单机启动
+docker run --env MODE=standalone --name nacos --restart=always -d -p 8848:8848 -e JVM_XMS=128m -e JVM_XMX=128m nacos/nacos-server
+```
+
+## Elasticsearch：
+
+```sh
+# 第一步：拉取镜像
+docker pull elasticsearch:7.8.0
+
+# 第二步：启动
+需要在宿主机建立：两个文件夹
+
+mkdir -p /mydata/elasticsearch/plugins
+mkdir -p /mydata/elasticsearch/data
+
+# 授予权限chmod 777 /mydata/elasticsearch/data
+
+docker run -p 9200:9200 -p 9300:9300 --name elasticsearch --restart=always \-e "discovery.type=single-node" \-e ES_JAVA_OPTS="-Xms512m -Xmx512m" \-v /mydata/elasticsearch/plugins:/usr/share/elasticsearch/plugins \-v /mydata/elasticsearch/data:/usr/share/elasticsearch/data \-d elasticsearch:7.8.0
+
+# 第三步：安装中文分词器
+
+# 1. 下载elasticsearch-analysis-ik-7.8.0.zip
+
+# 2. 上传解压：unzip elasticsearch-analysis-ik-7.8.0.zip -d ik-analyzer
+
+# 3. 上传到es容器：docker cp ./ik-analyzer a24eb9941759:/usr/share/elasticsearch/plugins
+
+# 4. 重启es：docker restart a24eb9941759
+# a24eb9941759：表示容器ID 运行时，需要改成自己的容器ID
+```
+
+
+
+## 制作镜像：
+
+镜像脚本：
+
+![](../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/%E6%A1%86%E6%9E%B6/Docker/%E5%88%B6%E4%BD%9C%E9%95%9C%E5%83%8F.png)
+
+```sh
+FROM openjdk:8-jdk-alpine
+VOLUME /tmp
+ADD ./service-gateway.jar service-gateway.jar
+ENTRYPOINT ["java","-jar","/service-gateway.jar", "&"]
+```
+
+```sh
+docker build -t service-gateway:1.0 ./   # 在当前路径制作gateway1.0版本的镜像
+```
+
+
 
 
 
@@ -757,7 +965,7 @@ base64编码，并不是加密，只是把明文信息变成了不可见的字�
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
     </dependency>
-    <!--    token-jwt    -->
+    <!--    jwt-token    -->
     <dependency>
         <groupId>io.jsonwebtoken</groupId>
         <artifactId>jjwt</artifactId>
@@ -835,7 +1043,7 @@ Controller:
 @RequestMapping("/api/user/wechat")
 public class WechatController {
 
-    @ApiOperation("微信授权登录")
+    @ApiOperation("微信公众号授权登录")
     @GetMapping("/userInfo")
     public String userInfo(@ApiParam(value = "code", required = true) @RequestParam("code") String code
                            , @ApiParam(value = "state", required = true) @RequestParam("state") String returnUrl)
@@ -855,7 +1063,9 @@ public class WechatController {
 
 
 
+​    公平锁：  公平锁是一种用于多线程同步的锁机制，它保证了线程获取锁的顺序与其请求锁的顺序一致。当多个线程同时请求锁时，公平锁会将锁控制权交给等待时间最长的线程，以确保每个线程都有公平的机会获取锁。这种锁机制可以避免线程饥饿现象的发生，提高了系统的整体公平性。公平锁的实现通常会使用先进先出（FIFO）的队列来管理等待线程，以确保锁的获取顺序与线程请求的顺序一致。
 
+例：买东西，谁排队时间最长，谁先购买。
 
 # 项目部署：
 
@@ -919,7 +1129,6 @@ docker -v
 java -jar jenkins.war --version
 
 git --version # 检查git是否安装成功（成功有版本号）
-
 ```
 
 安装jenkins：
@@ -979,8 +1188,6 @@ which jdk(服务名) # 查询jdk的路径，其他也行。。。
 ![](../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2/jenkins/%E9%85%8D%E7%BD%AE%E9%83%A8%E7%BD%B2%E7%8E%AF%E5%A2%83.png)
 
 ### Jenkins自动化部署：
-
-
 
 
 
@@ -1068,6 +1275,10 @@ CODING DevOps 是面向软件研发团队的一站式研发协作管理平台，
 持续集成：
 
 ​     项目代码开发完成之后，可通过[持续集成](https://coding.net/docs/ci/intro.html)功能快速创建构建任务，将项目代码编译打包成软件包。
+
+
+
+
 
 
 

@@ -289,6 +289,8 @@ public class SysRoleMapperTest {
      
 ```
 
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/%E6%A1%86%E6%9E%B6/MyBatisPlus/%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD.png)
+
 #### 条件查询：
 
 查询年龄小于18的。
@@ -424,6 +426,15 @@ class Mybatisplus02DqlApplicationTests {
 
 #### 子查询：
 
+子查询的区别：
+
+1. inSql：同等于${}，存在SQL注入隐患。
+2. in：同等于#{}，不存在SQL注入隐患。
+
+
+
+##### insql:
+
 ```java
 inSql(Stirng column,Stirng inValue)   //子查询： column数据库字段  
 ```
@@ -446,7 +457,7 @@ class Mybatisplus02DqlApplicationTests {
 }
 ```
 
-#### 模拟Controller层
+###### 模拟Controller层
 
 ```java
 @Test()
@@ -463,7 +474,28 @@ void test10（）{
 }
 ```
 
+##### in:
 
+```java
+@Service
+public class ActivityRuleServiceImpl extends ServiceImpl<ActivityRuleMapper, ActivityRule> implements ActivityRuleService {
+
+    // 根据优惠卷ID子查询activity_rule表,并根据优惠卷金额和数量分组。
+    @Override
+    public List<ActivityRule> getActivityRuleBy(Set<Long> activityIdSet) {
+        LambdaQueryWrapper<ActivityRule> lqw = new LambdaQueryWrapper<>();
+        lqw.in(ActivityRule::getActivityId, activityIdSet);
+        lqw.orderByDesc(ActivityRule::getConditionAmount, ActivityRule::getConditionNum);
+       return  baseMapper.selectList(lqw);
+        
+//        SELECT * FROM activity_rule
+//        WHERE activity_id IN (SELECT activity_id FROM activity_sku)
+//        ORDER BY
+//        condition_amount DESC,
+//        condition_num DESC
+    }
+}
+```
 
 
 
@@ -820,13 +852,17 @@ type-enums-package:枚举路径  //扫描枚举
 
 
 
-
-
-
-
 ![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/%E6%A1%86%E6%9E%B6/MyBatisPlus/%25E6%259E%259A%25E4%25B8%25BE1.png)
 
 ![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/%E6%A1%86%E6%9E%B6/MyBatisPlus/%25E6%259E%259A%25E4%25B8%25BE2.png)
+
+注意：若yml文件不扫描，报错。
+
+![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/%E6%A1%86%E6%9E%B6/MyBatisPlus/%E6%9E%9A%E4%B8%BE%E6%8A%A5%E9%94%99.png)
+
+
+
+
 
 # 分页插件：
 
