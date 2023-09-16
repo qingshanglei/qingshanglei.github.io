@@ -51,8 +51,6 @@ Git、Mercurial、Bazaar、Darcs.......
 
 
 
-
-
 ## git安装&环境配置：
 
 ### git傻瓜式安装。
@@ -261,7 +259,6 @@ git branch 分支名  -----------  创建本地分支
 
    解决冲突的，Git Bush Here命令图：
    
-   
 
 ![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Git/Git/10.png)
 
@@ -403,7 +400,7 @@ hs_err_pid*
 **此操作是先初始化本地库，然后与已创建的Gitee远程库进行对接**
 
 ~~~jsp
-   命令： git remote add <远端名称，别名> <仓库路径>
+   命令： git remote add <分支名称，别名> <仓库路径>
 <--! 远端名称，默认是origin，取决于远端服务器设置 -->
 
 <--! 仓库路径，从远端服务器获取此url:SSH-->
@@ -522,7 +519,13 @@ ssh -T git@gitee.com
 
 
 
-## **在Idea中使用Git**
+# **在Idea中使用Git**
+
+### 总结:
+
+![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Git/Git/IDEA%E5%B8%B8%E7%94%A8GIT%E6%93%8D%E4%BD%9C.png)
+
+![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Git/Git/IDEA%E5%B8%B8%E7%94%A8GIT%E6%93%8D%E4%BD%9C2.png)
 
 ### 1、**在Idea中配置Git**
 
@@ -545,6 +548,50 @@ ssh -T git@gitee.com
 **2.初始化本地仓库**
 
 ![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Git/Git/IDEA%E5%88%9D%E5%A7%8B%E5%8C%96%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93.png)
+
+###  3、设置远程仓库：
+
+![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Git/Git/%E8%AE%BE%E7%BD%AE%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93.png)
+
+### **4、提交到本地仓库**
+
+![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Git/Git/%E6%8F%90%E4%BA%A4%E5%88%B0%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93.png)
+
+### 5、推送到远程仓库
+
+![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Git/Git/%E6%8E%A8%E9%80%81%E5%88%B0%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93.png)
+
+### 7、克隆远程仓库到本地
+
+![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Git/Git/%E5%85%8B%E9%9A%86%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%88%B0%E6%9C%AC%E5%9C%B0.png)
+
+### 8、创建分支
+
+1. 最常规的方式
+
+   ![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Git/Git/%E5%88%9B%E5%BB%BA%E5%88%86%E6%94%AF-%E6%96%B9%E5%BC%8F1.png)
+
+2. 最强大的的方式
+
+ ![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Git/Git/%E5%88%9B%E5%BB%BA%E5%88%86%E6%94%AF-%E6%96%B9%E5%BC%8F2.png)
+
+### 9、切换分支及其他分支相关操作
+
+![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Git/Git/%E5%88%87%E6%8D%A2%E5%88%86%E6%94%AF%E5%8F%8A%E5%85%B6%E4%BB%96%E5%88%86%E6%94%AF%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C.png)
+
+### 10、解决冲突
+
+1. 执行merge或pull操作时，可能发生冲突
+
+![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Git/Git/IDEA%E8%A7%A3%E5%86%B3%E5%88%86%E6%94%AF.png)
+
+2. 冲突解决后加入暂存区,  略
+
+3. 提交到本地仓库,  略
+
+4. 推送到远程仓库, 略
+
+
 
 
 

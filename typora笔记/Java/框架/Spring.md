@@ -1950,6 +1950,8 @@ ApringAOP本质：代理模式。
 
 * ​    OOP(Object Oriented Programming)面向对象编程（OOP编程思想）。
 
+   aspectj是一个AOP框架，。
+
 #### 2.AOP作用：
 
 ​        AOP是**在不惊动(改动)原有设计(代码)**的前提下对其功能进行增强。
