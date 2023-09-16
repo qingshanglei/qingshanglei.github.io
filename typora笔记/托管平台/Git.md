@@ -527,7 +527,7 @@ ssh -T git@gitee.com
 
 ![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Git/Git/IDEA%E5%B8%B8%E7%94%A8GIT%E6%93%8D%E4%BD%9C2.png)
 
-### 1、**在Idea中配置Git**
+### 1、在Idea中配置Git
 
    若Git安装在默认路径下，idea会自动找到git的位置；如果更改了Git的安
 
@@ -539,7 +539,7 @@ ssh -T git@gitee.com
 
 点击Apply，修改完成
 
-### **2.在Idea中操作Git**
+### 2、在Idea中操作Git
 
 1.创建远程仓库（Gitee）
 
@@ -553,7 +553,7 @@ ssh -T git@gitee.com
 
 ![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Git/Git/%E8%AE%BE%E7%BD%AE%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93.png)
 
-### **4、提交到本地仓库**
+### 4、提交到本地仓库
 
 ![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Git/Git/%E6%8F%90%E4%BA%A4%E5%88%B0%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93.png)
 
