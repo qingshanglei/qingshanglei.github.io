@@ -77,6 +77,18 @@
 ​    但是由于编码的体验不算好，推荐 vs code + 微信小程序编辑工具 来实现编码vs code 负责敲代码， 微信编辑工具 负责预览 。
   注意 ：第⼀次使用微信开发者⼯具，需要微信扫码登录。
 
+## 解决VS Code不能编译成css问题：
+
+VS Code的Settings.json配置
+
+```json
+{
+    "less.compile": { //wx-css
+        "outExt": ".wxss"
+    },
+}
+```
+
 
 
 # 创建项⽬:

@@ -15,7 +15,6 @@
 ## POJO:
 
 ```java
-
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -387,7 +386,7 @@ Swagger测试接口即可。。。
 
   调用微信接口： http请求方式：POST（请使用https协议） https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN
 
- 
+
 
 依赖
 
@@ -459,16 +458,12 @@ Swagger测试接口即可。。。
 
 
 
-
-
 公众号报无法提供服务异常:
 
 ​      原因： 若服务器不在五秒内处理回复，则必须回复“success”或者“”（空串），否则微信后台会发起三次重试。三次重试后，依旧没有及时回复任何内容，系统自动在粉丝会话界面出现错误提示“该公众号暂时无法提供服务，请稍后再试”。
 ​    解决方法：如果回复success，微信后台可以确定开发者收到了粉丝消息，没有任何异常提示。
 
 ![](../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%85%AC%E4%BC%97%E5%8F%B7%E6%8A%A5%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%BC%82%E5%B8%B8.png)
-
-
 
 关注取消关注：
 
@@ -486,15 +481,9 @@ Swagger测试接口即可。。。
 
 
 
-
-
 ###  接受文本消息
 
   接受文本消息: 即粉丝给公众号发送的文本消息。
-
-
-
-
 
 普通消息：
 
@@ -724,8 +713,6 @@ scope等于snsapi_userinfo时的授权页面：
 
 
 
-
-
 ```yaml
   # 微信小程序-微信支付
   wechat:
@@ -786,8 +773,6 @@ systemctl restart docker
 
 
 
-
-
 ## 基本命令：
 
 ```sh
@@ -821,7 +806,6 @@ docker run --name mysql --restart=always -v /home/ljaer/mysql:/var/lib/mysql -p 
 docker exec -it sun_mysql /bin/bash
 
 # 登录mysql：
-
 mysql -u root -p 
 root
 
@@ -830,7 +814,7 @@ root
 
 ## RabbitMQ:
 
-```java
+```sh
 # 第一步：拉取镜像
 docker pull rabbitmq:management
 
@@ -840,7 +824,7 @@ docker run -d -p 5672:5672 -p 15672:15672 --restart=always --name rabbitmq rabbi
 
 ## redis:
 
-```java
+```sh
 # 第一步：拉取镜像
 docker pull redis:latest
 
@@ -850,7 +834,7 @@ docker run -d -p 6379:6379  --restart=always redis:latest redis-server
 
 ## nacos:
 
-```java
+```sh
 # 第一步：拉取镜像
 docker pull nacos/nacos-server
 
@@ -1215,8 +1199,6 @@ https://help.coding.net/docs/start/new.html
 
 DevOps(Development  Operations）「软件开发人员(Dev)」和「IT 运维技术人员(Ops)」之间沟通合作的文化；旨在透过自动化「软件交付」和「架构变更」的流程，使得构建、 测试、发布软件的过程能够更加地快捷、频繁和可靠。Gartner 咨询公司认为 DevOps 代表了 IT 文化的变化趋势。
 
-
-
 CODING DevOps 是面向软件研发团队的一站式研发协作管理平台，提供从需求到设计、开发、构建、测试、发布到部署的全流程协同及研发工具支撑。CODING 解决方案可助力企业实现代码的统一安全管控，并快速实践敏捷开发与 DevOps，提升软件交付质量与速度，降低企业研发成本，实现研发效能升级。
 
 ![](../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2/CODING%20DevOps/CODING%20DevOps%E6%B5%81%E7%A8%8B%E5%9B%BE.png)
@@ -1275,10 +1257,6 @@ CODING DevOps 是面向软件研发团队的一站式研发协作管理平台，
 持续集成：
 
 ​     项目代码开发完成之后，可通过[持续集成](https://coding.net/docs/ci/intro.html)功能快速创建构建任务，将项目代码编译打包成软件包。
-
-
-
-
 
 
 

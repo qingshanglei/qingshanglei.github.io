@@ -36,7 +36,7 @@ Stylus (.styl)。于2010年诞生，出自Node.js社区，主要用来给Node项
 
 ## SCSS和SASS之间的关系
 
-![image-20200706194107318](https://raw.githubusercontent.com/ggdream/scss/master/sources.assets/image-20200706194107318.png)
+![SCSS和SASS之间的关系](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/Scss/SCSS%E5%92%8CSASS%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB.png)
 
 ```
 Sass有两套语法：
@@ -70,11 +70,50 @@ Sass有两套语法：
    - 自定义输出格式
 
 ​     注意：  less、scss(sass)和stylus代码并不能被浏览器直接解析，所以必须先将它们编译成css代码。
-​     解决方法：vscode   安装Easy Sass（编译）和Sass（代码提示）两个插件
 
 
+## VS Code解决scss不能编译成Css问题：
 
+- 安装Easy Sass（编译）和Sass（代码提示）两个插件（注意大小写，否则找不到）
+- 点击插件右下角的设置图标后点击"扩展设置"，最后点击"在settings.json中编辑"，开始设置关于Easy Sass的配置
 
+```json
+{
+    "liveSassCompile.settings.formats": [ // SASS配置
+        {
+            /* SASS编译成css的格式
+                 nested ==》 嵌套格式
+                 expanded ==》 展开格式
+                 compact ==》 紧凑格式
+                 compressed ==》 压缩格式 */
+            "format": "expanded", // 可配置的出口css样式
+            "extensionName": ".css",
+            "savePath": "~/../css"   //  SASS编译为CSS的位置
+        }
+    ],
+    /*  是否生成对应的map */
+    "liveSassCompile.settings.generateMap": true,
+    "easysass.targetDir": "./css/", // Scss编译后的css文件的位置
+```
+
+# 创建项目：
+
+​      前提：VS Code安装Easy Sass（编译）和Sass（代码提示）两个插件，并配置setting.json文件。
+
+1. VS Code创建`.SCSS`尾缀文件。
+
+```scss
+$baseColor:#333;
+p{
+    color:$baseColor;
+}
+```
+
+![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/Scss/%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE.png)
+
+2. SASS编程后css文件后，html引入css文件即可,之后每次保存都会自动编译到css文件中。
+
+   
 
 # SASS总结：
 
