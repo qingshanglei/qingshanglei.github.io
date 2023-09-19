@@ -1,8 +1,6 @@
 # 简介：
 
-移动web开发——flex布局
-
-
+flex布局—— 移动端web开发(手机软件)
 
 
 
@@ -18,7 +16,7 @@
 
 + 操作方便，布局极其简单，移动端使用比较广泛
 + pc端浏览器支持情况比较差
-+ IE11或更低版本不支持flex或仅支持部分
++ IE11或更低版本不支持Flex或仅支持部分
 
 ### 1.3 建议
 
@@ -30,29 +28,76 @@
 + flex 是 flexible Box 的缩写，意为"弹性布局"，用来为盒状模型提供最大的灵活性，任何一个容器都可以指定为 flex 布局。
 + 当我们为父盒子设为 flex 布局以后，子元素的 float、clear 和 vertical-align 属性将失效。
 + flex布局又叫伸缩布局 、弹性布局 、伸缩盒布局 、弹性盒布局 
-+ 采用 Flex 布局的元素，称为 Flex 容器（flex
++ 采用 Flex 布局的元素，称为 Flex 容器（flex container），简称"容器"。它的所有子元素自动成为容器成员，称为 Flex 项目（flex item），简称"项目"。
 
-container），简称"容器"。它的所有子元素自动成为容器成员，称为 Flex 项目（flex
-item），简称"项目"。
-
-**总结**：就是通过给父盒子添加flex属性，来控制子盒子的位置和排列方式
-
-
+​      **总结**：就是通过给父盒子添加flex属性，来控制子盒子的位置和排列方式
+​      注意：使用Flex布局后，子元素的float、clear和vertical-align属性将失效。
 
 ```css
 display: flex;
 flex: 2;
 ```
 
+# 创建项目：
 
+html:
 
-# 3.0 父项常见属性
+```html
+<div>
+    <span>1</span>
+    <span>2</span>
+    <span>3</span>
+</div>
+```
+
+css:
+
+```css
+dev {
+    width: 100%;
+    height: 300px;
+    background: orange;
+    display: flex;
+
+    span {
+        flex: 1; /** 占多少份 */
+        height: 100px;
+        border: 1px solid black;
+        background: blue;
+    }
+}  
+```
+
+以此嵌套：
+
+![]()
+
+# 父项常见属性
 
 + flex-direction：设置主轴的方向
+
+   | **属性值**     | **说明**           |
+   | -------------- | ------------------ |
+   | row            | ==从左到右(默认)== |
+   | row-reverse    | 从右到左           |
+   | column         | ==从上到下==       |
+   | column-reverse | 从下到上           |
+
 + justify-content：设置主轴上的子元素排列方式
-+ flex-wrap：设置子元素是否换行  
+
++ flex-wrap：设置子元素是否换行 (nowrap: 不换行,默认;   wrap: 换行)  
+
 + align-content：设置侧轴上的子元素的排列方式（多行）
+
+   | **属性值** | **说明**           |
+   | :--------: | ------------------ |
+   | flex-start | ==从上到下(默认)== |
+   |  flex-end  | 从下到上           |
+   |   center   | ==垂直居中==       |
+   |  stretch   | ==拉伸==           |
+
 + align-items：设置侧轴上的子元素排列方式（单行）
+
 + flex-flow：复合属性，相当于同时设置了 flex-direction 和 flex-wrap
 
 ### 3.1 flex-direction设置主轴的方向
@@ -72,6 +117,8 @@ flex: 2;
 ### 3.2 justify-content 设置主轴上的子元素排列方式
 
 ![](./images/3.jpg)
+
+
 
 ### 3.3 flex-wrap设置是否换行
 
@@ -102,34 +149,33 @@ flex: 2;
 
 ### 3.7 flex-flow 属性是 flex-direction 和 flex-wrap 属性的复合属性
 
-```
+```css
 flex-flow:row wrap;
 ```
 
-# 4.0 flex布局子项常见属性
+# 子项常见属性
 
 + flex子项目占的份数
 + align-self控制子项自己在侧轴的排列方式
 + order属性定义子项的排列顺序（前后顺序）
 
-### 4.1  flex 属性
+### flex 属性
 
 flex 属性定义子项目分配剩余空间，用flex来表示占多少份数。
 
-```
+```css
 .item {
     flex: <number>; /* 默认值 0 */
 }
-
 ```
 
-### 4.2 align-self控制子项自己在侧轴上的排列方式
+###  align-self控制子项自己在侧轴上的排列方式
 
 align-self 属性允许单个项目有与其他项目不一样的对齐方式，可覆盖 align-items 属性。
 
 默认值为 auto，表示继承父元素的 align-items 属性，如果没有父元素，则等同于 stretch。
 
-````
+````css
 span:nth-child(2) {
       /* 设置自己在侧轴上的排列方式 */
       align-self: flex-end;
@@ -143,54 +189,64 @@ span:nth-child(2) {
 
 注意：和 z-index 不一样。
 
-```
+```css
 .item {
     order: <number>;
 }
 ```
 
-# 5.0 携程网首页案例制作
+#  携程网首页项目制作
 
 携程网链接：http://m.ctrip.com
 
 1.技术选型
 
-方案：我们采取单独制作移动页面方案
+- 方案：采取单独制作移动页面方案
 
-技术：布局采取flex布局
+- 技术：布局采取flex布局 + Sass预处理器
+
 
 2.搭建相关文件夹
-
-![](./images/5.jpg)
 
 3.设置视口标签以及引入初始化样式
 
 ```html
 <meta name="viewport" content="width=device-width, user-scalable=no,initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0)
 
-<link rel="stylesheet" href="css/normalize.css)
-<link rel="stylesheet" href="css/index.css)
+ <link rel="stylesheet" href="css/normalize.css)
+ <link rel="stylesheet" href="css/index.css)
 ```
 
 4.常用初始化样式
 
-```
+```css
 body {
-  max-width: 540px;
-  min-width: 320px;
-  margin: 0 auto;
-  font: normal 14px/1.5 Tahoma,"Lucida Grande",Verdana,"Microsoft Yahei",STXihei,hei;
-  color: #000;
-  background: #f2f2f2;
-  overflow-x: hidden;
-  -webkit-tap-highlight-color: transparent;
+    max-width: 540px;
+    min-width: 320px;
+    margin: 0 auto;
+    font: normal 14px/1.5 Tahoma,"Lucida Grande",Verdana,"Microsoft Yahei",STXihei,hei;
+    color: #000;
+    background: #f2f2f2;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
 }
 
 ```
 
 5.模块名字划分
 
-![](./images/6.jpg)
+**背景线性渐变**:
+
+注意：背景渐变必须添加浏览器私有前缀。
+```css
+/** 参数： 起始方向, 颜色1, 颜色2, ...  */
+/**   linear-gradient: 兼容性较好，但不兼容iphone5的ios6系统下。
+          默认从下到上，默认从左到右 */
+background: linear-gradient(left, #4d9aed, #52b9ed);
+/**   -webkit-linear-gradient:兼容iphone5的ios6系统下。
+          默认从下到上，默认从左到右 */
+background: -webkit-linear-gradient(left, #4d9aed, #52b9ed);
+```
 
 
 
