@@ -1,2 +1,0 @@
-- [返回上一级 [MySQL]](笔记图片/SQL/MySQL/)
-- [MySQL安装](笔记图片/SQL/MySQL/MySQL安装/)

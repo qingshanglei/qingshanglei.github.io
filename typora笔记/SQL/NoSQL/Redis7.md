@@ -412,8 +412,6 @@ help @hyperloglog    #
 
 ![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/%E5%AD%97%E7%AC%A6%E4%B8%B2-String2.png)
 
-
-
 ```sh
 set key value # 添加键值对
 get <key> # 根据键查询值
@@ -445,7 +443,7 @@ setex(set with expire)键秒值/setnx(set if not exist)
 # 数值增减  注意：一定是数字才行。
 incr <key> # 将key中存储的数字值递增1，如果为空，新增值为1
 decr <key> # 递减数值
-incrby/decrby <key> <步长> # 根据key值增减数字值
+incrby/decrby <key> <步长> # 根据key值增/减数字值
 ```
 
 使用场景：
@@ -539,15 +537,11 @@ hincrby/hincrbyfloat <key> <field> <increment>
 
 
 
-
-
-
-
 ## 集合(Set):
 
 - Redis 的 Set 是 String 类型的无序集合。集合成员是唯一的，这就意味着集合中不能出现重复的数据，集合对象的编码可以是 intset 或者 hashtable。
 - Redis 中Set集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是 O(1)。
-   - 集合中最大的成员数为 2^32 - 1 (4294967295, 每个集合可存储40多亿个成员)
+- 集合中最大的成员数为 2^32 - 1 (4294967295, 每个集合可存储40多亿个成员)
 - 特点：单值多value，且无重复，可快速查找、添加、删除
 - 例： set   k1  v1 v2 v3
 
@@ -566,13 +560,11 @@ srandmember <key> <count> # 从集合中随机获取一个元素
 spop <key> <count># 从集合中随机获取一个元素，出一个删一个。
 smove <key1> <key2> <value>  # 将key1里的一个值移动到key2
 
-
 # 集合运算   例： A--> abc12    B-->123ax
-sdiff key [key...]  #  差集运算A-B(属于A但不属于)
+sdiff  key  [key...]  #  差集运算A-B(属于A但不属于)
 sunion key  [key...] # 并集运算A U B(属于A或者属于B的元素合并后的集合)
 sinter key  [key...] # 交集运算A ∩ B
 sintercard numkeys key [key...] [limit limit] # redis7新命令,它不返回结果集，而只返回结果的基数。返回由所有给定集合的交集产生的集合的基数
-
 ```
 
 
@@ -679,8 +671,6 @@ zrank <key> <value> # 获取集合中的索引
 ![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/SQL/NoSQL/Redis/%E5%9C%B0%E7%90%86%E7%A9%BA%E9%97%B4(GEO).png)
 
    [地理空间(GEO)原理](https://baike.baidu.com/item/%E7%BB%8F%E7%BA%AC%E7%BA%BF/5596978?fr=aladdin)
-
-
 
 ```sh
   GEORADIUS key longitude(多个经度) latitude(维度) radius <M|KM|FT|MI> [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT count [ANY]] [ASC | DESC] [STORE key] [STOREDIST key]  --

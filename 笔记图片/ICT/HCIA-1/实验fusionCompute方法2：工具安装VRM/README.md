@@ -1,2 +1,0 @@
-- [返回上一级 [HCIA-1]](笔记图片/ICT/HCIA-1/)
-- [实验fusionCompute方法2：工具安装VRM](笔记图片/ICT/HCIA-1/实验fusionCompute方法2：工具安装VRM/)
