@@ -5,7 +5,7 @@
   nodejs作为服务端使用。
 
 ​     ①Node.js 就是运行在服务端的 JavaScript。
-   ② Node.js是一个事件驱动I/O服务端JavaScript环境，基于Google的V8引擎，V8引擎执行Javascript的速度非常快，性能非常好。
+​     ② Node.js是一个事件驱动I/O服务端JavaScript环境，基于Google的V8引擎，V8引擎执行Javascript的速度非常快，性能非常好。
 ​    ③Node.js 是运行在服务端的 JavaScript。
 ​    ④Node.js可部署后端的高性能的服务。
 ​    ⑤使用Node.js前端人员不需要懂得PHP、Python或Ruby等动态编程语言，即可创建服务。
