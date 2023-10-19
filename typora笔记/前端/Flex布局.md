@@ -72,6 +72,31 @@ dev {
 
 ![]()
 
+
+
+## 总结：
+
+```sh
+display属性+position属性+float属性
+
+display:flex;------------在父元素设置，里面的子元素自动的并排显示；
+display:inline-flex;-----行内元素使用Flex
+
+注意:设为 Flex 布局以后，子元素的float、clear和vertical-align属性将失效
+
+flex-direction: row ;----主轴为水平方向，起点在左端  →
+row-reverse：------------主轴为水平方向，起点在右端    ←
+column：-----------------主轴为垂直方向，起点在上沿。   ↑
+column-reverse：---------主轴为垂直方向，起点在下沿。 ↓
+align-items: flex-start;------------交叉轴的起点对齐；--上对齐；
+align-items:flex-end;---------------交叉轴的终点对齐；--下对齐
+align-items: center;----------------交叉轴的中点对齐；--居中对齐
+align-items: baseline; -------------项目的第一行文字的基线对齐；--文字对齐；
+align-items: stretch;---------------如果项目未设置高度或设为auto，将占满整个容器的高度。
+```
+
+
+
 # 父项常见属性
 
 + flex-direction：设置主轴的方向
