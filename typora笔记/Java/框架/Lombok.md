@@ -22,7 +22,7 @@ Lombok常见的注解有:
 <dependency>  // lombok依赖
     <groupId>org.projectlombok</groupId>
     <artifactId>lombok</artifactId>
-    <version>1.18.24</version>
+        <version>1.18.24</version>
      <scope>provided</scope>
 </dependency>
 ```

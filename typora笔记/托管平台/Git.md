@@ -84,10 +84,11 @@ git config user.name // 查看用户名
 git config user.password // 查看密码
 git config user.email // 查看邮箱
 git config --list  // 查看配置信息
-
-git config --global user.name "xxxx(新的用户名)" //修改用户名
+ git commit -m '同步GitHup数据'
+	
+git config --global user.name "qingshanglei" //修改用户名
 git config --global user.password "xxxx(新的密码)" //修改密码
-git config --global user.enail "xxxx(新的邮箱)"//修改用户邮箱
+git config --global user.enail "xxxx(新的邮箱)"//修改用户邮箱   
 ```
 
 
@@ -97,6 +98,13 @@ git config --global user.enail "xxxx(新的邮箱)"//修改用户邮箱
 常用指令配置别名：
 
 1. 打开用户目录，创建 .bashrc 文件
+
+   ```js
+   touch ~/.bash_profile
+   nano ~/.bash_profile
+   ```
+
+   
 
    ![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Git/Git/%E6%8C%87%E4%BB%A4%E8%AE%BE%E7%BD%AE%E5%88%AB%E5%90%8D.png)
 
@@ -127,7 +135,7 @@ git config --global core.quotepath false
 
 2. ${git_home}/etc/bash.bashrc 文件最后加入下面两行
 
-```
+```js
 export LANG="zh_CN.UTF-8" export LC_ALL="zh_CN.UTF-8"
 ```
 
@@ -237,6 +245,9 @@ git branch 分支名  -----------  创建本地分支
   git checkout -b 分支名 -----------切换分支（切换前判断是否存在，不存在创建）
   
   git merge 分支名称 -----------合并分支（把指定的分支合并到当前分支）
+  
+ git branch -m oldName newName ------本地分支重命名(还没有推送到远程)
+
 ~~~
 
 

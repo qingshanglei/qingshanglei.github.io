@@ -78,6 +78,10 @@ SpringBoot中常见项目名称，定义了当前项目使用的所有依赖坐�
 
 ![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Java/%E6%A1%86%E6%9E%B6/SpringBoot/IDEA%25E5%2588%259B%25E5%25BB%25BASpringBoot%25E9%25A1%25B9%25E7%259B%25AE2.png)
 
+浏览器打开：http://localhost:7001/
+
+
+
 ### SpringBoot官网创建SpringBoot项目：
 
 SpringBoot官网有问题，三个网站换着来。
