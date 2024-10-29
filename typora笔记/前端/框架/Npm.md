@@ -106,10 +106,16 @@ npm init  [选项]
 ## 修改镜像地址：
 
 ```shell
-# 修改npm地址为淘宝镜像
+# 修改npm地址为淘宝镜像-好像过期了
 npm config set registry https://registry.npm.taobao.org 
+# 修改npm地址为淘宝镜像2
+npm config set registry https://registry.npmjs.org/
+
 # 查看npm配置信息
 npm config list
+
+# 清除npm的缓存，删除npm缓存中存储的所有数据(一般包安装失败、版本不匹配使用)
+npm cache clean --force
 ```
 
 

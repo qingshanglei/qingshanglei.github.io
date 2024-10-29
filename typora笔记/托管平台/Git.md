@@ -100,6 +100,11 @@ git config --global user.enail "xxxx(新的邮箱)"//修改用户邮箱
 
    ![](../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/Git/Git/%E6%8C%87%E4%BB%A4%E8%AE%BE%E7%BD%AE%E5%88%AB%E5%90%8D.png)
 
+   ```js
+   touch ~/.bashrc
+   vim ~/.bashrc
+   ```
+
    
 
 2. 在 .bashrc 文件中输入如下内容：
@@ -109,6 +114,8 @@ git config --global user.enail "xxxx(新的邮箱)"//修改用户邮箱
     alias git-log='git log --pretty=oneline --all --graph --abbrev-commit' 
 #用于输出当前目录所有文件及基本信息
      alias ll='ls -al'
+    
+source ${git_home}/etc/bash.bashrc
 ```
 
 3. 打开gitBash，执行 source ~/.bashrc

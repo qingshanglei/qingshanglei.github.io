@@ -170,7 +170,28 @@ set @@autocommit = 0;  --修改事务的提交方式
 
 
 
+## 视图：
 
+创建索引:
+
+```sql
+  CREATE [ UNIQUE | FULLTEXT ] INDEX index_name ON table_name ( index_col_name,... ) 
+
+ 例：CREATE OR REPLACE VIEW stu_v_1  AS  SELECT id, role_id  FROM role_permission  WHERE id <10  
+```
+
+
+
+```sql
+--- 查看视图的定义或结构
+ SHOW CREATE VIEW stu_v_1
+
+--- 查看索引   注意： 此处不是查看表，是查看一个命名stu_v_1的视图
+SELECT * FROM  stu_v_1
+
+--- 查询建表语句  默认存储引擎
+show create table account; 1
+```
 
 
 
@@ -672,7 +693,7 @@ select * from 表格 limit 1,10;  --分页查询
 
 
 
-# PowerDesigner：
+# PowerDesigner (破我)：
 
 学习目标：
 

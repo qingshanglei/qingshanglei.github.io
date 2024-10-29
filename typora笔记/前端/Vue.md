@@ -3248,7 +3248,7 @@ export default {
   备注：如出现下载缓慢请配置淘宝镜像路径：(不报错即为切换成功)
 
 ```c#
-  npm config set registry https://registry.npm.taobao.org
+npm config set registry https://registry.npmmirror.com
 ```
 
 ```js
