@@ -34,6 +34,7 @@
       - [Swagger](typora笔记/Java/框架/Swagger.md)
       - [欢拓云直播](typora笔记/Java/框架/欢拓云直播.md)
   - [linux](typora笔记/linux.md)
+  - [Python](typora笔记/Python.md)
   - [ShortcutKey&快捷键](typora笔记/ShortcutKey&快捷键.md)
   - [SQL](typora笔记/SQL/)
     - [mysql](typora笔记/SQL/mysql.md)

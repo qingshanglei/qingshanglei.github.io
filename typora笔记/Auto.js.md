@@ -118,15 +118,46 @@ visibleToUser 控件是否可见，可以筛选在屏幕可视范围内的组件
 enabled 控件是否已启用。
 depth 控件的布局深度。  //  *
 
+```
 
+## 增删查该：
+
+```js
+//使用属性：  text() ==》desc() ==》id() ==》className()==>id  注意：id软件升级后可能会变动。
+// =======id
+.id(resId)
+.idContains(str) //     id 包含字符串 "str"的筛选条件
+.idStartsWith(prefix) //  查询以“prefix 开头"的id
+idEndsWith(suffix) //  查询以suffix 结束"的id
+idMatches("[a-zA-Z]+")  // 根据正则表达式获取id 
+
+// =======text/desc/className等跟id类似，把开头id的
+text（'微信好友'）.waitFor（）// 等待执行
+let collection = id("com.ss.android.ugc.aweme:id/container").find().size(); // 获取抖音视频
  let knownElement = id("puzzle-captcha-question-img").findOnce().next(); // 找到id("puzzle-captcha-question-img")的下一个兄弟元素
 let knownElement = id("puzzle-captcha-question-img").findOnce().parent() // 返回该控件的父控件
 childCount() // 返回子控件数目。
 children() // 返回该控件的所有子控件组成的控件集合
 
-
+   let text =  id("com.ss.android.ugc.aweme:id/desc").findOne() //  查询结果为{}的需要通过 toastLog(text.text())查询
+ let a = id("com.ss.android.ugc.aweme:id/container").findOnce().child(0)   // 选中列表第一个
+ letre=className（"android.widget.ImageView").descMatches（"评论.*?，按钮").findOne（5000);
+var评论=descStartsWith（'评论'）.visibleToUser().findOne();
 images.findImage(img, template[, options])
+
+textEndsWith('关注').visibleToUser().findOne // 
+textMatches("\\d+") // 正则表达式-Java-匹配多位数字
+textMatches(/\d+/) //  正则表达式-Js-匹配多位数字
+depth("15")
+drawingOrder("14")
+
+
+Auto.js的索引为0，AutoX.js索引为1。
 ```
+
+
+
+
 
 
 
@@ -329,6 +360,92 @@ function clearDir(dir) {
 
 
 
+## 获取屏幕所有消息：
+
+```js
+// 不再使用observeNotification，而是改用轮询或无障碍事件
+// 示例：使用findWidget() + 定时检查来模拟监听QQ消息
+// 遍历屏幕上的所有控件并打印它们的信息
+// 获取当前屏幕的根控件
+let root = idContains("PageMain").findOne();
+logAllWidgets(root);
+
+// 遍历屏幕上的所有控件并打印它们的信息
+function logAllWidgets(widget) {
+    console.log(222);
+    if (widget) {
+        console.log("ID: " + widget.id() + ", Text: " + widget.text() + ", Desc: " + widget.desc());
+        let children = widget.children();
+        for (let i = 0; i < children.size(); i++) {
+            logAllWidgets(children.get(i));
+        }
+    }
+}
+console.log("234248888888888888888888");
+```
+
+## 修复无法获取剪贴板内容的问题
+
+```js
+
+// 开启前台服务
+if (!auto.service) {
+    toast("请先授予无障碍服务权限！");
+    exit();
+}
+
+// 点击复制链接
+let copyButton = text("icon_copy").findOne().parent().parent()
+if (copyButton) {
+    console.log(copyButton.click());
+
+    sleep(1000)
+    let fuzhi = className("android.widget.TextView").text("复制").findOne().click()
+    console.log(fuzhi);
+
+    log("已点击按钮");
+}
+
+
+// # region  获取剪贴板内容
+threads.start(function () {
+    // 创建一个悬浮窗
+    let win = floaty.window(
+        // 悬浮窗的布局为垂直方向排列
+        <vertical>
+        <input id="输入" w="*" h="50" />
+        <button id="开始" text="开始" />
+        </vertical>
+    )
+    // 设置窗口过滤器，这里的函数返回true表示接受所有窗口
+    auto.setWindowFilter(function (window) {
+        return true;
+    });
+    // 在UI线程中执行以下操作，确保窗口和输入框获取焦点
+    ui.run(() => {
+        console.log("win+输入" + win.requestFocus());
+
+        win.requestFocus();
+        win.输入.requestFocus();
+    })
+    // 启动另一个新线程来执行以下粘贴及后续操作
+    threads.start(function () {
+        et = className("EditText").findOne();
+        et.paste();
+        toastLog(win.输入.text())
+        // 在UI线程中执行以下操作，禁用悬浮窗的焦点，使其不再获取用户输入焦点
+        ui.run(() => {
+            win.disableFocus();
+        })
+    })
+})
+// # endregion
+
+
+```
+
+
+
 
 
 2、私人助理RPA的原理
@@ -438,4 +555,49 @@ xposed框架是基于Hook技术的一个应
    解决方法，①使用xp模块， ②修改软件so文件配置
 
 
+
+
+
+
+
+pro 连接VPN
+
+```js
+127.0.0.1localhost
+::1 ip6-localhost
+127.0.0.1 pro.autojs.org
+127.0.0.1 data.flurry.com
+127.0.0.1 c.sayhi.360.cn
+127.0.0.1 android.bugly.qq.com
+127.0.0.1 recaptcha.net
+192.168.18.164 pro.autojs.org
+
+
+
+
+链接地址中github.com前加入vscode.dev/或直接将github.com改为github.de
+```
+
+
+
+
+
+# 异常：
+
+## ArrayIndexOutOfBoundsException：
+
+![](../笔记图片/前端/Autojs/ArrayIndexOutOfBoundsException异常.png)
+
+
+
+## 组织：
+
+```js
+
+1、懒人精灵技术交流群：QQ群1：274094711 ，QQ群2：1134071169，QQ群3：177945188
+2、Auto.js技术交流群：QQ群1：1137657563，QQ群2：1015039963，QQ群4：588796665，QQ群5：410253970
+3、EasyClick技术交流群：QQ群1：773898117，QQ群2：565667995，QQ群3：933829783
+
+
+```
 
