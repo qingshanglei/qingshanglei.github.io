@@ -79,6 +79,7 @@ Git、Mercurial、Bazaar、Darcs.......
 ```js
 git config --global user.name “qingshanglei”  //设置用户名
 git config --global user.email “2274916510@qq.com” //设置邮箱
+git config --global user.password “2274916510” 
 
 git config user.name // 查看用户名
 git config user.password // 查看密码
@@ -109,13 +110,15 @@ git config --global user.enail "xxxx(新的邮箱)"//修改用户邮箱
 
 2. 在 .bashrc 文件中输入如下内容：
 
-```java
-#用于输出git提交日志
+```js
+# 用于输出git提交日志
     alias git-log='git log --pretty=oneline --all --graph --abbrev-commit' 
-#用于输出当前目录所有文件及基本信息
+# 用于输出当前目录所有文件及基本信息
      alias ll='ls -al'
     
 source ${git_home}/etc/bash.bashrc
+    
+source ~/.bashrc
 ```
 
 3. 打开gitBash，执行 source ~/.bashrc
@@ -128,13 +131,13 @@ source ${git_home}/etc/bash.bashrc
 
 1. 打开GitBash执行下面命令
 
-```
+```js
 git config --global core.quotepath false
 ```
 
 2. ${git_home}/etc/bash.bashrc 文件最后加入下面两行
 
-```
+```js
 export LANG="zh_CN.UTF-8" export LC_ALL="zh_CN.UTF-8"
 ```
 
@@ -508,9 +511,9 @@ git branch -vv   //查看本地分支 与远程分支的关联关系
 1.在**Git**中生成、获取**SSH公钥**
 
 ~~~sql
-  ssh-keygen -t rsa --生成SSH公钥；输入命令，连敲三次回车即可;(如存在，则自动覆盖)
- ssh-keygen -t rsa -C 描述   ---t指定加密算法，-C添加注释 
- cat ~/.ssh/id_rsa.pub   --获取公钥
+  ssh-keygen -t rsa  # 生成SSH公钥；输入命令，连敲三次回车即可;(如存在，则自动覆盖)
+ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"  # ssh-keygen -t rsa -C 描述   ---t指定加密算法，-C添加注释 
+ cat ~/.ssh/id_rsa.pub   # 获取公钥
 ~~~
 
 #### 2.在Gitee配置仓库的SSH公钥
