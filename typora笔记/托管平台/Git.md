@@ -116,8 +116,6 @@ git config --global user.enail "xxxx(新的邮箱)"//修改用户邮箱
 # 用于输出当前目录所有文件及基本信息
      alias ll='ls -al'
     
-source ${git_home}/etc/bash.bashrc
-    
 source ~/.bashrc
 ```
 
@@ -139,6 +137,9 @@ git config --global core.quotepath false
 
 ```js
 export LANG="zh_CN.UTF-8" export LC_ALL="zh_CN.UTF-8"
+
+// 刷新文件
+source ${git_home}/etc/bash.bashrc
 ```
 
 

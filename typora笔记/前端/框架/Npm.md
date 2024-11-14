@@ -106,10 +106,8 @@ npm init  [选项]
 ## 修改镜像地址：
 
 ```shell
-# 修改npm地址为淘宝镜像-好像过期了
-npm config set registry https://registry.npm.taobao.org 
-# 修改npm地址为淘宝镜像2
-npm config set registry https://registry.npmjs.org/
+# 修改npm地址为淘宝镜像
+npm config set registry https://registry.npmmirror.com
 
 # 查看npm配置信息
 npm config list
@@ -127,11 +125,14 @@ npm cache clean --force
 ![](../../../%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87/%E5%89%8D%E7%AB%AF/%E6%A1%86%E6%9E%B6/Npm/Npm%E4%BB%93%E5%BA%93.png)
 
 ```shell
+# 查看当前npm仓库路径
+npm config get cache 
+
 # 配置全局安装：
-npm config set prefix D:\atguigu\node-global
+npm config set prefix F:\Nodejs\node14.14.0\node_modules  
 
 # 配置缓存路径：
-npm config set cache D:\atguigu\node-cache
+npm config set cache F:\Nodejs\node14.14.0\node_cache
 
 #查看npm配置信息
 npm config list
@@ -200,7 +201,7 @@ npm uninstall -g 包名
 
 
 
-## 镜像：
+## npm镜像：
 
 cnpm:
 

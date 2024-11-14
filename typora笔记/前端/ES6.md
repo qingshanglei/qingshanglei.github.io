@@ -339,6 +339,7 @@ babel --version #  查看是否安装成功
 
 ```shell
 npm install --save-dev babel-preset-es2015
+
 ```
 
 ### 转码

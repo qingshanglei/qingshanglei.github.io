@@ -444,7 +444,97 @@ threads.start(function () {
 
 ```
 
+## auto.js向手机号中，随机插入随机数量的空格:
 
+### 业务需求
+
+在某个APP的私信脚本中，需要发送手机号。
+由于APP屏蔽了一定长度连续数字的输入，需要在手机号中随机插入空格，才能饶过平台的反垃圾机制。
+因此，需要写一个向手机号中，随机插入空格的方法。
+下面我们来看代码，示例中的手机号是随便写的。
+
+```js
+/*
+ * @Author: 飞云
+ * @Date: 2020-03-26 11:28:12
+ * @LastEditTime: 2020-03-26 11:28:28
+ * @Description: http://www.feiyunjs.com
+ */
+
+let str = '你好，加我微信聊聊吧|1 6 5 9 8 659 8 56'；   //欲发送的话术
+
+//循环测试100次
+for (var i = 0; i < 100; i++) {
+    let randLeng = random(4, 8);   //随机空格长度
+    log(getPhone(randLeng))
+}
+
+//提取字符串中的手机号，并随机插入空格
+function getPhone(randLeng) {
+    let strArr = getNum(str.replace(/\s+/g, ""));      //默认不加1，即不会把提取出来的0去掉
+    if (strArr.length > 0) {
+        let phone = strArr.map(function (value, index, array) {
+            if (checkPhone(value)) {
+                return value;
+            };
+        })
+        if (phone.length > 0) {
+            let spaceArr = new Array();
+            for (j = 0, len = randLeng; j < len; j++) {
+                spaceArr.push(' ')
+            }
+
+            let phonoeArr = new Array();
+            for (j = 0, len = phone[0].length; j < len; j++) {
+                phonoeArr.push(phone[0][j])
+            }
+
+            let newArr = randomInsert(spaceArr, phonoeArr);
+            return newArr.join("");
+        };
+    };
+    return '';
+};
+
+//将一个数组随机插入到另一个数组，被插的数组顺序不变
+function randomInsert(arr1, arr2) {
+    arr1.forEach(value =>
+        arr2.splice(Math.random() * arr2.length, 0, value))
+    return arr2;
+}
+
+//取出字符串中，连续的数字
+function getNum(Str, isFilter) {
+    //用来判断是否把连续的0去掉
+    isFilter = isFilter || false;
+    if (typeof Str === "string") {
+        // var arr = Str.match(/(0\d{2,})|([1-9]\d+)/g);
+        //"/[1-9]\d{1,}/g",表示匹配1到9,一位数以上的数字(不包括一位数).
+        //"/\d{2,}/g",  表示匹配至少二个数字至多无穷位数字
+        var arr = Str.match(isFilter ? /[1-9]\d{1,}/g : /\d{2,}/g);
+        //    log(arr);
+        return arr.map(function (item) {
+            //转换为整数，
+            //但是提取出来的数字，如果是连续的多个0会被改为一个0，如000---->0，
+            //或者0开头的连续非零数字，比如015，会被改为15，这是一个坑
+            // return parseInt(item);
+            //字符串，连续的多个0也会存在，不会被去掉
+            return item;
+        });
+    } else {
+        return [];
+    }
+}
+
+//检测是否为手机号
+function checkPhone(phone) {
+    if (!(/^1[3456789]\d{9}$/.test(phone))) {
+        return false;
+    } else {
+        return true;
+    };
+}
+```
 
 
 
@@ -600,4 +690,66 @@ pro 连接VPN
 
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+__________________________15768________________________
+
+【4月03日，红包合集来啦】
+小主给您奉上今日红包
+点击蓝字链接领取哦
+
+-----【外卖红包】------
+🧧美团外卖优惠券——
+👉 https://dpurl.cn/k1emlRgz
+🧧饿了么优惠卷——
+👉 https://u.ele.me/xTGB8TCe
+🧧瑞幸优惠卷
+👉 https://kurl02.cn/7uv1KK
+🧧肯德基优惠卷
+👉 https://kzurl13.cn/7uv4tD
+🧧麦当劳优惠卷
+👉 https://kzurl19.cn/7uv48g
+🧧星巴克优惠卷
+👉 https://kurl04.cn/7uvOkc
+🧧必胜客优惠卷
+👉 https://kurl04.cn/7uvOJD
+🧧奈雪的茶优惠卷
+👉 https://kzurl16.cn/7uvO1O
+
+-----【打车红包】------
+🚕 滴滴打车优惠卷 
+👉  https://v.didi.cn/WwAr6kP?source_id=132116jutuike483636
+🚕 同城打车优惠卷
+👉 https://kzurl16.cn/7uvOM9
+🚕 T3出行优惠卷
+👉 https://kzurl10.cn/7uvOMp
+___________________
+⭐每天都可以免费领取哦，选最大的使用！
+
+
+
+
+
+
+
+
+
+
+
+
 

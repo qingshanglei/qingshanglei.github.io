@@ -24,7 +24,6 @@ pip install onnxruntime
 # 安装 onnxruntime不成功，则使用
 conda install -cconda -forgeonnxruntime
 
-
 # 使用 conda 查看虚拟环境
 conda info --envs  或 conda env list
 ```
