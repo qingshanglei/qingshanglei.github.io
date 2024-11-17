@@ -140,6 +140,96 @@ depth 控件的布局深度。
 
 # 优秀代码：
 
+## 手机五种锁屏&解屏方案：
+
+锁屏方式：
+1. 不锁屏
+2. 滑动
+3. 图案(手势)
+4. PIN码(纯数字)
+5. 密码(字母 + 数字)
+
+```js
+# 唤醒屏幕
+device.wakeUp()
+
+# 6.模拟按键  
+ KeyCode(66)   // 回车：要root
+```
+
+### 不锁屏:
+
+```js
+device.wakeUp()
+sleep(1000);
+```
+
+### 滑动锁屏:
+
+```js
+device.wakeUp()
+sleep(1000);
+swipe(device.width/2,device.height/8*7 , device.width/2, device.height/8, 1000)
+sleep(1500)
+```
+
+### 图案(手势)锁屏:
+
+```js
+device.wakeUp()
+sleep(1000);
+swipe(device.width/2,device.height/8*7 , device.width/2, device.height/8, 1000)
+sleep(1500)
+gesture(1000, [540, 1577], [540, 1302],[540, 1862],[819, 1584])
+sleep(2000)
+```
+
+### PIN码(纯数字)锁屏:
+
+```js
+device.wakeUp()
+sleep(1000);
+swipe(device.width/2,device.height/8*7 , device.width/2, device.height/8, 1000)
+sleep(1500);
+var 密码="4404"
+for (var i=0; i<密码.length; i++) {
+    // 熄屏状态下，点击不了，可能要root，改为位置
+    click(密码[i])
+    sleep(500)
+};
+KeyCode(66)
+```
+
+
+
+### 密码(字母 + 数字):
+
+```js
+device.wakeUp()
+sleep(1000);
+swipe(device.width/2,device.height/8*7 , device.width/2, device.height/8, 1000)
+sleep(1500);
+setText("abc12345")
+sleep(500)
+KeyCode(66)
+```
+
+### 密码(字母 + 数字)
+
+```js
+device.wakeUp()
+sleep(1000);
+swipe(device.width/2,device.height/8*7 , device.width/2, device.height/8, 1000)
+sleep(1500);
+setText("abc12345")
+sleep(500)
+KeyCode(66)
+```
+
+
+
+
+
 ## 抖音自动刷视频：
 
 [参考文档如下](https://zhuanlan.zhihu.com/p/430977461)
@@ -228,5 +318,60 @@ function viewWeb(time) {
     //模拟返回键，返回到任务栏页面
     back();
 }
+```
+
+### action汇总:
+
+```js
+{action:"android.settings.ACCESSIBILITY_SETTINGS"}    //    无障碍
+{action:"android.net.vpn.SETTINGS"}    //    VPN
+{action:"android.settings.ACCESSIBILITY_SETTINGS"}    //    辅助功能
+{action:"android.settings.ADD_ACCOUNT_SETTINGS"}    //    添加账户
+{action:"android.settings.SETTINGS"}    //    系统设置首页
+{action:"android.settings.APN_SETTINGS"}    //    APN设置
+{action:"android.settings.APPLICATION_SETTINGS"}    //    应用管理
+{action:"android.settings.BATTERY_SAVER_SETTINGS"}    //    节点助手
+{action:"android.settings.BLUETOOTH_SETTINGS"}    //    蓝牙
+{action:"android.settings.CAPTIONING_SETTINGS"}    //    字幕
+{action:"android.settings.CAST_SETTINGS"}    //    无线显示
+{action:"android.settings.DATA_ROAMING_SETTINGS"}    //    移动网络
+{action:"android.settings.DATE_SETTINGS"}    //    日期和时间设置
+{action:"android.settings.DEVICE_INFO_SETTINGS"}    //    关于手机
+{action:"android.settings.DISPLAY_SETTINGS"}    //    显示设置
+{action:"android.settings.DREAM_SETTINGS"}    //    互动屏保设置
+{action:"android.settings.HARD_KEYBOARD_SETTINGS"}    //    实体键盘
+{action:"android.settings.HOME_SETTINGS"}    //    应用权限,默认应用设置,特殊权限
+{action:"android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS"}    //    忽略电池优化设置
+{action:"android.settings.INPUT_METHOD_SETTINGS"}    //    可用虚拟键盘设置
+{action:"android.settings.INPUT_METHOD_SUBTYPE_SETTINGS"}    //    安卓键盘语言设置（AOSP)
+{action:"android.settings.INTERNAL_STORAGE_SETTINGS"}    //    内存和存储
+{action:"android.settings.LOCALE_SETTINGS"}    //    语言偏好设置
+{action:"android.settings.LOCATION_SOURCE_SETTINGS"}    //    定位服务设置
+{action:"android.settings.MANAGE_ALL_APPLICATIONS_SETTINGS"}    //    所有应用
+{action:"android.settings.MANAGE_APPLICATIONS_SETTINGS"}    //    应用管理
+{action:"android.settings.MANAGE_DEFAULT_APPS_SETTINGS"}    //    与ACTION_HOME_SETTINGS相同
+{action:"android.settings.action.MANAGE_OVERLAY_PERMISSION"}    //    在其他应用上层显示,悬浮窗
+{action:"android.settings.MANAGE_UNKNOWN_APP_SOURCES"}    //    安装未知应用 安卓8.0
+{action:"android.settings.action.MANAGE_WRITE_SETTINGS"}    //    可修改系统设置权限
+{action:"android.settings.MEMORY_CARD_SETTINGS"}    //    内存与存储
+{action:"android.settings.NETWORK_OPERATOR_SETTINGS"}    //    可用网络选择
+{action:"android.settings.NFCSHARING_SETTINGS"}    //    NFC设置
+{action:"android.settings.NFC_SETTINGS"}    //    网络中的更多设置
+{action:"android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"}    //    知权限设置
+{action:"android.settings.NOTIFICATION_POLICY_ACCESS_SETTINGS"}    //    勿扰权限设置
+{action:"android.settings.ACTION_PRINT_SETTINGS"}    //    印服务设置
+{action:"android.settings.PRIVACY_SETTINGS"}    //    备份和重置
+{action:"android.settings.SECURITY_SETTINGS"}    //    安全设置
+{action:"android.settings.SHOW_REGULATORY_INFO"}    //    监管信息
+{action:"android.settings.SOUND_SETTINGS"}    //    声音设置
+{action:"android.settings.SYNC_SETTINGS"}    //    添加账户设置
+{action:"android.settings.USAGE_ACCESS_SETTINGS"}    //    有权查看使用情况的应用
+{action:"android.settings.USER_DICTIONARY_SETTINGS"}    //    个人词典
+{action:"android.settings.VOICE_INPUT_SETTINGS"}    //    辅助应用和语音输入
+{action:"android.settings.VPN_SETTINGS"}    //    VPN设置
+{action:"android.settings.VR_LISTENER_SETTINGS"}    //    VR助手
+{action:"android.settings.WEBVIEW_SETTINGS"}    //    选择webview
+{action:"android.settings.WIFI_IP_SETTINGS"}    //    高级WLAN设置
+{action:"android.settings.WIFI_SETTINGS"}    //    选择WIFI,连接WIFI
 ```
 
