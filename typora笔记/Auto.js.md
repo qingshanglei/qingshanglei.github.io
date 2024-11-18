@@ -118,7 +118,20 @@ visibleToUser 控件是否可见，可以筛选在屏幕可视范围内的组件
 enabled 控件是否已启用。
 depth 控件的布局深度。
 
+//  =====> 控件的常用属性：
+// text() ==》desc() ==》id() ==》className() id软件升级后可能会变动。  其他类似
+id(resId) // id查询
+idContains(str) // 查询"id 包含字符串 str"的筛选条件
+idStartsWith(prefix) // 查询"id 需要以 prefix 开头"的筛选条件
+idEndsWith(suffix) // 查询"id 需要以 suffix 结束"的筛选条件
+idMatches(reg)  // 查询正则表达式
+  例如： textMatches("\\d+")  // 匹配多位数字
+         textMatches(/\d+/)  // 匹配多位数字
+         idMatches("[a-zA-Z]+")  // 匹配a-z
+
 ```
+
+
 
 
 
