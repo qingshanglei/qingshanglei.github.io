@@ -342,6 +342,8 @@ function viewWeb(time) {
 
 ## action汇总:
 
+### 系统：
+
 ```js
 {action:"android.settings.ACCESSIBILITY_SETTINGS"}    //    无障碍
 {action:"android.net.vpn.SETTINGS"}    //    VPN
@@ -395,7 +397,7 @@ function viewWeb(time) {
 {action:"android.settings.WIFI_SETTINGS"}    //    选择WIFI,连接WIFI
 ```
 
-快手：
+### 快手：
 
 ```js
 kwai://gamezone/home  打开游戏专区
@@ -421,7 +423,7 @@ kwai://followings  关注列表
 kwai://tube/square  小剧场 
 ```
 
-微信：
+### 微信：
 
 ```js
 weixin://dl/scan 扫一扫
@@ -439,7 +441,7 @@ weixin://dl/profile 个人信息
 weixin://dl/features 功能插件
 ```
 
-抖音：
+### 抖音：
 
 个人主页
 
@@ -467,9 +469,7 @@ function jumpTrending() {
 jumpTrending();
 ```
 
- 
-
-跳转原声音乐作品
+ 跳转原声音乐作品
 
 ```javascript
 /**
@@ -485,8 +485,6 @@ function jumpMusic(mid) {
 
 jumpMusic("7284990191742274364");
 ```
-
- 
 
 打开指定视频作品
 
@@ -505,8 +503,6 @@ function jumpVideo(wid) {
 jumpVideo("7241321383081381178");
 ```
 
- 
-
 跳转指定用户主页
 
 ```javascript
@@ -523,4 +519,339 @@ function jumpUserProfile(uid) {
 
 jumpUserProfile("58804298436");
 ```
+
+## 配置AutoPro服务端：
+
+### 服务器环境要求
+
+- 操作系统：Linux Centos 7.6
+- 宝塔面板
+- Nginx 1.22.x
+- Node.js v16.2.2
+
+###  服务器 AutojsPro 接口源码
+
+```js
+var express = require('express');
+const { createProxyMiddleware } = require('http-proxy-middleware');
+
+var app = express();
+
+app.use(function (req, res, next) {
+   var path = req.path;
+   console.log("访问路径：" + path);
+   next();
+});
+
+app.get("/", (req, res) => {
+    res.send('博客: <a href="http://www.wuyunai.com">http://www.wuyunai.com</a><br> AutojsPro文档: <a href="http://www.wuyunai.com/docs">http://www.wuyunai.com/docs</a>');
+});
+
+app.use('/docs', createProxyMiddleware({
+   target: 'http://wuyunai.com',
+   changeOrigin: true,
+   pathRewrite: {
+      '^/docs': '/docs'
+   }
+}));
+
+app.all('/api/v1/plugins', (req, res) => {
+  const plugins = [
+    {
+      package_name: 'org.autojs.plugin.ffmpeg',
+      name: '官方FFMpeg插件',
+      version: '1.1',
+      version_code: 1,
+      summary: "FFmpeg是一套可以用来记录、转换数字音频、视频，并能将其转化为流的开源计算机程序。本插件用于利用ffmpeg处理音视频文件，比如从格式转换等。",
+      icon: 'https://www.wuyunai.com/docs/assets/image/ffmpeg-plugin.png',
+      url: 'https://www.wuyunai.com/docs/blog/ffmpeg-plugin.html',
+      installed: false,
+      update_timestamp: 0
+    },
+    {
+      package_name: 'org.autojs.plugin.mlkit',
+      name: '官方MLKitOCR插件',
+      version: '1.1',
+      version_code: 1,
+      summary: "FFmpeg是一套可以用来记录、转换数字音频、视频，并能将其转化为流的开源计算机程序。本插件用于利用ffmpeg处理音视频文件，比如从格式转换等。",
+      icon: 'https://www.wuyunai.com/docs/assets/image/mlkit-ocr-plugin.png',
+      url: 'https://www.wuyunai.com/docs/blog/mlkit-ocr-plugin.html',
+      installed: false,
+      update_timestamp: 0
+    },
+    {
+      package_name: 'cn.lzx284.p7zip',
+      name: '7Zip通用压缩插件',
+      version: '1.2.1',
+      version_code: 4,
+      summary: '本插件基于p7zip 16.02制作，支持多种格式文件的压缩与解压。7-Zip是一款完全免费而且开源的压缩软件，相比其他软件有更高的压缩比但同时耗费的资源也相对更多，能提供比使用 PKZip 及 WinZip 高2~10%的压缩比率。',
+      icon: 'https://www.wuyunai.com/docs/assets/image/7zip-plugin.png',
+      url: 'https://www.wuyunai.com/docs/blog/7zip-plugin.html',
+      documentation_url: 'https://www.wuyunai.com/docs/blog/7zip-plugin.html',
+      installed: false,
+      update_timestamp: 0
+    },
+    {
+      package_name: 'com.hraps.pytorch',
+      name: 'Pytorch插件',
+      version: '1.0.0',
+      version_code: 1,
+      summary: 'Pytorch模块提供了已完成的深度学习神经网络模型在安卓设备上执行的功能，可以实现常规程序难以实现的功能，如：图像识别，语言翻译，语言问答等。',
+      icon: 'https://www.wuyunai.com/docs/assets/image/pytorch-logo.png',
+      url: 'https://www.wuyunai.com/docs/v8/thirdPartyPlugins.html',
+      documentation_url: 'https://www.wuyunai.com/docs/v8/thirdPartyPlugins.html#pytorch插件',
+      installed: false,
+      update_timestamp: 0
+    }
+  ];
+  res.json(plugins);
+});
+
+app.get('/api/v1/account', function (req, res) {
+
+   var response = {
+      "id": "6131f76468e4553fba39ae4c",
+      "now": Date.now(),
+      "emailAddress": "五云学习",
+      "fullName": "AutojsPro9.3.11",
+      "paidServices": {
+         "v8": {
+            "expires": 3207475409760
+         }
+      },
+      "permissions": {}
+   };
+
+   res.set({
+      "Server": "nginx/1.12.2",
+      "Date": new Date().toUTCString(),
+      "Content-Type": "application/json; charset=utf-8",
+      "X-Powered-By": "Sails <sailsjs.com>",
+      "ETag": 'W/"b1-VocwenWVuO/o20Vz9VD1X4Qvte4"',
+      "Cache-Control": "no-cache, no-store",
+      "Connection": "keep-alive",
+      "Keep-Alive": "timeout=5",
+   });
+
+   res.status(200).json(response);
+});
+
+app.get('/static/legal/version.json', function (req, res) {
+   // 提取 x-csrf-token 头部信息
+   var csrfToken = req.headers['x-csrf-token'];
+   var response = {
+      "version": 20230211,
+      "wording": "为了给您提供更好的服务，我们更新了“服务协议”和“隐私政策”，特别提示您重新阅读并充分理解“服务协议”和“隐私政策”各条款。\n您可以阅读%s和%s全文了解详细信息。如您同意并接受更新后的“服务协议”和“隐私政策”各条款，请点击“同意”继续接受我们的服务。"
+   };
+   res.set({
+      "Server": "nginx/1.12.2",
+      "Date": new Date().toUTCString(),
+      "Content-Type": "application/json; charset=utf-8",
+      "X-Powered-By": "Sails <sailsjs.com>",
+      "ETag": 'W/"b1-VocwenWVuO/o20Vz9VD1X4Qvte4"',
+      "Cache-Control": "no-cache, no-store",
+      "Connection": "keep-alive",
+      "Keep-Alive": "timeout=5"
+   });
+
+   res.status(200).json(response);
+});
+
+app.post('/api/v1/security/validation2', function (req, res) {
+
+   // 提取 x-csrf-token 头部信息
+   var csrfToken = req.headers['x-csrf-token'];
+   var response;
+   if (csrfToken != "Tbs6hIVo--Ngb_G9VJ3lnoMR1EYRnQli5bEY") {
+      response = {
+         "data": "uNl8AK0WM6mIAQAAM9bHGgAAAACaX4kztI8jdDdMKBwYbba4oNAKCHba0nRgN7zXoP0IzjEyM2NjZjgzMmFiZTg5OGYAAQAAAAAAAAAyWsXfnWpHYVlJ4ZPT/u3n+ZH3NLvubrTRJnas08r0ijocgKnKqCxTFvJgeZnWx2omp6CzeSFWEG8aEaarJ4XMkp9+F8sdy2yFkqkOrp41KmCfShbIQX4hCYeD0mVOOwfOVLpQLJjg18FvFvHm9TKYzK5ysfv9UHuHn8+dexgnLM28j5BDrIFv9B9XS+UW1x/lLAwe+QzBEAWzsYFKPkVJ9Mc0L5lG/i8Eh7bxcGHIg1L+VbC4t9+CZXcF6DOoy75I40omuQs/gtbLCsMEr7fdsiDQ76iukr1SwLHVIEaXrNutrvvqKp+UBcq4WGQEM+aMj46S3pd7+h17J8vKdTVknI2IOJPZM2mVjGCQ3MBriG5HQqghbFE3y/VEPWpmtkgjDXqc09vuYA4PLxnV1AbvoAEvy8FgqxY00MXANK2MMixzZorUIC2Jk1hBLgPYHd1lMPlAMt8Deab3KZ0sJNLMo/7tAzk50DrPse3onAg5oA5QTSDfKBI2AtZP+DmPYrtsa96iUFK9iz8/18Pnhw/GBd+ceDR00dpQRVGjqTFxftAtZFr9kFYXTfz94+uq/fnVlH4eDGQiNAvuPg/4nQLXlde3lDYp5loaN2MkjL4uK9m8uQjH68217L195jsXANSo8IKjJYqWzcA1oCF/Smnmwc03k0Uk5OcfunIF/AGJ1g=="
+      };
+   } else {
+      response = {
+         "data": "XFSLAJob6izJAzdNz4d7zvnjSYFK3DiLgFMUaZZp4uWAdvyxAH7AeN152Gf8Qpoofi9+DLdMaVhgKTvvRwV8qd2IjybaGw4y6qZRqrktuMC0+jzG1ZGndkV3pAD7J7kdEZYeA62vZGZLyAotpgKArQrOkSi0LWy2ll/f6c99hb4aIiHyNAC+K8t4SzFiGjw7BGojPEm4VdIwOOKGwGN+cCBdAPFTtxz+RpYT4d4oiOa4287wKfJKqK2HNPz7+d3ctyS1blJXpf0MGEI+kZc/sWAKduyZgCfu7n0GA85Bqj4cl9z2TsZeUD3MG2Sr5+mzgbDmxJc9FSGdw1bpn3PT1Z1t5NsCy/fR3csBrsEQgqX0w6j10D29p0WxrM5Irk0BbehR53GLPvoROXVTFIdGjk7+mJIFvTvGIbq9lsgPABHR8MLsnrJZDwVUQ4feXuQDCROmXTeOJ6ixwqzsPjW4BEAmH3kg1DVF8IWyXPQg3t52voiPUzm/k1/XdAcUeOrmwi5H2g9L8chjK9sDLIzYUCUKmaLf2XxtM5RVL0QnlZQ/7EdZJ6yPD7RnFwN3Fiuwq4e9xTOqyzuu/S+bYfw0dM+c4hgNCTUnN8IWZMK0eApXXgP1zUlIBHWfPOdpor+Ajmbln2QRny8Gqfm3lB4SydB+wnA1TL/HyxFgwHyKtJ9Eb1Ql"
+      };
+   }
+
+
+   res.set({
+      "Server": "nginx/1.12.2",
+      "Date": new Date().toUTCString(),
+      "Content-Type": "application/json; charset=utf-8",
+      "X-Powered-By": "Sails <sailsjs.com>",
+      "ETag": 'W/"b1-VocwenWVuO/o20Vz9VD1X4Qvte4"',
+      "Cache-Control": "no-cache, no-store",
+      "Connection": "keep-alive",
+      "Keep-Alive": "timeout=5",
+      "Transfer-Encoding": "chunked",
+   });
+
+   res.status(200).json(response);
+});
+
+app.get('/api/v1/config', function (req, res) {
+
+   var response = {
+      "wl": "0a4fd5d5accf385b8d5f382d7abcfea7"
+   };
+
+
+   res.set({
+      "Server": "nginx/1.12.2",
+      "Date": new Date().toUTCString(),
+      "Content-Type": "application/json; charset=utf-8",
+      "X-Powered-By": "Sails <sailsjs.com>",
+      "ETag": 'W/"b1-VocwenWVuO/o20Vz9VD1X4Qvte4"',
+      "Cache-Control": "no-cache, no-store",
+      "Connection": "keep-alive",
+      "Keep-Alive": "timeout=5"
+   });
+
+   res.status(200).json(response);
+});
+
+app.get('/csrfToken', function (req, res) {
+   var response = {
+      "_csrf": "Tbs6hIVo--Ngb_G9VJ3lnoMR1EYRnQli5bEY"
+   };
+
+   // 计算过期时间，当前时间加一个月
+   var expiryDate = new Date();
+   expiryDate.setMonth(expiryDate.getMonth() + 1);
+
+   res.set({
+      "Server": "nginx/1.12.2",
+      "Date": new Date().toUTCString(),
+      "Content-Type": "application/json; charset=utf-8",
+      "X-Powered-By": "Sails <sailsjs.com>",
+      "ETag": 'W/"b1-VocwenWVuO/o20Vz9VD1X4Qvte4"',
+      "Cache-Control": "no-cache, no-store",
+      "Connection": "keep-alive",
+      "Keep-Alive": "timeout=5",
+      "Set-Cookie": "sails.sid=s%3AZiwwINUFknF0pT7ncljTzWh-w1e-q2Wr.WYipgZnGJb2RubVHpzJlpjyuP9%2FPwCMoE8FIPP1sQGc; Path=/; Expires=" + expiryDate.toUTCString() + "; HttpOnly; Secure"
+   });
+
+   res.status(200).json(response);
+});
+
+var server = app.listen(8881, function () {
+    var host = server.address().address;
+    var port = server.address().port;
+    console.log("欢迎使用，访问地址为 http://%s:%s，五云学习(wuyunai.com)", host, port);
+});
+
+```
+
+###  开始部署
+
+#### 安装 Node.js 并使用 nvm 管理
+
+1. 安装 nvm
+
+```js
+//  两个随便选一个，第一个链接要梯子
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash
+
+curl -o- https://gitee.com/RubyMetric/nvm-cn/raw/main/install.sh | bash
+```
+
+2. **配置 nvm 环境**
+
+```js
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+```
+
+3. **安装 Node.js**
+
+```js
+nvm install v16.20.2
+```
+
+1. **切换到 Node.js 版本 16.20.2 并设置为默认版本**
+
+```js
+nvm use v16.20.2
+nvm alias default v16.20.2
+```
+
+可以通过运行`node -v`命令来验证切换和默认版本是否设置成功。输出应该显示`v16.20.2`。
+
+#### 使用宝塔面板添加站点
+
+1. 打开宝塔面板，进入网站管理页面。
+
+2. 添加新的网站，域名填写两栏
+
+   ```js
+   pro.autojs.org
+   服务器ip
+   ```
+
+3. 配置其他参数，如网站目录和 SSL 证书等。
+
+   关于SSL证书怎么自制可以查看
+
+   [b2_insert_post id=”16″]
+
+4. 保存并应用配置，完成站点的添加
+
+#### 部署 Node.js 应用
+
+  PM2是一个流行的 Node.js 进程管理工具，可以用来监控和管理应用程序。使用 PM2，你可以轻松地启动、停止、重启和监视你的 Node.js 应用程序。
+
+1.使用终端进入你的刚创建网站目录，将 `server.js` 文件放在网站目录下。
+
+```js
+// 安装 Express 框架
+npm install express
+
+// 启动node服务
+node server.js
+
+// 安装
+npm install -g pm2
+
+// 启动
+pm2 start server.js -i 0
+```
+
+#### 配置Nginx文件
+
+最顶部填写
+
+```js
+upstream autojs {
+    server 127.0.0.1:8881;
+    keepalive 10240;
+}
+```
+
+![](D:\blog\笔记图片\前端\Autojs\AutoPro服务器.png)
+
+server里面增加 ，放在其他的localtion最上面
+
+```js
+location ^~ / {
+    proxy_pass http://autojs;
+}
+```
+
+![](D:\blog\笔记图片\前端\Autojs\AutoPro服务器2.png)
+
+配置AutoPro服务器成功，手机使用配置 ip就破解了。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
