@@ -34,8 +34,8 @@ npm i @autojs/types-pro9 --no-bin-links   // v9项目- Auto.js代码提示插件
 
 ```js
 
- log("log,你好，Auto.js");     // 控制台输出
- toast("toast,你好，Auto.js");   //手机显示屏输出
+log("log,你好，Auto.js");     // 控制台输出
+toast("toast,你好，Auto.js");   //手机显示屏输出
 toastLog('toastLog,你好，Auto.js')  // 控制台输出 和手机显示屏输出
 alert("alert,你好，Auto.js"); //弹出对话框
 ```
@@ -125,10 +125,17 @@ idContains(str) // 查询"id 包含字符串 str"的筛选条件
 idStartsWith(prefix) // 查询"id 需要以 prefix 开头"的筛选条件
 idEndsWith(suffix) // 查询"id 需要以 suffix 结束"的筛选条件
 idMatches(reg)  // 查询正则表达式
+.children() // 
+.child()
   例如： textMatches("\\d+")  // 匹配多位数字
          textMatches(/\d+/)  // 匹配多位数字
          idMatches("[a-zA-Z]+")  // 匹配a-z
 
+// 遍历该控件的所有子控件组成的控件集合
+className("AbsListView").findOne().children()
+    .forEach(function(child){
+        log(child.className());
+    });
 ```
 
 

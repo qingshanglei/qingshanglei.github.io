@@ -517,6 +517,9 @@ git branch -vv   //查看本地分支 与远程分支的关联关系
   ssh-keygen -t rsa --生成SSH公钥；输入命令，连敲三次回车即可;(如存在，则自动覆盖)
  ssh-keygen -t rsa -C 描述   ---t指定加密算法，-C添加注释 
  cat ~/.ssh/id_rsa.pub   --获取公钥
+ 
+ $ ssh git@github -i ~/.ssh/mykey   # 这里mykey是你命名的私钥名称
+ ls ~/.ssh/    # 查看本地的ssh
 ~~~
 
 #### 2.在Gitee配置仓库的SSH公钥
@@ -691,7 +694,11 @@ GitHub Pages 站点受到以下使用限制的约束：
 
 
 
+# 常见异常：
 
+## detected dubious ownership in repository at：
+
+![](D:\blog\笔记图片\Git\detected dubious ownership in repository 异常.png)
 
 
 
