@@ -340,7 +340,7 @@ function viewWeb(time) {
 }
 ```
 
-### action汇总:
+## action汇总:
 
 ```js
 {action:"android.settings.ACCESSIBILITY_SETTINGS"}    //    无障碍
@@ -393,5 +393,134 @@ function viewWeb(time) {
 {action:"android.settings.WEBVIEW_SETTINGS"}    //    选择webview
 {action:"android.settings.WIFI_IP_SETTINGS"}    //    高级WLAN设置
 {action:"android.settings.WIFI_SETTINGS"}    //    选择WIFI,连接WIFI
+```
+
+快手：
+
+```js
+kwai://gamezone/home  打开游戏专区
+kwai://gamezone/game/[游戏ID]  打开某个游戏
+kwai://webview?url=[URL链接]  在快手中打开指定URL
+kwai://tag/topic/哒视眼镜  不知道什么玩意
+kwai://home/following  打开关注
+kwai://home/hot  打开发现  kwai://promotion
+kwai://home/local  打开同城
+kwai://profile/[用户UID]  打开用户主页
+kwai://profilesetting  编辑个人资料
+kwai://business/poi    地理位置
+kwai://business/location  定位界面
+kwai://work/[作品ID]  打开某作品
+kwai://work/[PhotoId]?userId=[UserId]
+kwai://live/play/[LiveStreamId]  上面两个应该是 图片作品  这个是小视频作品
+kwai://liveaggregate?sourceType=[不知道什么参数]
+kwai://liveaggregate/[未知参数]?sourceType=[未知参数]
+kwai://musicstation/[PhotoId]?userId=[UserId]&sourceType=[Integer.valueOf(13)]
+kwai://musicstation    快手音悦台
+kwai://followers  粉丝列表
+kwai://followings  关注列表
+kwai://tube/square  小剧场 
+```
+
+微信：
+
+```js
+weixin://dl/scan 扫一扫
+weixin://dl/feedback 反馈
+weixin://dl/moments 朋友圈
+weixin://dl/settings 设置
+weixin://dl/notifications 消息通知设置
+weixin://dl/chat 聊天设置
+weixin://dl/general 通用设置
+weixin://dl/officialaccounts 公众号
+weixin://dl/games 游戏
+weixin://dl/help 帮助
+weixin://dl/feedback 反馈
+weixin://dl/profile 个人信息
+weixin://dl/features 功能插件
+```
+
+抖音：
+
+个人主页
+
+```js
+/*** 自己的个人页面*/
+function jumpMyProfile() {
+  app.startActivity({
+    action: "android.intent.action.VIEW",
+    data: "snssdk1128://user/profile/" ,
+  });
+}
+
+jumpMyProfile();
+```
+
+抖音热榜
+
+```javascript
+function jumpTrending() {
+    app.startActivity({
+        action: "android.intent.action.VIEW",
+        data: "snssdk1128://search/trending",
+    });
+}
+jumpTrending();
+```
+
+ 
+
+跳转原声音乐作品
+
+```javascript
+/**
+ * 跳转原声音乐作品
+ * @param {*} wid 音乐id
+ */
+function jumpMusic(mid) {
+  app.startActivity({
+    action: "android.intent.action.VIEW",
+    data: "snssdk1128://music/detail/" + mid,
+  });
+}
+
+jumpMusic("7284990191742274364");
+```
+
+ 
+
+打开指定视频作品
+
+```javascript
+/**
+ * 打开指定视频作品
+ * @param {*} wid 视频id
+ */
+
+function jumpVideo(wid) {
+  app.startActivity({
+    action: "android.intent.action.VIEW",
+    data: "snssdk1128://aweme/detail/" + wid,
+  });
+}
+jumpVideo("7241321383081381178");
+```
+
+ 
+
+跳转指定用户主页
+
+```javascript
+/**
+ * 跳转指定用户主页
+* @param {string} uid 用户uid*/
+
+function jumpUserProfile(uid) {
+    app.startActivity({
+        action: "android.intent.action.VIEW",
+        data: "snssdk1128://user/profile/" + uid,
+    });
+}
+
+jumpUserProfile("58804298436");
 ```
 
